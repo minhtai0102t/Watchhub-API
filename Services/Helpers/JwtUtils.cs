@@ -11,7 +11,7 @@ namespace Ecom_API.Authorization;
 public interface IJwtUtils
 {
     public string GenerateToken(User user);
-    public Guid ValidateToken(string token);
+    public int ValidateToken(string token);
 }
 
 public class JwtUtils : IJwtUtils
@@ -38,10 +38,10 @@ public class JwtUtils : IJwtUtils
         return tokenHandler.WriteToken(token);
     }
 
-    public Guid ValidateToken(string token)
+    public int ValidateToken(string token)
     {
         if (token == null)
-            return Guid.Empty;
+            return -1;
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -58,7 +58,7 @@ public class JwtUtils : IJwtUtils
             }, out SecurityToken validatedToken);
 
             var jwtToken = (JwtSecurityToken)validatedToken;
-            var userId = Guid.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+            var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
             // return user id from JWT token if validation successful
             return userId;
@@ -66,7 +66,7 @@ public class JwtUtils : IJwtUtils
         catch
         {
             // return null if validation fails
-            return Guid.Empty;
+            return -1;
         }
     }
 }

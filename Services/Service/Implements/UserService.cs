@@ -50,7 +50,7 @@ namespace Ecom_API.Service
             return await _unitOfWork.Users.GetAllAsync();
         }
 
-        public async Task<User> GetById(Guid id)
+        public async Task<User> GetById(int id)
         {
             return await _unitOfWork.Users.GetByIdAsync(id);
         }
@@ -86,7 +86,7 @@ namespace Ecom_API.Service
             return res >= 1 ? true : false;
         }
 
-        public async Task<User>Delete(Guid id)
+        public async Task<User>Delete(int id)
         {
             return await _unitOfWork.Users.DeleteSoftAsync(id);
         }

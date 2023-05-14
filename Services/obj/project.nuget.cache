@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FaM3FAlxN68jya5sopZmifbPR/5yXh0zXL/merpbf2JAbw69ATIxCgZT43KpwDKVfBN9Na9cCbnIBzfVmR8TmQ==",
+  "dgSpecHash": "KlZb8sW+Kj2JoP1kAcHdUxTdF+uBuVQK/VedSHMSkCXkR2fAfFNvGYXU7RhCeoOyxeakPIEqXkJmgFg64Xtjyg==",
   "success": true,
-  "projectFilePath": "/Users/toddpham12/Watchhub/BE/Services/Services.csproj",
+  "projectFilePath": "/Users/toddpham12/Watchhub-API/Services/Services.csproj",
   "expectedPackageFiles": [
     "/Users/toddpham12/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

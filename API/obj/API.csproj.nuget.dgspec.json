@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/toddpham12/Watchhub/BE/API/API.csproj": {}
+    "/Users/toddpham12/Watchhub-API/API/API.csproj": {}
   },
   "projects": {
-    "/Users/toddpham12/Watchhub/BE/API/API.csproj": {
+    "/Users/toddpham12/Watchhub-API/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/toddpham12/Watchhub/BE/API/API.csproj",
+        "projectUniqueName": "/Users/toddpham12/Watchhub-API/API/API.csproj",
         "projectName": "Ecom-API",
-        "projectPath": "/Users/toddpham12/Watchhub/BE/API/API.csproj",
+        "projectPath": "/Users/toddpham12/Watchhub-API/API/API.csproj",
         "packagesPath": "/Users/toddpham12/.nuget/packages/",
-        "outputPath": "/Users/toddpham12/Watchhub/BE/API/obj/",
+        "outputPath": "/Users/toddpham12/Watchhub-API/API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
@@ -27,11 +27,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj": {
-                "projectPath": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj"
+              "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj": {
+                "projectPath": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj"
               },
-              "/Users/toddpham12/Watchhub/BE/Services/Services.csproj": {
-                "projectPath": "/Users/toddpham12/Watchhub/BE/Services/Services.csproj"
+              "/Users/toddpham12/Watchhub-API/Services/Services.csproj": {
+                "projectPath": "/Users/toddpham12/Watchhub-API/Services/Services.csproj"
               }
             }
           }
@@ -78,14 +78,14 @@
         }
       }
     },
-    "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj": {
+    "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj",
+        "projectUniqueName": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj",
         "projectName": "DTO",
-        "projectPath": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj",
+        "projectPath": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj",
         "packagesPath": "/Users/toddpham12/.nuget/packages/",
-        "outputPath": "/Users/toddpham12/Watchhub/BE/DTO/obj/",
+        "outputPath": "/Users/toddpham12/Watchhub-API/DTO/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
@@ -162,14 +162,14 @@
         }
       }
     },
-    "/Users/toddpham12/Watchhub/BE/Services/Services.csproj": {
+    "/Users/toddpham12/Watchhub-API/Services/Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/toddpham12/Watchhub/BE/Services/Services.csproj",
+        "projectUniqueName": "/Users/toddpham12/Watchhub-API/Services/Services.csproj",
         "projectName": "Services",
-        "projectPath": "/Users/toddpham12/Watchhub/BE/Services/Services.csproj",
+        "projectPath": "/Users/toddpham12/Watchhub-API/Services/Services.csproj",
         "packagesPath": "/Users/toddpham12/.nuget/packages/",
-        "outputPath": "/Users/toddpham12/Watchhub/BE/Services/obj/",
+        "outputPath": "/Users/toddpham12/Watchhub-API/Services/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
@@ -185,8 +185,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj": {
-                "projectPath": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj"
+              "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj": {
+                "projectPath": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj"
               }
             }
           }
