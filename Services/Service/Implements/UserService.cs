@@ -31,7 +31,7 @@ namespace Ecom_API.Service
             {
                 var user = await _unitOfWork.Users.FindWithCondition(c => c.username == model.username);
                 // validate
-                if (user == null || !Argon2.Verify(model.password, user.password))
+                if (user == null || !Argon2.Verify(user.password, model.password))
                     throw new AppException("username or password is incorrect");
 
                 // authentication successful
@@ -50,7 +50,7 @@ namespace Ecom_API.Service
             return await _unitOfWork.Users.GetAllAsync();
         }
 
-        public async Task<User> GetById(Guid id)
+        public async Task<User> GetById(int id)
         {
             return await _unitOfWork.Users.GetByIdAsync(id);
         }
@@ -60,14 +60,12 @@ namespace Ecom_API.Service
             var validate = await _unitOfWork.Users.FindWithCondition(c => c.username == model.username);
             if (validate != null)
                 throw new AppException("username '" + model.username + "' is already taken");
-
             // map model to new user object
             var user = _mapper.Map<User>(model);
             // hash password
             user.password = Argon2.Hash(model.password);
             // save user
             var res = await _unitOfWork.Users.CreateAsync(user);
-
             return res >= 1 ? true : false;
         }
 
@@ -86,7 +84,7 @@ namespace Ecom_API.Service
             return res >= 1 ? true : false;
         }
 
-        public async Task<User>Delete(Guid id)
+        public async Task<User>Delete(int id)
         {
             return await _unitOfWork.Users.DeleteSoftAsync(id);
         }

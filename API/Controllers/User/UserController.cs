@@ -28,34 +28,35 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Register([FromBody] UserRegisterReq model)
     {
         var res = await _userService.Register(model);
-        return Ok(new { message = "Registration successful" });
+        return Ok(new { message = "Registrination successful" });
     }
 
+    [Authorize]
     [HttpGet("list")]
     public async Task<IActionResult> GetAll()
     {
         var users = await _userService.GetAll();
         return Ok(users);
     }
-
+    [Authorize]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(string id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var user = await _userService.GetById(new Guid(id));
+        var user = await _userService.GetById(id);
         return Ok(user);
     }
-
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(UserUpdateReq model)
     {
         await _userService.Update(model);
         return Ok(new { message = "User updated successfully" });
     }
-
+    [Authorize]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(string id)
+    public async Task<IActionResult> Delete(int id)
     {
-        await _userService.Delete(new Guid(id));
+        await _userService.Delete(id);
         return Ok(new { message = "User deleted successfully" });
     }
 }

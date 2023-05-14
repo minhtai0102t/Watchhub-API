@@ -8,9 +8,9 @@ public interface IUserService : IDisposable
 {
     Task<AuthenticateRes> Authenticate(AuthenticateReq model);
     Task<IEnumerable<User>> GetAll();
-    Task<User> GetById(Guid id);
+    Task<User> GetById(int id);
     Task<bool> Register(UserRegisterReq model);
     Task<bool> Update(UserUpdateReq model);
-    Task<User> Delete(Guid id);
+    Task<User> Delete(int id);
 }
 

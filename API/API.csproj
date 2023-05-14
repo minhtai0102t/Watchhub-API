@@ -8,34 +8,35 @@
     <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="API\**" />
-    <Content Remove="API\**" />
-    <EmbeddedResource Remove="API\**" />
-    <None Remove="API\**" />
+    <Compile Remove="API\**"/>
+    <Content Remove="API\**"/>
+    <EmbeddedResource Remove="API\**"/>
+    <None Remove="API\**"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5"/>
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Controllers\Admin\" />
-    <None Remove="Controllers\User\" />
-    <None Remove="Service\" />
-    <None Remove="DTO\" />
-    <None Remove="Microsoft.EntityFrameworkCore" />
-    <None Remove="System.IdentityModel.Tokens.Jwt" />
-    <None Remove="AutoMapper" />
-    <None Remove="BCrypt" />
-    <None Remove="Isopoh.Cryptography.Argon2" />
-    <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
-    <None Remove="Utils\" />
-    <None Remove="Lib\Authorization\" />
-    <None Remove="Lib\DBHelpers\" />
-    <None Remove="Lib\Helpers\" />
-    <None Remove="Lib\Migrations\" />
+    <None Remove="Controllers\Admin\"/>
+    <None Remove="Controllers\User\"/>
+    <None Remove="Service\"/>
+    <None Remove="DTO\"/>
+    <None Remove="Microsoft.EntityFrameworkCore"/>
+    <None Remove="System.IdentityModel.Tokens.Jwt"/>
+    <None Remove="AutoMapper"/>
+    <None Remove="BCrypt"/>
+    <None Remove="Isopoh.Cryptography.Argon2"/>
+    <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection"/>
+    <None Remove="Utils\"/>
+    <None Remove="Lib\Authorization\"/>
+    <None Remove="Lib\DBHelpers\"/>
+    <None Remove="Lib\Helpers\"/>
+    <None Remove="Lib\Migrations\"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DTO\DTO.csproj" />
-    <ProjectReference Include="..\Services\Services.csproj" />
+    <ProjectReference Include="..\DTO\DTO.csproj"/>
+    <ProjectReference Include="..\Services\Services.csproj"/>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ namespace Services.Repositories
     public interface IGenericRepository<T> where T : BaseEntity
     {
         Task<IEnumerable<T>> GetAllAsync();
-        Task<T> GetByIdAsync(Guid id);
+        Task<T> GetByIdAsync(int id);
         /// <summary>
         ///      Add a new entity to database
         /// </summary>
@@ -18,17 +18,17 @@ namespace Services.Repositories
         /// <param name="entity">Entity for updating</param>
         /// <returns>Number of row in database have been changed</returns>
         Task<int> UpdateAsync(T entity);
-        Task<T> DeleteAsync(Guid id);
+        Task<T> DeleteAsync(int id);
         /// <summary>
         ///     Update IsDeleted property to true for a object
         /// </summary>
         /// <param name="id">Object's id for soft delete</param>
         /// <returns>A object have soft deleted</returns>
-        Task<T> DeleteSoftAsync(Guid id);
+        Task<T> DeleteSoftAsync(int id);
         Task<T> FindWithCondition(Expression<Func<T, bool>> predicate);
         Task<IList<T>> WhereAsync(Expression<Func<T, bool>> predicate, params string[] navigationProperties);
         Task<IEnumerable<T>> FindAllWithCondition(Expression<Func<T, bool>> predicate = null);
         Task<IEnumerable<T>> GetAllActiveAsync();
-        Task<T> GetByIdActiveAsync(Guid id);
+        Task<T> GetByIdActiveAsync(int id);
     }
 }

@@ -18,9 +18,8 @@ namespace Ecom_API.DTO.Entities
         [Required]
         [StringLength(200)]
         public string email { get; set; }
-        [Required]
         [StringLength(1000)]
-        public string avatar { get; set; }
+        public string? avatar { get; set; }
         [Required]
         [StringLength(20)]
         public string phone { get; set; }
@@ -29,8 +28,7 @@ namespace Ecom_API.DTO.Entities
         public string address { get; set; }
         [Required]
         public bool isAdmin { get; set; }
-        [Required]
-        public List<int> order_ids { get; set; }
+        public List<int>? order_ids { get; set; }
     }
 }
 

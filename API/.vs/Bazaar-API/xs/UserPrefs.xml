@@ -6,41 +6,24 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="appsettings.json">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../DTO/DTO/DBHelpers/ApiDbContext.cs">
     <Files>
-      <File FileName="Program.cs" Line="28" Column="115" />
-      <File FileName="appsettings.json" Line="13" Column="6" />
-      <File FileName="Attributes/AllowAnonymousAttribute.cs" Line="5" Column="18" />
-      <File FileName="Attributes/AuthorizeAttribute.cs" Line="18" Column="64" />
-      <File FileName="Controllers/User/UserController.cs" Line="1" Column="1" />
-      <File FileName="Lib/Helpers/ErrorHandlerMiddleware.cs" Line="26" Column="26" />
-      <File FileName="Lib/Helpers/JwtMiddleware.cs" Line="24" Column="24" />
-      <File FileName="Lib/Helpers/AutoMapperProfile.cs" Line="1" Column="1" />
-      <File FileName="../DTO/DTO/Entities/User.cs" Line="24" Column="6" />
-      <File FileName="../Services/Service/Implements/UserService.cs" Line="61" Column="69" />
-      <File FileName="../DTO/DTO/DBHelpers/ApiDbContext.cs" Line="31" Column="6" />
-      <File FileName="../Services/CommonConfig/Appsettings.cs" Line="5" Column="43" />
+      <File FileName="Program.cs" />
+      <File FileName="appsettings.json" Line="10" Column="15" />
+      <File FileName="Attributes/AllowAnonymousAttribute.cs" />
+      <File FileName="Attributes/AuthorizeAttribute.cs" />
+      <File FileName="Controllers/User/UserController.cs" />
+      <File FileName="Lib/Helpers/ErrorHandlerMiddleware.cs" />
+      <File FileName="Lib/Helpers/JwtMiddleware.cs" />
+      <File FileName="Lib/Helpers/AutoMapperProfile.cs" />
+      <File FileName="../DTO/DTO/Entities/User.cs" />
+      <File FileName="../Services/Service/Implements/UserService.cs" />
+      <File FileName="../DTO/DTO/DBHelpers/ApiDbContext.cs" Line="21" Column="41" />
+      <File FileName="../Services/CommonConfig/Appsettings.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Bazaar-API" expanded="True">
-            <Node name="API" expanded="True">
-              <Node name="Attributes" expanded="True" />
-            </Node>
-            <Node name="DTO" expanded="True">
-              <Node name="Dependencies" expanded="True">
-                <Node name="PackageDependencies" expanded="True" />
-              </Node>
-              <Node name="DTO" expanded="True">
-                <Node name="DBHelpers" expanded="True" />
-              </Node>
-            </Node>
-            <Node name="Services" expanded="True">
-              <Node name="CommonConfig" expanded="True" />
-            </Node>
-          </Node>
-        </State>
+        <State name="__root__" />
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State />

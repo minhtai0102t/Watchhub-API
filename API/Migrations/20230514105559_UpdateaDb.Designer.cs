@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ecom_API.DBHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecom_API.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230514105559_UpdateaDb")]
+    partial class UpdateaDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -495,6 +498,7 @@ namespace Ecom_API.Migrations
                         .HasColumnType("character varying(2000)");
 
                     b.Property<string>("avatar")
+                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
@@ -521,6 +525,7 @@ namespace Ecom_API.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<List<int>>("order_ids")
+                        .IsRequired()
                         .HasColumnType("integer[]");
 
                     b.Property<string>("password")

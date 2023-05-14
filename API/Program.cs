@@ -4,7 +4,6 @@ using Ecom_API.DBHelpers;
 using Ecom_API.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Services.CommonConfig;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +13,16 @@ services.AddCors();
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+// services.AddAuthentication()
+//     .AddJwtBearer(options =>
+//     {
+//         // Configure JWT authentication options
+//         options.TokenValidationParameters = new TokenValidationParameters
+//         {
+//             // Set your token validation parameters
+//         };
+//     });
+services.AddAuthorization();
 
 // configure automapper with all automapper profiles from this assembly
 services.AddAutoMapper(typeof(Program));
@@ -35,6 +44,7 @@ var app = builder.Build();
     app.UseSwaggerUI();
 //}
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
 {
     // global cors policy

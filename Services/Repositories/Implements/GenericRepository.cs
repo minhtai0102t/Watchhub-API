@@ -19,7 +19,7 @@ namespace Services.Repositories
             int rowEffect = await _context.SaveChangesAsync();
             return rowEffect;
         }
-        public async Task<T> DeleteAsync(Guid id)
+        public async Task<T> DeleteAsync(int id)
         {
             T _entity = await GetByIdAsync(id);
             if (_entity == null)
@@ -30,7 +30,7 @@ namespace Services.Repositories
             await _context.SaveChangesAsync();
             return _entity;
         }
-        public async Task<T> DeleteSoftAsync(Guid id)
+        public async Task<T> DeleteSoftAsync(int id)
         {
             T _entity = await GetByIdAsync(id);
             if (_entity == null)
@@ -49,7 +49,7 @@ namespace Services.Repositories
         {
             return await dbSet.AsNoTracking().ToListAsync();
         }
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(int id)
         {
             var entity = await dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.id.Equals(id));
             return entity;
@@ -71,7 +71,7 @@ namespace Services.Repositories
             list = await query.Where(predicate).AsNoTracking().ToListAsync();
             return list;
         }
-        public async Task<T> FindByIdAsync(Guid id, params string[] navigationProperties)
+        public async Task<T> FindByIdAsync(int id, params string[] navigationProperties)
         {
             var query = ApplyNavigation(navigationProperties);
             T entity = await query.FirstOrDefaultAsync(e => e.id.Equals(id));
@@ -96,7 +96,7 @@ namespace Services.Repositories
         {
             return await dbSet.AsNoTracking().Where(x => x.is_deleted == false).ToListAsync();
         }
-        public async Task<T> GetByIdActiveAsync(Guid id)
+        public async Task<T> GetByIdActiveAsync(int id)
         {
             return await dbSet.FirstOrDefaultAsync(x => x.id.Equals(id) && x.is_deleted == false);
         }
