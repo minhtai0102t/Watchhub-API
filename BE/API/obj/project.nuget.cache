@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "86oqHIJjt2x/Q5rWZz0safU2xFuTABxzQDvaPSVFOQD4QPC7BdJLsFl+/y+jL1p4rIRWI9Im85OhoUPBZRqkMw==",
+  "dgSpecHash": "jOkFX8MEsNQAAPkLeKwyaE3s38vpSuwxDTlJIvYRJ7nV8zMj7EulcxVh8aJFxnzTW9akxf+ygCW5WKqjLaYPpQ==",
   "success": true,
-  "projectFilePath": "/Users/toddpham12/NGASP-ECOM/API/API.csproj",
+  "projectFilePath": "/Users/toddpham12/Watchhub/BE/API/API.csproj",
   "expectedPackageFiles": [
     "/Users/toddpham12/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

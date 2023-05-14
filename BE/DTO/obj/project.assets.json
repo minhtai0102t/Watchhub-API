@@ -1332,11 +1332,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj",
+      "projectUniqueName": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj",
       "projectName": "DTO",
-      "projectPath": "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj",
+      "projectPath": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj",
       "packagesPath": "/Users/toddpham12/.nuget/packages/",
-      "outputPath": "/Users/toddpham12/NGASP-ECOM/DTO/obj/",
+      "outputPath": "/Users/toddpham12/Watchhub/BE/DTO/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/toddpham12/.nuget/NuGet/NuGet.Config"

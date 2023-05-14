@@ -6,7 +6,7 @@ namespace Ecom_API.DTO.Entities
     public abstract class BaseEntity
     {
         [Key]
-        public Guid id { get; set; } = Guid.NewGuid();
+        public int id { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime created_date { get; set; } = DateTime.Now.ToUniversalTime();
         public int created_user { get; set; } = 1;
@@ -15,6 +15,5 @@ namespace Ecom_API.DTO.Entities
         public int updated_user { get; set; } = 1;
         public bool is_deleted { get; set; } = false;
     }
-
 }
 

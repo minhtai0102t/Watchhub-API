@@ -25,7 +25,7 @@ services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"))
 services.DIConfiguration();
 
 //connection string
-services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting"), b => b.MigrationsAssembly("Ecom-API")));
+services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Mac"), b => b.MigrationsAssembly("Ecom-API")));
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

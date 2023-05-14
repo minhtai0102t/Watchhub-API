@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/toddpham12/NGASP-ECOM/Services/Services.csproj": {}
+    "/Users/toddpham12/Watchhub/BE/Services/Services.csproj": {}
   },
   "projects": {
-    "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj": {
+    "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj",
+        "projectUniqueName": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj",
         "projectName": "DTO",
-        "projectPath": "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj",
+        "projectPath": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj",
         "packagesPath": "/Users/toddpham12/.nuget/packages/",
-        "outputPath": "/Users/toddpham12/NGASP-ECOM/DTO/obj/",
+        "outputPath": "/Users/toddpham12/Watchhub/BE/DTO/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
@@ -88,14 +88,14 @@
         }
       }
     },
-    "/Users/toddpham12/NGASP-ECOM/Services/Services.csproj": {
+    "/Users/toddpham12/Watchhub/BE/Services/Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/toddpham12/NGASP-ECOM/Services/Services.csproj",
+        "projectUniqueName": "/Users/toddpham12/Watchhub/BE/Services/Services.csproj",
         "projectName": "Services",
-        "projectPath": "/Users/toddpham12/NGASP-ECOM/Services/Services.csproj",
+        "projectPath": "/Users/toddpham12/Watchhub/BE/Services/Services.csproj",
         "packagesPath": "/Users/toddpham12/.nuget/packages/",
-        "outputPath": "/Users/toddpham12/NGASP-ECOM/Services/obj/",
+        "outputPath": "/Users/toddpham12/Watchhub/BE/Services/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
@@ -111,8 +111,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj": {
-                "projectPath": "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj"
+              "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj": {
+                "projectPath": "/Users/toddpham12/Watchhub/BE/DTO/DTO.csproj"
               }
             }
           }
