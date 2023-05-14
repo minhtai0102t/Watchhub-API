@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>DTO</id>
+    <version>1.0.0</version>
+    <authors>DTO</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="Microsoft.EntityFrameworkCore" version="7.0.5" exclude="Build,Analyzers" />
+        <dependency id="Npgsql.EntityFrameworkCore.PostgreSQL" version="7.0.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <contentFiles>
+      <files include="any/net6.0/appsettings.Development.json" buildAction="Content" />
+      <files include="any/net6.0/appsettings.json" buildAction="Content" />
+    </contentFiles>
+  </metadata>
+  <files>
+    <file src="/Users/toddpham12/NGASP-ECOM/DTO/bin/Debug/net6.0/DTO.runtimeconfig.json" target="lib/net6.0/DTO.runtimeconfig.json" />
+    <file src="/Users/toddpham12/NGASP-ECOM/DTO/bin/Debug/net6.0/DTO.dll" target="lib/net6.0/DTO.dll" />
+    <file src="/Users/toddpham12/NGASP-ECOM/DTO/appsettings.Development.json" target="content/appsettings.Development.json" />
+    <file src="/Users/toddpham12/NGASP-ECOM/DTO/appsettings.Development.json" target="contentFiles/any/net6.0/appsettings.Development.json" />
+    <file src="/Users/toddpham12/NGASP-ECOM/DTO/appsettings.json" target="content/appsettings.json" />
+    <file src="/Users/toddpham12/NGASP-ECOM/DTO/appsettings.json" target="contentFiles/any/net6.0/appsettings.json" />
+  </files>
+</package>

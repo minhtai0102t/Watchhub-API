@@ -1,0 +1,92 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj": {}
+  },
+  "projects": {
+    "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj",
+        "projectName": "DTO",
+        "projectPath": "/Users/toddpham12/NGASP-ECOM/DTO/DTO.csproj",
+        "packagesPath": "/Users/toddpham12/.nuget/packages/",
+        "outputPath": "/Users/toddpham12/NGASP-ECOM/DTO/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "http://nexus.concung.io:8081/repository/nuget-release/index.json": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.Extensions.Logging.Console": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.403/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
