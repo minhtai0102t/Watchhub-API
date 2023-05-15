@@ -13,11 +13,10 @@ namespace Services.Repositories
             _context = context;
             dbSet = context.Set<T>();
         }
-        public async Task<int> CreateAsync(T entity)
+        public async Task CreateAsync(T entity)
         {
             await dbSet.AddAsync(entity);
-            int rowEffect = await _context.SaveChangesAsync();
-            return rowEffect;
+            //int rowEffect = await _context.SaveChangesAsync();
         }
         public async Task<T> DeleteAsync(int id)
         {

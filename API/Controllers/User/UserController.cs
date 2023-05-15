@@ -1,4 +1,5 @@
 ﻿using Ecom_API.Attributes;
+using Ecom_API.Authorization;
 using Ecom_API.DTO.Models;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;

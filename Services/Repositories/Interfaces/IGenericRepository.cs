@@ -11,7 +11,7 @@ namespace Services.Repositories
         /// </summary>
         /// <param name="entity"> New enitity</param>
         /// <returns>Number of row in database have been changed</returns>
-        Task<int> CreateAsync(T entity);
+        Task CreateAsync(T entity);
         /// <summary>
         ///      Update a entity to database
         /// </summary>

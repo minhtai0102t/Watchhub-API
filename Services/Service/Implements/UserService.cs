@@ -54,24 +54,32 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Users.GetByIdAsync(id);
         }
-
         public async Task<bool> Register(UserRegisterReq model)
         {
-            var validate = await _unitOfWork.Users.FindWithCondition(c => c.username == model.username);
-            if (validate != null)
-                throw new AppException("username '" + model.username + "' is already taken");
-            // map model to new user object
-            var user = _mapper.Map<User>(model);
-            // hash password
-            user.password = Argon2.Hash(model.password);
-            // save user
-            var res = await _unitOfWork.Users.CreateAsync(user);
-            return res >= 1 ? true : false;
+            try
+            {
+                var validate = await _unitOfWork.Users.FindWithCondition(c => c.username == model.username);
+                if (validate != null)
+                    throw new AppException("username '" + model.username + "' is already taken");
+                // map model to new user object
+                var user = _mapper.Map<User>(model);
+                // hash password
+                user.password = Argon2.Hash(model.password);
+                // save user
+                await _unitOfWork.Users.CreateAsync(user);
+                var res = await _unitOfWork.SaveChangesAsync();
+                    
+                return res >= 1 ? true : false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> Update(UserUpdateReq model)
         {
-              // validate
+            // validate
             var isExisted = await _unitOfWork.Users.FindWithCondition(c => c.username == model.username);
             if (isExisted != null)
                 throw new AppException("username '" + model.username + "' is already taken");
@@ -84,7 +92,7 @@ namespace Ecom_API.Service
             return res >= 1 ? true : false;
         }
 
-        public async Task<User>Delete(int id)
+        public async Task<User> Delete(int id)
         {
             return await _unitOfWork.Users.DeleteSoftAsync(id);
         }

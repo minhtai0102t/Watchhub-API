@@ -21,7 +21,9 @@ namespace Services.Repositories
                 return _userRepository;
             }
         }
-
-        
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
+        }
     }
 }

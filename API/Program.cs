@@ -1,4 +1,3 @@
-using Ecom_API.Authorization;
 using Ecom_API.Config;
 using Ecom_API.DBHelpers;
 using Ecom_API.Helpers;
@@ -34,7 +33,7 @@ services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"))
 services.DIConfiguration();
 
 //connection string
-services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Mac"), b => b.MigrationsAssembly("Ecom-API")));
+services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Win"), b => b.MigrationsAssembly("Ecom-API")));
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -55,9 +54,6 @@ app.UseAuthorization();
 
     // global error handler
     app.UseMiddleware<ErrorHandlerMiddleware>();
-
-    // custom jwt auth middleware
-    app.UseMiddleware<JwtMiddleware>();
 
     app.MapControllers();
 }
