@@ -50,9 +50,13 @@ namespace Ecom_API.Service
             return await _unitOfWork.Users.GetAllAsync();
         }
 
-        public async Task<User> GetById(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
             return await _unitOfWork.Users.GetByIdAsync(id);
+        }
+         public User GetById(int id)
+        {
+            return  _unitOfWork.Users.GetById(id);
         }
         public async Task<bool> Register(UserRegisterReq model)
         {
@@ -71,9 +75,9 @@ namespace Ecom_API.Service
                     
                 return res >= 1 ? true : false;
             }
-            catch
+            catch(Exception e)
             {
-                return false;
+                throw e;
             }
         }
 

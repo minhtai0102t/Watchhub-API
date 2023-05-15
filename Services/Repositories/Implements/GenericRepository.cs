@@ -50,7 +50,12 @@ namespace Services.Repositories
         }
         public async Task<T> GetByIdAsync(int id)
         {
-            var entity = await dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.id.Equals(id));
+            var entity = await dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.id == id);
+            return entity;
+        }
+         public T GetById(int id)
+        {
+            var entity = dbSet.AsNoTracking().FirstOrDefault(e => e.id == id);
             return entity;
         }
         public async Task<int> UpdateAsync(T entity)

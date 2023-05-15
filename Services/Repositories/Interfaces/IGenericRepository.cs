@@ -6,6 +6,7 @@ namespace Services.Repositories
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(int id);
+        T GetById(int id);
         /// <summary>
         ///      Add a new entity to database
         /// </summary>

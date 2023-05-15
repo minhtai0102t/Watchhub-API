@@ -43,7 +43,7 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var user = await _userService.GetById(id);
+        var user = await _userService.GetByIdAsync(id);
         return Ok(user);
     }
     [Authorize]

@@ -11,6 +11,11 @@ namespace Ecom_API.Attributes
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            // skip authorization if action is decorated with [AllowAnonymous] attribute
+            var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
+            if (allowAnonymous)
+                return;
+
             var _jwtUtils = context.HttpContext.RequestServices.GetService<IJwtUtils>();
             var _userService = context.HttpContext.RequestServices.GetService<IUserService>();
 
@@ -21,12 +26,6 @@ namespace Ecom_API.Attributes
                 // attach user to context on successful jwt validation
                 context.HttpContext.Items["User"] = _userService.GetById(userId);
             }
-
-            // skip authorization if action is decorated with [AllowAnonymous] attribute
-            var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
-            if (allowAnonymous)
-                return;
-
             // authorization
             var user = (User)context.HttpContext.Items["User"];
             if (user == null)
