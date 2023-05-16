@@ -29,11 +29,10 @@ namespace Ecom_API.Service
         {
             try
             {
-                var user = await _unitOfWork.Users.FindWithCondition(c => c.username == model.username);
+                var user = await _unitOfWork.Users.FindWithCondition(c => c.email == model.email);
                 // validate
                 if (user == null || !Argon2.Verify(user.password, model.password))
-                    throw new AppException("username or password is incorrect");
-
+                    throw new AppException("email or password is incorrect");
                 // authentication successful
                 var response = _mapper.Map<AuthenticateRes>(user);
                 response.Token = _jwtUtils.GenerateToken(user);
@@ -44,12 +43,10 @@ namespace Ecom_API.Service
                 throw e;
             }
         }
-
         public async Task<IEnumerable<User>> GetAll()
         {
             return await _unitOfWork.Users.GetAllAsync();
         }
-
         public async Task<User> GetByIdAsync(int id)
         {
             return await _unitOfWork.Users.GetByIdAsync(id);
@@ -62,19 +59,20 @@ namespace Ecom_API.Service
         {
             try
             {
-                var validate = await _unitOfWork.Users.FindWithCondition(c => c.email == model.email);
-                if (validate != null)
-                    throw new AppException("username '" + model.email + "' is already existed");
-
                 GmailHelper.SendVerificationEmail(model.email, model.email);
-                // map model to new user object
-                var user = _mapper.Map<User>(model);
-                // hash password
-                user.password = Argon2.Hash(model.password);
-                // save user
-                await _unitOfWork.Users.CreateAsync(user);
-                var res = await _unitOfWork.SaveChangesAsync();
-                return res >= 1 ? true : false;
+                // var validate = await _unitOfWork.Users.FindWithCondition(c => c.email == model.email);
+                // if (validate != null)
+                //     throw new AppException("username '" + model.email + "' is already existed");
+
+                // // map model to new user object
+                // var user = _mapper.Map<User>(model);
+                // // hash password
+                // user.password = Argon2.Hash(model.password);
+                // // save user
+                // await _unitOfWork.Users.CreateAsync(user);
+                // var res = await _unitOfWork.SaveChangesAsync();
+                // return res >= 1 ? true : false;
+                return true;
             }
             catch(Exception e)
             {
