@@ -13,5 +13,6 @@ public interface IUserService : IDisposable
     Task<bool> Register(UserRegisterReq model);
     Task<bool> Update(UserUpdateReq model);
     Task<User> Delete(int id);
+    Task<bool> userVerification(string verificationCode);
 }
 

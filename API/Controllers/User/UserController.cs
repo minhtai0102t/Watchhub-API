@@ -4,18 +4,22 @@ using Ecom_API.DTO.Models;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UsersController : ControllerBase
 {
     private IUserService _userService;
-
     public UsersController(IUserService userService)
     {
         _userService = userService;
     }
-
+    [AllowAnonymous]
+    [HttpGet("verify{code}")]
+    public async Task<IActionResult> Verify(string code)
+    {
+        var response = await _userService.userVerification(code);
+        return Ok(response);
+    }
     [AllowAnonymous]
     [HttpPost("authenticate")]
     public async Task<IActionResult> Authenticate([FromBody] AuthenticateReq model)
@@ -23,7 +27,6 @@ public class UsersController : ControllerBase
         var response = await _userService.Authenticate(model);
         return Ok(response);
     }
-
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegisterReq model)
@@ -31,7 +34,6 @@ public class UsersController : ControllerBase
         var res = await _userService.Register(model);
         return Ok(new { message = "Registrination successful" });
     }
-
     [Authorize]
     [HttpGet("list")]
     public async Task<IActionResult> GetAll()

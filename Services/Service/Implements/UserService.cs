@@ -56,15 +56,17 @@ namespace Ecom_API.Service
         }
          public User GetById(int id)
         {
-            return  _unitOfWork.Users.GetById(id);
+            return _unitOfWork.Users.GetById(id);
         }
         public async Task<bool> Register(UserRegisterReq model)
         {
             try
             {
-                var validate = await _unitOfWork.Users.FindWithCondition(c => c.username == model.username);
+                var validate = await _unitOfWork.Users.FindWithCondition(c => c.email == model.email);
                 if (validate != null)
-                    throw new AppException("username '" + model.username + "' is already taken");
+                    throw new AppException("username '" + model.email + "' is already existed");
+
+                GmailHelper.SendVerificationEmail(model.email, model.email);
                 // map model to new user object
                 var user = _mapper.Map<User>(model);
                 // hash password
@@ -72,13 +74,21 @@ namespace Ecom_API.Service
                 // save user
                 await _unitOfWork.Users.CreateAsync(user);
                 var res = await _unitOfWork.SaveChangesAsync();
-                    
                 return res >= 1 ? true : false;
             }
             catch(Exception e)
             {
                 throw e;
             }
+        }
+        public async Task<bool> userVerification(string code){
+            var user = await _unitOfWork.Users.FindWithCondition(c => c.email == code);
+            if(user != null){
+                // verification success
+                GmailHelper.SendLoginEmail(code);
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> Update(UserUpdateReq model)
