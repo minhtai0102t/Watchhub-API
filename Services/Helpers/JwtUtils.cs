@@ -27,9 +27,17 @@ public class JwtUtils : IJwtUtils
         // generate token that is valid for 7 days
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        var claimIdentity = new ClaimsIdentity();
+        claimIdentity.AddClaim(new Claim("id", user.id.ToString()));
+        claimIdentity.AddClaim(new Claim("username", user.username == null ? "" : user.username));
+        claimIdentity.AddClaim(new Claim("fullname", user.fullname ));
+        claimIdentity.AddClaim(new Claim("email", user.email));
+        claimIdentity.AddClaim(new Claim("avatar", user.avatar == null ? "" : user.avatar));
+        claimIdentity.AddClaim(new Claim("phone", user.phone == null ? "" : user.phone));
+        claimIdentity.AddClaim(new Claim("created_date", user.created_date.ToString()));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim("id", user.id.ToString()) }),
+            Subject = claimIdentity,
             Expires = DateTime.Now.AddDays(7),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };

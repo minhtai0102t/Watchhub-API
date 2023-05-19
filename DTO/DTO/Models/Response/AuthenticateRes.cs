@@ -2,10 +2,8 @@
 using Ecom_API.DTO.Entities;
 namespace Ecom_API.DTO.Models;
 
-public class AuthenticateRes : BaseEntity
+public class AuthenticateRes
 {
-    public string FullName { get; set; }
-    public string Phone { get; set; }
-    public string Token { get; set; }
+    public string token { get; set; }
 }
 

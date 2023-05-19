@@ -7,7 +7,7 @@ public static class GmailHelper
 {
     public static void SendVerificationEmail(string recipientEmail, string verificationCode)
     {
-        // SMTP server details
+        // SMTP server details 
         string smtpServer = "smtp.gmail.com";
         int smtpPort = 587; // or the appropriate port number
         string smtpUsername = "dh51904407@student.stu.edu.vn";

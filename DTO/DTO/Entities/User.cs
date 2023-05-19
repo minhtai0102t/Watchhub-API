@@ -7,7 +7,7 @@ namespace Ecom_API.DTO.Entities
     public class User : BaseEntity
     {
         [StringLength(1000)]
-        public string username { get; set; }
+        public string? username { get; set; }
         [Required]
         [StringLength(250)]
         public string password { get; set; }
@@ -18,11 +18,11 @@ namespace Ecom_API.DTO.Entities
         [StringLength(200)]
         public string email { get; set; }
         [StringLength(1000)]
-        public string avatar { get; set; }
+        public string? avatar { get; set; }
         [StringLength(20)]
-        public string phone { get; set; }
+        public string? phone { get; set; }
         [StringLength(2000)]
-        public string address { get; set; }
+        public string? address { get; set; }
         public bool isAdmin { get; set; }
         public List<int>? order_ids { get; set; }
     }

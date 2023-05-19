@@ -17,7 +17,7 @@ public class UsersController : ControllerBase
     [HttpGet("verify{code}")]
     public async Task<IActionResult> Verify(string code)
     {
-        var response = await _userService.userVerification(code);
+        var response = await _userService.UserVerification(code);
         return Ok(response);
     }
     [AllowAnonymous]

@@ -12,15 +12,15 @@ services.AddCors();
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
-// services.AddAuthentication()
-//     .AddJwtBearer(options =>
-//     {
-//         // Configure JWT authentication options
-//         options.TokenValidationParameters = new TokenValidationParameters
-//         {
-//             // Set your token validation parameters
-//         };
-//     });
+services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        // Configure JWT authentication options
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            // Set your token validation parameters
+        };
+    });
 services.AddAuthorization();
 
 // configure automapper with all automapper profiles from this assembly
@@ -33,7 +33,7 @@ services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"))
 services.DIConfiguration();
 
 //connection string
-services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Mac"), b => b.MigrationsAssembly("Ecom-API")));
+services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting"), b => b.MigrationsAssembly("Ecom-API")));
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
