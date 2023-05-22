@@ -33,7 +33,8 @@ namespace Ecom_API.Service
                     throw new AppException("email or password is incorrect");
                 // authentication successful
                 var response = _jwtUtils.GenerateToken(user).ToString();
-                return new AuthenticateRes {
+                return new AuthenticateRes
+                {
                     token = response
                 };
             }
@@ -42,30 +43,35 @@ namespace Ecom_API.Service
                 throw e;
             }
         }
-        public async Task<AuthenticateRes> AuthenticateGoogle(string token)
+        public async Task<AuthenticateRes> LoginWithGoogle(GoogleUser req)
         {
             try
             {
-                var googleUser = _jwtUtils.ValidateGoogleToken(token);
-                if(googleUser == null){
-                    // valid token
-                    throw new AppException("invalid token");
+                var user = await _unitOfWork.Users.FindWithCondition(c => c.email == req.email);
+                if (user == null)
+                {
+                    var newUser = new User{
+                        fullname = req.name,
+                        email = req.email,
+                        password = Argon2.Hash(req.uid),
+                        avatar = req.picture,
+                        phone = req.phone,
+                    };
+                    await _unitOfWork.Users.CreateAsync(newUser);
+                    await _unitOfWork.SaveChangesAsync();
+                    return new AuthenticateRes
+                    {
+                        token = _jwtUtils.GenerateToken(newUser).ToString()
+                    };
                 }
-                var user = await _unitOfWork.Users.FindWithCondition(c => c.email == googleUser.email);
-                if(user == null){
-                    // user does not exist
-                    // insert into db for once
-                    var userMapper = _mapper.Map<User>(googleUser);
-                    await _unitOfWork.Users.CreateAsync(userMapper);
-                    int res = await _unitOfWork.SaveChangesAsync();
-                }
-                return new AuthenticateRes {
-                    token = token
+                return new AuthenticateRes
+                {
+                    token = _jwtUtils.GenerateToken(user).ToString()
                 };
             }
-            catch (Exception e)
+            catch(Exception ex)
             {
-                return new AuthenticateRes{};
+                return null;
             }
         }
         public async Task<IEnumerable<User>> GetAll()

@@ -28,13 +28,6 @@ public class ProductController : ControllerBase
         return Ok(response);
     }
     [AllowAnonymous]
-    [HttpPost("authenticate_google")]
-    public async Task<IActionResult> AuthenticateGoogle([FromBody] string token)
-    {
-        var response = await _userService.AuthenticateGoogle(token);
-        return Ok(response);
-    }
-    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegisterReq model)
     {

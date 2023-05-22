@@ -4,8 +4,8 @@ namespace Services.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ApiDbContext _dbContext;
-        public UnitOfWork(ApiDbContext context) {
+        private ApiDbContextHosting _dbContext;
+        public UnitOfWork(ApiDbContextHosting context) {
             _dbContext = context;
         }
 

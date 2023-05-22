@@ -28,10 +28,10 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
     [AllowAnonymous]
-    [HttpPost("authenticate_google")]
-    public async Task<IActionResult> AuthenticateGoogle([FromBody] string token)
+    [HttpPost("login_with_google")]
+    public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleUser req)
     {
-        var response = await _userService.AuthenticateGoogle(token);
+        var response = await _userService.LoginWithGoogle(req);
         return Ok(response);
     }
     [AllowAnonymous]
