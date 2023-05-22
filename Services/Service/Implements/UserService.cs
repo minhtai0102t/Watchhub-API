@@ -42,6 +42,32 @@ namespace Ecom_API.Service
                 throw e;
             }
         }
+        public async Task<AuthenticateRes> AuthenticateGoogle(string token)
+        {
+            try
+            {
+                var googleUser = _jwtUtils.ValidateGoogleToken(token);
+                if(googleUser == null){
+                    // valid token
+                    throw new AppException("invalid token");
+                }
+                var user = await _unitOfWork.Users.FindWithCondition(c => c.email == googleUser.email);
+                if(user == null){
+                    // user does not exist
+                    // insert into db for once
+                    var userMapper = _mapper.Map<User>(googleUser);
+                    await _unitOfWork.Users.CreateAsync(userMapper);
+                    int res = await _unitOfWork.SaveChangesAsync();
+                }
+                return new AuthenticateRes {
+                    token = token
+                };
+            }
+            catch (Exception e)
+            {
+                return new AuthenticateRes{};
+            }
+        }
         public async Task<IEnumerable<User>> GetAll()
         {
             return await _unitOfWork.Users.GetAllAsync();

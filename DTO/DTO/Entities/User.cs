@@ -24,6 +24,7 @@ namespace Ecom_API.DTO.Entities
         [StringLength(2000)]
         public string? address { get; set; }
         public bool isAdmin { get; set; }
+        public bool isGoogleAccount { get; set; }
         public List<int>? order_ids { get; set; }
     }
 }

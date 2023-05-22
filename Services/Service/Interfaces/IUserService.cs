@@ -7,6 +7,7 @@ namespace Ecom_API.Service;
 public interface IUserService : IDisposable
 {
     Task<AuthenticateRes> Authenticate(AuthenticateReq model);
+    Task<AuthenticateRes> AuthenticateGoogle(string model);
     Task<IEnumerable<User>> GetAll();
     Task<User> GetByIdAsync(int id);
     User GetById(int id);

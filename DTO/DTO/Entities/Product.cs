@@ -13,15 +13,11 @@ namespace Ecom_API.DTO.Entities
         public string product_name { get; set; }
         [Required]
         [MaxLength]
-        public string product_description { get; set; }
-        [Required]
+        public string? product_description { get; set; }
         public int product_type_id { get; set; }
-        [Required]
-        public List<int> product_image_ids { get; set; }
-        [Required]
+        public List<int>? product_image_ids { get; set; }
         public int brand_id { get; set; }
-        [Required]
-        public List<int> product_feedback_ids { get; set; }
+        public List<int>? product_feedback_ids { get; set; }
     }
 }
 

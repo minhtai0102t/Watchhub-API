@@ -8,12 +8,10 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        // User -> AuthenticateResponse
-        CreateMap<User, AuthenticateRes>().ReverseMap();
-
         // RegisterRequest -> User
         CreateMap<UserRegisterReq, User>();
-
+         // GoogleUser -> User
+        CreateMap<GoogleUser, User>().ReverseMap();
         // UpdateRequest -> User
         CreateMap<UserUpdateReq, User>()
             .ForAllMembers(x => x.Condition(

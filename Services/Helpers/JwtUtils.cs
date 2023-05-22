@@ -5,13 +5,15 @@ using System.Text;
 using Ecom_API.DTO.Entities;
 using Services.CommonConfig;
 using Microsoft.Extensions.Options;
+using Ecom_API.DTO.Models;
 
 namespace Ecom_API.Authorization;
 
 public interface IJwtUtils
 {
-    public string GenerateToken(User user);
-    public int ValidateToken(string token);
+    string GenerateToken(User user);
+    int ValidateToken(string token);
+    GoogleUser ValidateGoogleToken(string token);
 }
 public class JwtUtils : IJwtUtils
 {
@@ -30,7 +32,7 @@ public class JwtUtils : IJwtUtils
         var claimIdentity = new ClaimsIdentity();
         claimIdentity.AddClaim(new Claim("id", user.id.ToString()));
         claimIdentity.AddClaim(new Claim("username", user.username == null ? "" : user.username));
-        claimIdentity.AddClaim(new Claim("fullname", user.fullname ));
+        claimIdentity.AddClaim(new Claim("fullname", user.fullname));
         claimIdentity.AddClaim(new Claim("email", user.email));
         claimIdentity.AddClaim(new Claim("avatar", user.avatar == null ? "" : user.avatar));
         claimIdentity.AddClaim(new Claim("phone", user.phone == null ? "" : user.phone));
@@ -73,6 +75,44 @@ public class JwtUtils : IJwtUtils
         {
             // return null if validation fails
             return -1;
+        }
+    }
+    public GoogleUser ValidateGoogleToken(string token)
+    {
+        if (token == null)
+            return null;
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        try
+        {
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            string name = jwtToken.Claims.First(x => x.Type == "name").Value;
+            string picture = jwtToken.Claims.First(x => x.Type == "picture").Value;
+            string userId = jwtToken.Claims.First(x => x.Type == "user_id").Value;
+            string email = jwtToken.Claims.First(x => x.Type == "email").Value;
+            // return user id from JWT token if validation successful
+            return new GoogleUser{
+                name = name,
+                picture = picture,
+                user_id = userId,
+                email = email
+            };
+        }
+        catch (Exception ex)
+        {
+            // return null if validation fails
+            return null;
         }
     }
 }
