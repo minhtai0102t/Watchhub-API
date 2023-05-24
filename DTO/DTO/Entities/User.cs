@@ -23,7 +23,8 @@ namespace Ecom_API.DTO.Entities
         public string? phone { get; set; }
         [StringLength(2000)]
         public string? address { get; set; }
-        public bool isAdmin { get; set; }
+        public bool is_admin { get; set; }
+        public bool is_verified { get; set; }
         public List<int>? order_ids { get; set; }
     }
 }

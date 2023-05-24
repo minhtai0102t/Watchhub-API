@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ecom_API.DBHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 {
     [DbContext(typeof(ApiDbContextHosting))]
-    partial class ApiDbContextHostingModelSnapshot : ModelSnapshot
+    [Migration("20230524165528_UpdateDbUser")]
+    partial class UpdateDbUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -511,13 +514,13 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<bool>("is_admin")
+                    b.Property<bool>("isAdmin")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("isVerified")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("is_deleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("is_verified")
                         .HasColumnType("boolean");
 
                     b.Property<List<int>>("order_ids")

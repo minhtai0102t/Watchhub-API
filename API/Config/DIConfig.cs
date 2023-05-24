@@ -1,6 +1,7 @@
 ﻿using Ecom_API.Authorization;
 using Ecom_API.Service;
 using Services.Repositories;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Ecom_API.Config
 {

@@ -18,14 +18,14 @@ namespace Services.Repositories
         /// </summary>
         /// <param name="entity">Entity for updating</param>
         /// <returns>Number of row in database have been changed</returns>
-        Task<int> UpdateAsync(T entity);
-        Task<T> DeleteAsync(int id);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(int id);
         /// <summary>
         ///     Update IsDeleted property to true for a object
         /// </summary>
         /// <param name="id">Object's id for soft delete</param>
         /// <returns>A object have soft deleted</returns>
-        Task<T> DeleteSoftAsync(int id);
+        Task SoftDeleteAsync(int id);
         Task<T> FindWithCondition(Expression<Func<T, bool>> predicate);
         Task<IList<T>> WhereAsync(Expression<Func<T, bool>> predicate, params string[] navigationProperties);
         Task<IEnumerable<T>> FindAllWithCondition(Expression<Func<T, bool>> predicate = null);

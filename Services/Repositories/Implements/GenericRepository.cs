@@ -16,29 +16,23 @@ namespace Services.Repositories
         public async Task CreateAsync(T entity)
         {
             await dbSet.AddAsync(entity);
-            //int rowEffect = await _context.SaveChangesAsync();
         }
-        public async Task<T> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             T _entity = await GetByIdAsync(id);
-            if (_entity == null)
+            if (_entity != null)
             {
-                return null;
+                dbSet.Remove(_entity);
             }
-            dbSet.Remove(_entity);
-            await _context.SaveChangesAsync();
-            return _entity;
         }
-        public async Task<T> DeleteSoftAsync(int id)
+        public async Task SoftDeleteAsync(int id)
         {
             T _entity = await GetByIdAsync(id);
-            if (_entity == null)
+            if (_entity != null)
             {
-                return null;
+                _entity.is_deleted = true;
+                await UpdateAsync(_entity);
             }
-            _entity.is_deleted = true;
-            await UpdateAsync(_entity);
-            return _entity;
         }
         public async Task<T> FindWithCondition(Expression<Func<T, bool>> predicate)
         {
@@ -53,16 +47,14 @@ namespace Services.Repositories
             var entity = await dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.id == id);
             return entity;
         }
-         public T GetById(int id)
+        public T GetById(int id)
         {
             var entity = dbSet.AsNoTracking().FirstOrDefault(e => e.id == id);
             return entity;
         }
-        public async Task<int> UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _context.Attach(entity).State = EntityState.Modified;
-            int rowsEffect = await _context.SaveChangesAsync();
-            return rowsEffect;
         }
         public async Task<IList<T>> WhereAsync(Expression<Func<T, bool>> predicate, params string[] navigationProperties)
         {

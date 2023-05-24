@@ -32,6 +32,9 @@ services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"))
 // configure DI for application services
 services.DIConfiguration();
 
+
+services.AddMemoryCache();
+
 //connection string
 services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Mac"), b => b.MigrationsAssembly("Ecom-API")));
 

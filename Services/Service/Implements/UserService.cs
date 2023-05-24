@@ -5,6 +5,7 @@ using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
 using Isopoh.Cryptography.Argon2;
 using Services.Repositories;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Ecom_API.Service
 {
@@ -14,14 +15,17 @@ namespace Ecom_API.Service
         private IJwtUtils _jwtUtils;
         private bool disposedValue;
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _cache;
         public UserService(
             IJwtUtils jwtUtils,
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper,
+            IMemoryCache cache)
         {
             _unitOfWork = unitOfWork;
             _jwtUtils = jwtUtils;
             _mapper = mapper;
+            _cache = cache;
         }
         public async Task<AuthenticateRes> Authenticate(AuthenticateReq model)
         {
@@ -31,6 +35,9 @@ namespace Ecom_API.Service
                 // validate
                 if (user == null || !Argon2.Verify(user.password, model.password))
                     throw new AppException("email or password is incorrect");
+                if(!user.is_verified){
+                    throw new AppException("user is not verified");
+                }
                 // authentication successful
                 var response = _jwtUtils.GenerateToken(user).ToString();
                 return new AuthenticateRes
@@ -50,7 +57,8 @@ namespace Ecom_API.Service
                 var user = await _unitOfWork.Users.FindWithCondition(c => c.email == req.email);
                 if (user == null)
                 {
-                    var newUser = new User{
+                    var newUser = new User
+                    {
                         fullname = req.name,
                         email = req.email,
                         password = Argon2.Hash(req.uid),
@@ -69,9 +77,9 @@ namespace Ecom_API.Service
                     token = _jwtUtils.GenerateToken(user).ToString()
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         public async Task<IEnumerable<User>> GetAll()
@@ -94,7 +102,10 @@ namespace Ecom_API.Service
                 if (validate != null)
                     throw new AppException("email '" + model.email + "' is already existed in system");
 
-                GmailHelper.SendVerificationEmail(model.email, model.email);
+                string verificationCode = GenerateVerificationCode();
+                _cache.Set(model.email, verificationCode, TimeSpan.FromMinutes(10));
+
+                GmailHelper.SendVerificationEmail(model.email, verificationCode);
                 // map model to new user object
                 var user = _mapper.Map<User>(model);
                 // hash password
@@ -109,36 +120,57 @@ namespace Ecom_API.Service
                 throw e;
             }
         }
-        public async Task<bool> UserVerification(string code)
+        public async Task<bool> UserVerification(string code, string email)
         {
-            var user = await _unitOfWork.Users.FindWithCondition(c => c.email == code);
-            if (user != null)
+            if (_cache.TryGetValue(email, out string storedCode))
             {
-                // verification success
-                GmailHelper.SendLoginEmail(code);
-                return true;
+                if(code == storedCode){
+                    // Update isVerify = true
+                    var user = await _unitOfWork.Users.FindWithCondition(c => c.email == email);
+                    user.is_verified = true;
+                    await _unitOfWork.Users.UpdateAsync(user);
+                    var res = await _unitOfWork.SaveChangesAsync();
+                    return res >= 1 ? true : false;
+                }
             }
             return false;
         }
-
-        public async Task<bool> Update(UserUpdateReq model)
+        public async Task<bool> Update(UserUpdateReq model, int id)
         {
             // validate
-            var isExisted = await _unitOfWork.Users.FindWithCondition(c => c.username == model.username);
-            if (isExisted != null)
-                throw new AppException("username '" + model.username + "' is already taken");
+            var isExisted = await _unitOfWork.Users.GetByIdAsync(id);
+            if (isExisted == null)
+                throw new AppException("user " + id + " does not exist");
 
-            var user = _mapper.Map<User>(model);
+            isExisted = _mapper.Map<User>(model);
+            isExisted.id = id;
             // hash password before store to DB
             if (!string.IsNullOrEmpty(model.password))
-                user.password = Argon2.Hash(model.password);
-            var res = await _unitOfWork.Users.UpdateAsync(user);
+                isExisted.password = Argon2.Hash(model.password);
+            await _unitOfWork.Users.UpdateAsync(isExisted);
+            var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
 
-        public async Task<User> Delete(int id)
+        public async Task<bool> SoftDelete(int id)
         {
-            return await _unitOfWork.Users.DeleteSoftAsync(id);
+            await _unitOfWork.Users.SoftDeleteAsync(id);
+            var res = await _unitOfWork.SaveChangesAsync();
+            return res >= 1 ? true : false;
+        }
+        public async Task<bool> Delete(int id)
+        {
+            await _unitOfWork.Users.DeleteAsync(id);
+            var res = await _unitOfWork.SaveChangesAsync();
+            return res >= 1 ? true : false;
+        }
+        private string GenerateVerificationCode()
+        {
+            // Generate a random verification code (you can replace this with your own code generation logic)
+            Random random = new Random();
+            int verificationCode = random.Next(100000, 999999);
+
+            return verificationCode.ToString();
         }
 
         protected virtual void Dispose(bool disposing)
