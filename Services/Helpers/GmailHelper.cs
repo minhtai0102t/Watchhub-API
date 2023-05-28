@@ -18,7 +18,7 @@ public static class GmailHelper
         string verificationLink = Constants.VerificationLinkHosting;
         string emailBody = $"Dear User,<br><br>" +
                            $"Thank you for signing up. Please click the link below to verify your email address:<br><br>" +
-                           $"Verification code= <h3><b>{verificationCode}</b></h3><br><br>" +
+                           $"Verification code= <h3><b>{verificationCode}</b></h3> expire in 10 minutes<br><br>" +
                            $"<a href='{verificationLink}'>Verification link</a><br><br>" +
                            $"If you did not sign up for our service, please ignore this email.<br><br>" +
                            $"Regards,<br>" +

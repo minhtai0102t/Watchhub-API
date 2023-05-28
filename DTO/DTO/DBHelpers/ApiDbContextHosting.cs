@@ -31,6 +31,9 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<Order>();
             modelBuilder.Entity<Category>();
             modelBuilder.Entity<Brand>();
+            modelBuilder.Entity<ProductAlbert>();
+            modelBuilder.Entity<ProductCore>();
+            modelBuilder.Entity<ProductGlass>();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

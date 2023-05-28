@@ -1,7 +1,6 @@
 ﻿using Ecom_API.Authorization;
 using Ecom_API.Service;
 using Services.Repositories;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Ecom_API.Config
 {
@@ -10,8 +9,11 @@ namespace Ecom_API.Config
         public static void DIConfiguration(this IServiceCollection service)
         {
             service.AddScoped<IJwtUtils, JwtUtils>();
-            service.AddScoped<IUserService, UserService>();
             service.AddScoped<IUnitOfWork, UnitOfWork>();
+            service.AddScoped<IUserService, UserService>();
+            service.AddScoped<ICategoryService, CategoryService>();
+            service.AddScoped<ISubCategoryService, SubCategoryService>();
+            service.AddScoped<IBrandService, BrandService>();
         }
     }
 }

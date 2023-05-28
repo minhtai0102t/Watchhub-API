@@ -10,6 +10,9 @@ public class AutoMapperProfile : Profile
     {
         // RegisterRequest -> User
         CreateMap<UserRegisterReq, User>();
+        CreateMap<CategoryCreateReq, Category>();
+        CreateMap<SubCategoryCreateReq, SubCategory>();
+        CreateMap<BrandCreateReq, Brand>();
          // GoogleUser -> User
         CreateMap<GoogleUser, User>().ReverseMap();
         // UpdateRequest -> User

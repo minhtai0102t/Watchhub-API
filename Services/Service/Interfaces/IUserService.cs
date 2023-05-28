@@ -12,7 +12,7 @@ public interface IUserService : IDisposable
     Task<User> GetByIdAsync(int id);
     User GetById(int id);
     Task<bool> Register(UserRegisterReq model);
-    Task<bool> Update(UserUpdateReq model, int id);
+    Task<UpdateRes> Update(UserUpdateReq model, int id);
     Task<bool> SoftDelete(int id);
     Task<bool> Delete(int id);
     Task<bool> UserVerification(string code, string id);

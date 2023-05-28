@@ -135,21 +135,29 @@ namespace Ecom_API.Service
             }
             return false;
         }
-        public async Task<bool> Update(UserUpdateReq model, int id)
+        public async Task<UpdateRes> Update(UserUpdateReq model, int id)
         {
             // validate
             var isExisted = await _unitOfWork.Users.GetByIdAsync(id);
             if (isExisted == null)
                 throw new AppException("user " + id + " does not exist");
-
-            isExisted = _mapper.Map<User>(model);
-            isExisted.id = id;
-            // hash password before store to DB
-            if (!string.IsNullOrEmpty(model.password))
-                isExisted.password = Argon2.Hash(model.password);
+            isExisted.avatar = model.avatar;
+            isExisted.address = model.address;
+            isExisted.phone = model.phone;
+            isExisted.username = model.username;
+            isExisted.fullname = model.fullname;
             await _unitOfWork.Users.UpdateAsync(isExisted);
             var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+            if(res == 1){
+                return new UpdateRes{
+                    message = "Update successfully",
+                    token = _jwtUtils.GenerateToken(isExisted)
+                };
+            }
+            return new UpdateRes{
+                message = "Update fail",
+                token = ""
+            };
         }
 
         public async Task<bool> SoftDelete(int id)

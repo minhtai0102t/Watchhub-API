@@ -100,13 +100,11 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Update(UserUpdateReq model, int id)
     {
         var res = await _userService.Update(model, id);
-        if (res)
-        {
-            return Ok(new { message = "Update successfully" });
+        if(res.token != string.Empty){
+            return Ok(res);
         }
-        else
-        {
-            return BadRequest(new { message = "Update failure" });
+        else{
+            return BadRequest(res);
         }
     }
     /// <summary>
@@ -121,11 +119,11 @@ public class UsersController : ControllerBase
         var res = await _userService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "Delete successfully" });
+            return Ok(new { message = "Delete successful" });
         }
         else
         {
-            return BadRequest(new { message = "Delete failure" });
+            return BadRequest(new { message = "Delete failed" });
         }
     }
     /// <summary>
@@ -140,11 +138,11 @@ public class UsersController : ControllerBase
         var res = await _userService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "Delete successfully" });
+            return Ok(new { message = "Delete successful" });
         }
         else
         {
-            return BadRequest(new { message = "Delete failure" });
+            return BadRequest(new { message = "Delete failed" });
         }
     }
 }

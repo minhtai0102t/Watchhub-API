@@ -1,28 +1,22 @@
 ﻿<Properties StartupConfiguration="{80B1C0FD-87E4-4C5D-A12A-B5658ED39495}|Default">
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="appsettings.json">
     <Files>
-      <File FileName="Program.cs" Line="31" Column="1" />
-      <File FileName="appsettings.json" />
+      <File FileName="Program.cs" />
+      <File FileName="appsettings.json" Line="19" Column="1" />
       <File FileName="Attributes/AllowAnonymousAttribute.cs" />
-      <File FileName="Attributes/AuthorizeAttribute.cs" Line="20" Column="95" />
-      <File FileName="Controllers/User/UserController.cs" Line="27" Column="50" />
+      <File FileName="Attributes/AuthorizeAttribute.cs" />
       <File FileName="Lib/Helpers/ErrorHandlerMiddleware.cs" />
       <File FileName="Lib/Helpers/AutoMapperProfile.cs" />
       <File FileName="../DTO/DTO/Entities/User.cs" />
-      <File FileName="../Services/Service/Implements/UserService.cs" Line="12" Column="6" />
+      <File FileName="../Services/Service/Implements/UserService.cs" />
       <File FileName="../DTO/DTO/DBHelpers/ApiDbContext.cs" />
       <File FileName="../Services/CommonConfig/Appsettings.cs" />
-      <File FileName="../Services/Service/Interfaces/IUserService.cs" Line="10" Column="38" />
-      <File FileName="../Services/Helpers/JwtUtils.cs" Line="61" Column="40" />
-      <File FileName="../DTO/DTO/Models/Response/AuthenticateRes.cs" Line="5" Column="14" />
-      <File FileName="../DTO/DTO/Entities/Product.cs" Line="1" Column="1" />
+      <File FileName="../Services/Service/Interfaces/IUserService.cs" />
+      <File FileName="../Services/Helpers/JwtUtils.cs" />
+      <File FileName="../DTO/DTO/Models/Response/AuthenticateRes.cs" />
+      <File FileName="../DTO/DTO/Entities/Product.cs" />
+      <File FileName="../Services/Helpers/Constants.cs" />
+      <File FileName="../Services/Helpers/GmailHelper.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -33,32 +27,18 @@
                 <Node name="PackageDependencies" expanded="True" />
               </Node>
               <Node name="Attributes" expanded="True" />
-              <Node name="Controllers" expanded="True">
-                <Node name="User" expanded="True" />
-              </Node>
-            </Node>
-            <Node name="DTO" expanded="True">
-              <Node name="DTO" expanded="True">
-                <Node name="DBHelpers" expanded="True" />
-                <Node name="Entities" expanded="True" />
-                <Node name="Models" expanded="True">
-                  <Node name="Response" expanded="True" />
-                </Node>
-              </Node>
-            </Node>
-            <Node name="Services" expanded="True">
-              <Node name="Helpers" expanded="True" />
-              <Node name="Service" expanded="True">
-                <Node name="Implements" expanded="True" />
-                <Node name="Interfaces" expanded="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
 </Properties>

@@ -289,34 +289,23 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("brand_id")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("created_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("created_user")
                         .HasColumnType("integer");
 
-                    b.Property<int>("inventory")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("product_description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("product_albert_id")
+                        .HasColumnType("integer");
 
-                    b.Property<List<int>>("product_feedback_ids")
-                        .HasColumnType("integer[]");
+                    b.Property<int>("product_core_id")
+                        .HasColumnType("integer");
 
-                    b.Property<List<int>>("product_image_ids")
-                        .HasColumnType("integer[]");
-
-                    b.Property<string>("product_name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("product_glass_id")
+                        .HasColumnType("integer");
 
                     b.Property<int>("product_type_id")
                         .HasColumnType("integer");
@@ -330,6 +319,62 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.HasKey("id");
 
                     b.ToTable("products");
+                });
+
+            modelBuilder.Entity("Ecom_API.DTO.Entities.ProductAlbert", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("created_user")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("updated_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("updated_user")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("product_alberts");
+                });
+
+            modelBuilder.Entity("Ecom_API.DTO.Entities.ProductCore", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("created_user")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("updated_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("updated_user")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("product_cores");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductFeedback", b =>
@@ -369,6 +414,34 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.HasKey("id");
 
                     b.ToTable("product_feedbacks");
+                });
+
+            modelBuilder.Entity("Ecom_API.DTO.Entities.ProductGlass", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("created_user")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("updated_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("updated_user")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("product_glasses");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductImage", b =>
@@ -412,6 +485,9 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
+                    b.Property<int>("brand_id")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("created_date")
                         .HasColumnType("timestamp with time zone");
 
@@ -423,6 +499,12 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.Property<int>("price")
                         .HasColumnType("integer");
+
+                    b.Property<List<int>>("product_feedback_ids")
+                        .HasColumnType("integer[]");
+
+                    b.Property<List<int>>("product_image_ids")
+                        .HasColumnType("integer[]");
 
                     b.Property<string>("product_type_name")
                         .IsRequired()
