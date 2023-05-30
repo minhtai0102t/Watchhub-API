@@ -14,6 +14,7 @@ namespace Services.Repositories
         private ICategoryRepository _categoryRepository;
         private ISubCategoryRepository _subCategoryRepository;
         private IBrandRepository _brandRepository;
+        private IProductTypeRepository _productTypeRepository;
         public IUserRepository Users
         {
             get
@@ -56,6 +57,17 @@ namespace Services.Repositories
                     _brandRepository = new BrandRepository(_dbContext);
                 }
                 return _brandRepository;
+            }
+        }
+         public IProductTypeRepository ProductTypes
+        {
+            get
+            {
+                if (_productTypeRepository == null)
+                {
+                    _productTypeRepository = new ProducTypeRepository(_dbContext);
+                }
+                return _productTypeRepository;
             }
         }
         public async Task<int> SaveChangesAsync()

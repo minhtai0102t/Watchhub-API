@@ -16,6 +16,8 @@ namespace Ecom_API.DTO.Entities
         public List<int>? product_image_ids { get; set; }
         [Required]
         public int brand_id { get; set; }
+        [Required]
+        public int sub_category_id { get; set; }
         public List<int>? product_feedback_ids { get; set; }
     }
 }

@@ -3,19 +3,20 @@ using Ecom_API.Authorization;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
+using Isopoh.Cryptography.Argon2;
 using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Ecom_API.Service
 {
-    public class SubCategoryService : ISubCategoryService
+    public class ProductTypeService : IProductTypeService
     {
         private IUnitOfWork _unitOfWork;
         private IJwtUtils _jwtUtils;
         private bool disposedValue;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _cache;
-        public SubCategoryService(
+        public ProductTypeService(
             IJwtUtils jwtUtils,
             IUnitOfWork unitOfWork,
             IMapper mapper,
@@ -26,26 +27,29 @@ namespace Ecom_API.Service
             _mapper = mapper;
             _cache = cache;
         }
-        public async Task<IEnumerable<SubCategory>> GetAll()
+        public async Task<IEnumerable<ProductType>> GetAll()
         {
-            return await _unitOfWork.SubCategories.GetAllAsync();
+            return await _unitOfWork.ProductTypes.GetAllAsync();
         }
-        public async Task<SubCategory> GetById(int id)
+        public async Task<ProductType> GetById(int id)
         {
-            return await _unitOfWork.SubCategories.GetByIdAsync(id);
+            return await _unitOfWork.ProductTypes.GetByIdAsync(id);
         }
-        public async Task<bool> Update(SubCategoryUpdateReq model, int id)
+        public async Task<bool> Update(ProductTypeUpdateReq model, int id)
         {
             try
             {
                 var item = await GetById(id);
                 if (item == null)
                 {
-                    throw new AppException("sub_category " + id + " does not exist");
+                    throw new AppException("ProductType " + id + " does not exist");
                 }
-                item.sub_category_name = model.sub_category_name;
-
-                await _unitOfWork.SubCategories.UpdateAsync(item);
+                item.product_type_name = model.product_type_name;
+                item.price = model.price;
+                item.brand_id = model.brand_id;
+                item.sub_category_id = model.sub_category_id; 
+                
+                await _unitOfWork.ProductTypes.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;
 
@@ -55,27 +59,28 @@ namespace Ecom_API.Service
                 throw ex;
             }
         }
-        public async Task<bool> Create(SubCategoryCreateReq model)
+        public async Task<bool> Create(ProductTypeCreateReq model)
         {
-            var validate = await _unitOfWork.SubCategories.FindWithCondition(c => c.sub_category_name == model.sub_category_name);
+            var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_name == model.product_type_name);
             if (validate != null)
-                throw new AppException("sub_category_name '" + model.sub_category_name + "' is already existed in system");
-            // map model to new user object
-            var subCategory = _mapper.Map<SubCategory>(model);
+                throw new AppException("product_type_name '" + model.product_type_name + "' is already existed in system");
 
-            await _unitOfWork.SubCategories.CreateAsync(subCategory);
+            // map model to new user object
+            var productType = _mapper.Map<ProductType>(model);
+            
+            await _unitOfWork.ProductTypes.CreateAsync(productType);
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
         public async Task<bool> SoftDelete(int id)
         {
-            await _unitOfWork.SubCategories.SoftDeleteAsync(id);
+            await _unitOfWork.ProductTypes.SoftDeleteAsync(id);
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
         public async Task<bool> Delete(int id)
         {
-            await _unitOfWork.SubCategories.DeleteAsync(id);
+            await _unitOfWork.ProductTypes.DeleteAsync(id);
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
@@ -96,7 +101,7 @@ namespace Ecom_API.Service
         }
 
         // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        ~SubCategoryService()
+        ~ProductTypeService()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: false);

@@ -10,6 +10,6 @@ namespace Ecom_API.DTO.Entities
         [StringLength(1000)]
         public string sub_category_name { get; set; }
         [Required]
-        public int product_type_id { get; set; }
+        public int category_id { get; set; }
     }
 }

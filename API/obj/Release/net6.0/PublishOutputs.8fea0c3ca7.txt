@@ -11,6 +11,7 @@
 /Users/toddpham12/public-asp/Isopoh.Cryptography.Argon2.dll
 /Users/toddpham12/public-asp/Isopoh.Cryptography.Blake2b.dll
 /Users/toddpham12/public-asp/Isopoh.Cryptography.SecureArray.dll
+/Users/toddpham12/public-asp/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/toddpham12/public-asp/Microsoft.EntityFrameworkCore.dll
 /Users/toddpham12/public-asp/Microsoft.EntityFrameworkCore.Abstractions.dll
 /Users/toddpham12/public-asp/Microsoft.EntityFrameworkCore.Design.dll
@@ -33,6 +34,8 @@
 /Users/toddpham12/public-asp/Microsoft.IdentityModel.Abstractions.dll
 /Users/toddpham12/public-asp/Microsoft.IdentityModel.JsonWebTokens.dll
 /Users/toddpham12/public-asp/Microsoft.IdentityModel.Logging.dll
+/Users/toddpham12/public-asp/Microsoft.IdentityModel.Protocols.dll
+/Users/toddpham12/public-asp/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/toddpham12/public-asp/Microsoft.IdentityModel.Tokens.dll
 /Users/toddpham12/public-asp/Microsoft.OpenApi.dll
 /Users/toddpham12/public-asp/Mono.TextTemplating.dll

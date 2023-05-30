@@ -12,7 +12,7 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        var services = builder.Services;
+        var services = builder.Services;    
 
         services.AddCors();
         services.AddControllers();
