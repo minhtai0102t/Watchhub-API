@@ -1,4 +1,6 @@
-﻿using Ecom_API.DTO.Entities;
+﻿using EBird.Application.Model.PagingModel;
+using Ecom_API.DTO.Entities;
+using Ecom_API.PagingModel;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -6,8 +8,8 @@ namespace Services.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        protected DbContext _context;
-        protected DbSet<T> dbSet;
+        protected readonly DbContext _context;
+        protected readonly DbSet<T> dbSet;
         public GenericRepository(DbContext context)
         {
             _context = context;
@@ -20,7 +22,7 @@ namespace Services.Repositories
         public async Task DeleteAsync(int id)
         {
             T _entity = await GetByIdAsync(id);
-            if (_entity != null)
+            if(_entity != null)
             {
                 dbSet.Remove(_entity);
             }
@@ -28,7 +30,7 @@ namespace Services.Repositories
         public async Task SoftDeleteAsync(int id)
         {
             T _entity = await GetByIdAsync(id);
-            if (_entity != null)
+            if(_entity != null)
             {
                 _entity.is_deleted = true;
                 await UpdateAsync(_entity);
@@ -60,7 +62,7 @@ namespace Services.Repositories
         {
             List<T> list;
             var query = dbSet.AsQueryable();
-            foreach (var property in navigationProperties)
+            foreach(var property in navigationProperties)
             {
                 query = query.Include(property);
             }
@@ -76,13 +78,13 @@ namespace Services.Repositories
         private IQueryable<T> ApplyNavigation(params string[] navigationProperties)
         {
             var query = dbSet.AsQueryable();
-            foreach (string navigationProperty in navigationProperties)
+            foreach(string navigationProperty in navigationProperties)
                 query = query.Include(navigationProperty);
             return query;
         }
         public async Task<IEnumerable<T>> FindAllWithCondition(Expression<Func<T, bool>> predicate = null)
         {
-            if (predicate == null)
+            if(predicate == null)
             {
                 return await dbSet.AsNoTracking().ToListAsync();
             }
@@ -96,5 +98,27 @@ namespace Services.Repositories
         {
             return await dbSet.FirstOrDefaultAsync(x => x.id.Equals(id) && x.is_deleted == false);
         }
+
+        public DbSet<T> GetDbSet()
+        {
+            return dbSet;
+        }
+        public async Task<PagedList<T>> GetWithPaging(IQueryable<T> dataQuery, QueryStringParameters pagingParams)
+        {
+            PagedList<T> pagedRequests = new PagedList<T>();
+
+            if(pagingParams.PageSize == 0)
+            {
+                await pagedRequests.LoadData(dataQuery);
+            }
+            else
+            {
+                await pagedRequests.LoadData(dataQuery, pagingParams.PageNumber, pagingParams.PageSize);
+            }
+
+            return pagedRequests;
+
+        }
+
     }
 }

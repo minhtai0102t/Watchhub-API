@@ -6,6 +6,7 @@ using Ecom_API.Helpers;
 using Isopoh.Cryptography.Argon2;
 using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
+using Ecom_API.PagingModel;
 
 namespace Ecom_API.Service
 {
@@ -27,14 +28,17 @@ namespace Ecom_API.Service
             _mapper = mapper;
             _cache = cache;
         }
-        public async Task<IEnumerable<ProductType>> GetAll()
+
+        public async Task<IEnumerable<ProductType>> GetAll(QueryStringParameters pagingParams)
         {
-            return await _unitOfWork.ProductTypes.GetAllAsync();
+            return await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
         }
+
         public async Task<ProductType> GetById(int id)
         {
             return await _unitOfWork.ProductTypes.GetByIdAsync(id);
         }
+
         public async Task<bool> Update(ProductTypeUpdateReq model, int id)
         {
             try
