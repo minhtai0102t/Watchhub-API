@@ -15,6 +15,7 @@ namespace Ecom_API.Config
             service.AddScoped<ISubCategoryService, SubCategoryService>();
             service.AddScoped<IBrandService, BrandService>();
             service.AddScoped<IProductTypeService, ProductTypeService>();
+            service.AddScoped<IProductImageService, ProductImageService>();
         }
     }
 }

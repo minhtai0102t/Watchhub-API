@@ -1887,19 +1887,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\Dell\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\WorkPlace\\Watchhub-API\\Services\\Services.csproj",
+      "projectUniqueName": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj",
       "projectName": "Services",
-      "projectPath": "D:\\WorkPlace\\Watchhub-API\\Services\\Services.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\WorkPlace\\Watchhub-API\\Services\\obj\\",
+      "projectPath": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj",
+      "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
+      "outputPath": "D:\\Workplace\\Watchhub-API\\Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1908,14 +1908,15 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "http://nexus.concung.io:8081/repository/nuget-release/index.json": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nexus.ingress.concung.io": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\WorkPlace\\Watchhub-API\\DTO\\DTO.csproj": {
-              "projectPath": "D:\\WorkPlace\\Watchhub-API\\DTO\\DTO.csproj"
+            "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
+              "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj"
             }
           }
         }
@@ -1963,7 +1964,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   },

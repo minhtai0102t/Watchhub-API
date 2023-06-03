@@ -1,4 +1,5 @@
 ﻿using Ecom_API.DBHelpers;
+using Services.Repositories;
 
 namespace Services.Repositories
 {
@@ -15,6 +16,7 @@ namespace Services.Repositories
         private ISubCategoryRepository _subCategoryRepository;
         private IBrandRepository _brandRepository;
         private IProductTypeRepository _productTypeRepository;
+        private IProductImageRepository _productImageRepository;
         public IUserRepository Users
         {
             get
@@ -68,6 +70,17 @@ namespace Services.Repositories
                     _productTypeRepository = new ProducTypeRepository(_dbContext);
                 }
                 return _productTypeRepository;
+            }
+        }
+        public IProductImageRepository ProductImages
+        {
+            get
+            {
+                if (_productImageRepository == null)
+                {
+                    _productImageRepository = new ProductImageRepository(_dbContext);
+                }
+                return _productImageRepository;
             }
         }
         public async Task<int> SaveChangesAsync()
