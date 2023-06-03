@@ -7,6 +7,8 @@ namespace Ecom_API.Service;
 public interface IProductTypeService : IDisposable
 {
     Task<IEnumerable<ProductType>> GetAll();
+    Task<IEnumerable<ProductType>> GetAllBySubCategoryId(int subCategoryId);
+    Task<IEnumerable<ProductType>> GetAllByBrandId(int brandId);
     Task<ProductType> GetById(int id);
     Task<bool> Update(ProductTypeUpdateReq model, int id);
     Task<bool> Create(ProductTypeCreateReq id);

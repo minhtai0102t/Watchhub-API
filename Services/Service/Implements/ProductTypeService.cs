@@ -6,7 +6,6 @@ using Ecom_API.Helpers;
 using Isopoh.Cryptography.Argon2;
 using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
-
 namespace Ecom_API.Service
 {
     public class ProductTypeService : IProductTypeService
@@ -31,6 +30,14 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.ProductTypes.GetAllAsync();
         }
+        public async Task<IEnumerable<ProductType>> GetAllBySubCategoryId(int subCategoryId)
+        {
+            return await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.sub_category_id == subCategoryId);
+        }
+        public async Task<IEnumerable<ProductType>> GetAllByBrandId(int brandId)
+        {
+            return await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.brand_id == brandId);
+        }
         public async Task<ProductType> GetById(int id)
         {
             return await _unitOfWork.ProductTypes.GetByIdAsync(id);
@@ -47,8 +54,8 @@ namespace Ecom_API.Service
                 item.product_type_name = model.product_type_name;
                 item.price = model.price;
                 item.brand_id = model.brand_id;
-                item.sub_category_id = model.sub_category_id; 
-                
+                item.sub_category_id = model.sub_category_id;
+
                 await _unitOfWork.ProductTypes.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;
@@ -67,7 +74,7 @@ namespace Ecom_API.Service
 
             // map model to new user object
             var productType = _mapper.Map<ProductType>(model);
-            
+
             await _unitOfWork.ProductTypes.CreateAsync(productType);
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;

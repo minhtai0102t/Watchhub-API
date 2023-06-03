@@ -30,6 +30,9 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.SubCategories.GetAllAsync();
         }
+        public async Task<IEnumerable<SubCategory>> GetAllById(int categoryId){
+            return await _unitOfWork.SubCategories.FindAllWithCondition(c => c.category_id == categoryId);
+        }
         public async Task<SubCategory> GetById(int id)
         {
             return await _unitOfWork.SubCategories.GetByIdAsync(id);

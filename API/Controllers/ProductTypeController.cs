@@ -42,6 +42,23 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetAll();
         return Ok(res);
     }
+    [Authorize]
+    [HttpGet]
+    [Route("GetAllBySubCategoryId{subCategoryId}")]
+    public async Task<IActionResult> GetAllBySubCategoryId(int subCategoryId)
+    {
+        var res = await _productTypeService.GetAllBySubCategoryId(subCategoryId);
+        return Ok(res);
+    }
+    [Authorize]
+    [HttpGet]
+    [Route("GetAllByBrandId{brandId}")]
+    public async Task<IActionResult> GetAllBybrandId(int brandId)
+    {
+        var res = await _productTypeService.GetAllByBrandId(brandId);
+        return Ok(res);
+    }
+
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -74,9 +91,10 @@ public class ProductTypeController : ControllerBase
     [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
-    public async Task<IActionResult> SoftDelete(int id){
+    public async Task<IActionResult> SoftDelete(int id)
+    {
         var res = await _productTypeService.SoftDelete(id);
-         if (res)
+        if (res)
         {
             return Ok(new { message = "ProductType soft delete successful" });
         }
@@ -88,9 +106,10 @@ public class ProductTypeController : ControllerBase
     [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
-    public async Task<IActionResult> Delete(int id){
+    public async Task<IActionResult> Delete(int id)
+    {
         var res = await _productTypeService.Delete(id);
-         if (res)
+        if (res)
         {
             return Ok(new { message = "ProductType delete successful" });
         }

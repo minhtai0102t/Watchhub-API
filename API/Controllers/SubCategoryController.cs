@@ -43,6 +43,17 @@ public class SubCategoryController : ControllerBase
         return Ok(res);
     }
     /// <summary>
+    /// Get All by id
+    /// </summary>
+    [Authorize]
+    [HttpGet]
+    [Route("GetAllById{categoryId}")]
+    public async Task<IActionResult> GetAllById(int categoryId)
+    {
+        var res = await _subCategoryService.GetAllById(categoryId);
+        return Ok(res);
+    }
+    /// <summary>
     /// Get by id 
     /// </summary>
     [Authorize]
