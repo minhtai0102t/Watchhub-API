@@ -1,6 +1,7 @@
 using Ecom_API.Attributes;
 using Ecom_API.Authorization;
 using Ecom_API.DTO.Models;
+using Ecom_API.PagingModel;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,9 +38,9 @@ public class ProductTypeController : ControllerBase
     [Authorize]
     [HttpGet]
     [Route("GetAll")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters param)
     {
-        var res = await _productTypeService.GetAll();
+        var res = await _productTypeService.GetAll(param);
         return Ok(res);
     }
     [Authorize]

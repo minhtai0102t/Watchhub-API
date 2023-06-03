@@ -6,6 +6,11 @@ using Ecom_API.Helpers;
 using Isopoh.Cryptography.Argon2;
 using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
+<<<<<<< HEAD
+=======
+using Ecom_API.PagingModel;
+
+>>>>>>> feature/Pagination
 namespace Ecom_API.Service
 {
     public class ProductTypeService : IProductTypeService
@@ -26,10 +31,12 @@ namespace Ecom_API.Service
             _mapper = mapper;
             _cache = cache;
         }
-        public async Task<IEnumerable<ProductType>> GetAll()
+
+        public async Task<IEnumerable<ProductType>> GetAll(QueryStringParameters pagingParams)
         {
-            return await _unitOfWork.ProductTypes.GetAllAsync();
+            return await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
         }
+<<<<<<< HEAD
         public async Task<IEnumerable<ProductType>> GetAllBySubCategoryId(int subCategoryId)
         {
             return await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.sub_category_id == subCategoryId);
@@ -38,10 +45,14 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.brand_id == brandId);
         }
+=======
+
+>>>>>>> feature/Pagination
         public async Task<ProductType> GetById(int id)
         {
             return await _unitOfWork.ProductTypes.GetByIdAsync(id);
         }
+
         public async Task<bool> Update(ProductTypeUpdateReq model, int id)
         {
             try
