@@ -46,7 +46,6 @@ namespace EBird.Application.Model.PagingModel
                                 .ToListAsync();
             this.AddRange(items);
         }
-
         public async Task LoadData(IQueryable<T> queryList)
         {
             int count = queryList.Count();

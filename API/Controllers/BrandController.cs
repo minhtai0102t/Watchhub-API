@@ -16,7 +16,7 @@ public class BrandController : ControllerBase
     /// <summary>
     /// Create
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpPost]
     [Route("Create")]
     public async Task<IActionResult> Create(BrandCreateReq obj)
@@ -34,7 +34,7 @@ public class BrandController : ControllerBase
     /// <summary>
     /// Get All
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll()
@@ -45,7 +45,7 @@ public class BrandController : ControllerBase
     /// <summary>
     /// Get by id 
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
@@ -56,7 +56,7 @@ public class BrandController : ControllerBase
     /// <summary>
     /// Get by id 
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpPut]
     [Route("Update{id}")]
     public async Task<IActionResult> Update(BrandUpdateReq obj, int id)
@@ -71,7 +71,7 @@ public class BrandController : ControllerBase
             return BadRequest(new { message = "Brand update failed" });
         }
     }
-    [Authorize]
+    // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id){
@@ -85,7 +85,7 @@ public class BrandController : ControllerBase
             return BadRequest(new { message = "Brand soft delete failed" });
         }
     }
-    [Authorize]
+    // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
     public async Task<IActionResult> Delete(int id){

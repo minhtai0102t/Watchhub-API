@@ -15,7 +15,7 @@ public class ProductImageController : ControllerBase
     /// <summary>
     /// Create
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpPost]
     [Route("Create")]
     public async Task<IActionResult> Create(ProductImageCreateReq obj)
@@ -33,7 +33,7 @@ public class ProductImageController : ControllerBase
     /// <summary>
     /// Get All
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll()
@@ -44,7 +44,7 @@ public class ProductImageController : ControllerBase
     /// <summary>
     /// Get by id 
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
@@ -52,7 +52,7 @@ public class ProductImageController : ControllerBase
         var res = await _productImageService.GetById(id);
         return Ok(res);
     }
-    [Authorize]
+    // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id)
@@ -67,7 +67,7 @@ public class ProductImageController : ControllerBase
             return BadRequest(new { message = "ProductImage soft delete failed" });
         }
     }
-    [Authorize]
+    // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
     public async Task<IActionResult> Delete(int id)

@@ -1,40 +1,38 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Workplace\\Watchhub-API\\API\\API.csproj": {}
+    "/Users/toddpham12/Watchhub-API/API/API.csproj": {}
   },
   "projects": {
-    "D:\\Workplace\\Watchhub-API\\API\\API.csproj": {
+    "/Users/toddpham12/Watchhub-API/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Workplace\\Watchhub-API\\API\\API.csproj",
+        "projectUniqueName": "/Users/toddpham12/Watchhub-API/API/API.csproj",
         "projectName": "Ecom-API",
-        "projectPath": "D:\\Workplace\\Watchhub-API\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\Workplace\\Watchhub-API\\API\\obj\\",
+        "projectPath": "/Users/toddpham12/Watchhub-API/API/API.csproj",
+        "packagesPath": "/Users/toddpham12/.nuget/packages/",
+        "outputPath": "/Users/toddpham12/Watchhub-API/API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/sdk/7.0.302/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "http://nexus.concung.io:8081/repository/nuget-release/index.json": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.ingress.concung.io": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
-                "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj"
+              "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj": {
+                "projectPath": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj"
               },
-              "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj": {
-                "projectPath": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj"
+              "/Users/toddpham12/Watchhub-API/Services/Services.csproj": {
+                "projectPath": "/Users/toddpham12/Watchhub-API/Services/Services.csproj"
               }
             }
           }
@@ -81,31 +79,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
+    "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj",
+        "projectUniqueName": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj",
         "projectName": "DTO",
-        "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj",
-        "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\Workplace\\Watchhub-API\\DTO\\obj\\",
+        "projectPath": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj",
+        "packagesPath": "/Users/toddpham12/.nuget/packages/",
+        "outputPath": "/Users/toddpham12/Watchhub-API/DTO/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "http://nexus.concung.io:8081/repository/nuget-release/index.json": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.ingress.concung.io": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -168,38 +163,35 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj": {
+    "/Users/toddpham12/Watchhub-API/Services/Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj",
+        "projectUniqueName": "/Users/toddpham12/Watchhub-API/Services/Services.csproj",
         "projectName": "Services",
-        "projectPath": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj",
-        "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\Workplace\\Watchhub-API\\Services\\obj\\",
+        "projectPath": "/Users/toddpham12/Watchhub-API/Services/Services.csproj",
+        "packagesPath": "/Users/toddpham12/.nuget/packages/",
+        "outputPath": "/Users/toddpham12/Watchhub-API/Services/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "http://nexus.concung.io:8081/repository/nuget-release/index.json": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.ingress.concung.io": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
-                "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj"
+              "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj": {
+                "projectPath": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj"
               }
             }
           }
@@ -247,7 +239,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
         }
       }
     }

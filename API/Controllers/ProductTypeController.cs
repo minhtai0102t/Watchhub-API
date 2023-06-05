@@ -17,7 +17,7 @@ public class ProductTypeController : ControllerBase
     /// <summary>
     /// Create
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpPost]
     [Route("Create")]
     public async Task<IActionResult> Create(ProductTypeCreateReq obj)
@@ -35,35 +35,54 @@ public class ProductTypeController : ControllerBase
     /// <summary>
     /// Get All
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters param)
     {
         var res = await _productTypeService.GetAll(param);
-        return Ok(res);
+        var response = new { res, res.TotalCount };
+        return Ok(response);
     }
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetAllBySubCategoryId{subCategoryId}")]
-    public async Task<IActionResult> GetAllBySubCategoryId(int subCategoryId)
+    public async Task<IActionResult> GetAllBySubCategoryId([FromQuery] QueryStringParameters param, int subCategoryId)
     {
-        var res = await _productTypeService.GetAllBySubCategoryId(subCategoryId);
-        return Ok(res);
+        var res = await _productTypeService.GetAllBySubCategoryIdPaging(param, subCategoryId);
+        var TotalCount = res.Count();
+        return Ok(new { res, TotalCount });
     }
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetAllByBrandId{brandId}")]
-    public async Task<IActionResult> GetAllBybrandId(int brandId)
+    public async Task<IActionResult> GetAllBybrandId([FromQuery] QueryStringParameters param, int brandId)
     {
-        var res = await _productTypeService.GetAllByBrandId(brandId);
-        return Ok(res);
+        var res = await _productTypeService.GetAllByBrandIdPaging(param, brandId);
+        var TotalCount = res.Count();
+        return Ok(new { res, TotalCount });
+    }
+    // [Authorize]
+    [HttpGet]
+    [Route("GetTotalBySubCategoryId{subCategoryId}")]
+    public async Task<IActionResult> GetTotalBySubCategoryId(int subCategoryId)
+    {
+        var res = await _productTypeService.GetTotalBySubCategoryId(subCategoryId);
+        return Ok(new { total = res });
+    }
+    // [Authorize]
+    [HttpGet]
+    [Route("GetTotalByBrandId{brandId}")]
+    public async Task<IActionResult> GetTotalBybrandId(int brandId)
+    {
+        var res = await _productTypeService.GetTotalByBrandId(brandId);
+        return Ok(new { total = res });
     }
 
     /// <summary>
     /// Get by id 
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
@@ -74,7 +93,7 @@ public class ProductTypeController : ControllerBase
     /// <summary>
     /// Get by id 
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpPut]
     [Route("Update{id}")]
     public async Task<IActionResult> Update(ProductTypeUpdateReq obj, int id)
@@ -89,7 +108,7 @@ public class ProductTypeController : ControllerBase
             return BadRequest(new { message = "ProductType update failed" });
         }
     }
-    [Authorize]
+    // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id)
@@ -104,7 +123,7 @@ public class ProductTypeController : ControllerBase
             return BadRequest(new { message = "ProductType soft delete failed" });
         }
     }
-    [Authorize]
+    // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
     public async Task<IActionResult> Delete(int id)

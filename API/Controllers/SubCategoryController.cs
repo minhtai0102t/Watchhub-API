@@ -16,7 +16,7 @@ public class SubCategoryController : ControllerBase
     /// <summary>
     /// Create
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpPost]
     [Route("Create")]
     public async Task<IActionResult> Create(SubCategoryCreateReq obj)
@@ -34,7 +34,7 @@ public class SubCategoryController : ControllerBase
     /// <summary>
     /// Get All
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll()
@@ -45,7 +45,7 @@ public class SubCategoryController : ControllerBase
     /// <summary>
     /// Get All by id
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetAllById{categoryId}")]
     public async Task<IActionResult> GetAllById(int categoryId)
@@ -56,7 +56,7 @@ public class SubCategoryController : ControllerBase
     /// <summary>
     /// Get by id 
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpGet]
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
@@ -67,7 +67,7 @@ public class SubCategoryController : ControllerBase
     /// <summary>
     /// Get by id 
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [HttpPut]
     [Route("Update{id}")]
     public async Task<IActionResult> Update(SubCategoryUpdateReq obj, int id)
@@ -82,7 +82,7 @@ public class SubCategoryController : ControllerBase
             return BadRequest(new { message = "SubCategory update failed" });
         }
     }
-    [Authorize]
+    // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id){
@@ -96,7 +96,7 @@ public class SubCategoryController : ControllerBase
             return BadRequest(new { message = "SubCategory soft delete failed" });
         }
     }
-    [Authorize]
+    // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
     public async Task<IActionResult> Delete(int id){

@@ -22,7 +22,7 @@ namespace Services.Repositories
         public async Task DeleteAsync(int id)
         {
             T _entity = await GetByIdAsync(id);
-            if(_entity != null)
+            if (_entity != null)
             {
                 dbSet.Remove(_entity);
             }
@@ -30,7 +30,7 @@ namespace Services.Repositories
         public async Task SoftDeleteAsync(int id)
         {
             T _entity = await GetByIdAsync(id);
-            if(_entity != null)
+            if (_entity != null)
             {
                 _entity.is_deleted = true;
                 await UpdateAsync(_entity);
@@ -62,7 +62,7 @@ namespace Services.Repositories
         {
             List<T> list;
             var query = dbSet.AsQueryable();
-            foreach(var property in navigationProperties)
+            foreach (var property in navigationProperties)
             {
                 query = query.Include(property);
             }
@@ -78,13 +78,13 @@ namespace Services.Repositories
         private IQueryable<T> ApplyNavigation(params string[] navigationProperties)
         {
             var query = dbSet.AsQueryable();
-            foreach(string navigationProperty in navigationProperties)
+            foreach (string navigationProperty in navigationProperties)
                 query = query.Include(navigationProperty);
             return query;
         }
         public async Task<IEnumerable<T>> FindAllWithCondition(Expression<Func<T, bool>> predicate = null)
         {
-            if(predicate == null)
+            if (predicate == null)
             {
                 return await dbSet.AsNoTracking().ToListAsync();
             }
@@ -107,7 +107,7 @@ namespace Services.Repositories
         {
             PagedList<T> pagedRequests = new PagedList<T>();
 
-            if(pagingParams.PageSize == 0)
+            if (pagingParams.PageSize == 0)
             {
                 await pagedRequests.LoadData(dataQuery);
             }
@@ -119,6 +119,5 @@ namespace Services.Repositories
             return pagedRequests;
 
         }
-
     }
 }

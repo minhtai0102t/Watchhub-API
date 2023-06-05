@@ -3,10 +3,10 @@ using Ecom_API.Authorization;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
-using Isopoh.Cryptography.Argon2;
 using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
 using Ecom_API.PagingModel;
+using EBird.Application.Model.PagingModel;
 
 namespace Ecom_API.Service
 {
@@ -29,18 +29,46 @@ namespace Ecom_API.Service
             _cache = cache;
         }
 
-        public async Task<IEnumerable<ProductType>> GetAll(QueryStringParameters pagingParams)
+        public async Task<PagedList<ProductType>> GetAll(QueryStringParameters pagingParams)
         {
             return await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
         }
 
-        public async Task<IEnumerable<ProductType>> GetAllBySubCategoryId(int subCategoryId)
+        public async Task<IEnumerable<ProductType>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
-            return await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.sub_category_id == subCategoryId);
+            var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
+            var result = new List<ProductType>();
+            foreach (var item in items)
+            {
+                if (item.sub_category_id == subCategoryId)
+                {
+                    result.Add(item);
+                }
+            }
+            return result;
         }
-        public async Task<IEnumerable<ProductType>> GetAllByBrandId(int brandId)
+        public async Task<int> GetTotalBySubCategoryId(int subCategoryId)
         {
-            return await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.brand_id == brandId);
+            var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.sub_category_id == subCategoryId);
+            return items.Count();
+        }
+        public async Task<IEnumerable<ProductType>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
+        {
+            var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
+            var result = new List<ProductType>();
+            foreach (var item in items)
+            {
+                if (item.brand_id == brandId)
+                {
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
+        public async Task<int> GetTotalByBrandId(int brandId)
+        {
+            var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.brand_id == brandId);
+            return items.Count();
         }
         public async Task<ProductType> GetById(int id)
         {
