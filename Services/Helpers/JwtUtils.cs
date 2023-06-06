@@ -36,6 +36,8 @@ public class JwtUtils : IJwtUtils
         claimIdentity.AddClaim(new Claim("avatar", user.avatar == null ? "" : user.avatar));
         claimIdentity.AddClaim(new Claim("phone", user.phone == null ? "" : user.phone));
         claimIdentity.AddClaim(new Claim("created_date", user.created_date.ToString()));
+        claimIdentity.AddClaim(new Claim("is_verified", user.is_verified.ToString()));
+        claimIdentity.AddClaim(new Claim("is_admin", user.is_admin.ToString()));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = claimIdentity,

@@ -41,7 +41,8 @@ public class ProductTypeController : ControllerBase
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters param)
     {
         var res = await _productTypeService.GetAll(param);
-        var response = new { res, res.TotalCount };
+        var TotalCount = res.Count();
+        var response = new { res, TotalCount };
         return Ok(response);
     }
     // [Authorize]

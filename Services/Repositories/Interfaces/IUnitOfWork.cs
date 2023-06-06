@@ -7,7 +7,6 @@
         public ISubCategoryRepository SubCategories { get; }
         public IBrandRepository Brands { get; }
         public IProductTypeRepository ProductTypes { get; }
-        public IProductImageRepository ProductImages { get; }
         public Task<int> SaveChangesAsync();
     }
 }

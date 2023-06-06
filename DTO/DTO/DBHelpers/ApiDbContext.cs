@@ -21,7 +21,6 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<User>();
             modelBuilder.Entity<SubCategory>();
             modelBuilder.Entity<ProductType>();
-            modelBuilder.Entity<ProductImage>();
             modelBuilder.Entity<ProductFeedback>();
             modelBuilder.Entity<Product>();
             modelBuilder.Entity<PaymentMethod>();

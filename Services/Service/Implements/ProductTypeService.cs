@@ -29,20 +29,81 @@ namespace Ecom_API.Service
             _cache = cache;
         }
 
-        public async Task<PagedList<ProductType>> GetAll(QueryStringParameters pagingParams)
+        public async Task<PagedList<ProductTypeFullRes>> GetAll(QueryStringParameters pagingParams)
         {
-            return await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
+            var result = new PagedList<ProductTypeFullRes>();
+            var listRes = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
+            foreach (var item in listRes)
+            {
+                var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
+                var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+                result.Add(new ProductTypeFullRes
+                {
+                    product_type_name = item.product_type_name,
+                    quantity = item.quantity,
+                    price = item.price,
+                    product_image_uuid = item.product_image_uuid,
+                    brand_id = brand.id,
+                    brand_name = brand.brand_name,
+                    brand_logo = brand.brand_logo,
+                    sub_category_id = subCategory.id,
+                    sub_category_name = subCategory.sub_category_name,
+                    product_feedback_ids = item.product_feedback_ids
+                });
+            }
+            return result;
         }
 
-        public async Task<IEnumerable<ProductType>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
+        public async Task<IEnumerable<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
             var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
-            var result = new List<ProductType>();
+            var result = new List<ProductTypeFullRes>();
             foreach (var item in items)
             {
                 if (item.sub_category_id == subCategoryId)
                 {
-                    result.Add(item);
+                    var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
+                    var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+                    result.Add(new ProductTypeFullRes
+                    {
+                        product_type_name = item.product_type_name,
+                        quantity = item.quantity,
+                        price = item.price,
+                        product_image_uuid = item.product_image_uuid,
+                        brand_id = brand.id,
+                        brand_name = brand.brand_name,
+                        brand_logo = brand.brand_logo,
+                        sub_category_id = subCategory.id,
+                        sub_category_name = subCategory.sub_category_name,
+                        product_feedback_ids = item.product_feedback_ids
+                    });
+                }
+            }
+            return result;
+        }
+        public async Task<IEnumerable<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
+        {
+            var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
+            var result = new List<ProductTypeFullRes>();
+            foreach (var item in items)
+            {
+                if (item.brand_id == brandId)
+                {
+                    var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
+                    var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+                    result.Add(new ProductTypeFullRes
+                    {
+                        product_type_name = item.product_type_name,
+                        quantity = item.quantity,
+                        price = item.price,
+                        product_image_uuid = item.product_image_uuid,
+                        brand_id = brand.id,
+                        brand_name = brand.brand_name,
+                        brand_logo = brand.brand_logo,
+                        sub_category_id = subCategory.id,
+                        sub_category_name = subCategory.sub_category_name,
+                        product_feedback_ids = item.product_feedback_ids
+                    });
                 }
             }
             return result;
@@ -51,19 +112,6 @@ namespace Ecom_API.Service
         {
             var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.sub_category_id == subCategoryId);
             return items.Count();
-        }
-        public async Task<IEnumerable<ProductType>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
-        {
-            var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
-            var result = new List<ProductType>();
-            foreach (var item in items)
-            {
-                if (item.brand_id == brandId)
-                {
-                    result.Add(item);
-                }
-            }
-            return result;
         }
         public async Task<int> GetTotalByBrandId(int brandId)
         {
