@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,6 +45,18 @@ namespace EBird.Application.Model.PagingModel
                                 .Skip((pageNumber - 1) * pageSize)
                                 .Take(pageSize)
                                 .ToListAsync();
+            this.AddRange(items);
+        }
+        public async Task LoadData(IQueryable<T> queryList, int pageNumber, int pageSize, Expression<Func<T, bool>> predicate)
+        {
+            this.PageSize = pageSize;
+            this.CurrentPage = pageNumber;
+            var items = await queryList.Where(predicate).ToListAsync();
+            var count = items.Count();
+            this.TotalCount = count;
+            this.TotalPages = (int) Math.Ceiling(count / (double) pageSize);
+            items = items.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                                
             this.AddRange(items);
         }
         public async Task LoadData(IQueryable<T> queryList)

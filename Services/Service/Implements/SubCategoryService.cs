@@ -5,6 +5,8 @@ using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
 using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
+using Ecom_API.PagingModel;
+using EBird.Application.Model.PagingModel;
 
 namespace Ecom_API.Service
 {
@@ -26,12 +28,13 @@ namespace Ecom_API.Service
             _mapper = mapper;
             _cache = cache;
         }
-        public async Task<IEnumerable<SubCategory>> GetAll()
+        public async Task<PagedList<SubCategory>> GetAll(QueryStringParameters query)
         {
-            return await _unitOfWork.SubCategories.GetAllAsync();
+            return await _unitOfWork.SubCategories.GetAllWithPaging(query);
         }
-        public async Task<IEnumerable<SubCategory>> GetAllById(int categoryId){
-            return await _unitOfWork.SubCategories.FindAllWithCondition(c => c.category_id == categoryId);
+        public async Task<PagedList<SubCategory>> GetAllById(QueryStringParameters query, int categoryId)
+        {
+            return await _unitOfWork.SubCategories.GetAllWithPaging(query, c => c.category_id == categoryId);
         }
         public async Task<SubCategory> GetById(int id)
         {

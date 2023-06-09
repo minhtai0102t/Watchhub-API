@@ -6,6 +6,8 @@ using Ecom_API.Helpers;
 using Isopoh.Cryptography.Argon2;
 using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
+using Ecom_API.PagingModel;
+using EBird.Application.Model.PagingModel;
 
 namespace Ecom_API.Service
 {
@@ -27,9 +29,9 @@ namespace Ecom_API.Service
             _mapper = mapper;
             _cache = cache;
         }
-        public async Task<IEnumerable<Category>> GetAll()
+        public async Task<PagedList<Category>> GetAll(QueryStringParameters query)
         {
-            return await _unitOfWork.Categories.GetAllAsync();
+            return await _unitOfWork.Categories.GetAllWithPaging(query);
         }
         public async Task<Category> GetById(int id)
         {
@@ -44,8 +46,13 @@ namespace Ecom_API.Service
                 {
                     throw new AppException("category " + id + " does not exist");
                 }
+                else{
+                    var name = await _unitOfWork.Categories.FindAllWithCondition(c => c.category_name == model.category_name);
+                    if(name.Any()){
+                        throw new AppException("category " + model.category_name + " is already exist");
+                    }
+                }
                 item.category_name = model.category_name;
-
                 await _unitOfWork.Categories.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;
@@ -58,7 +65,7 @@ namespace Ecom_API.Service
         }
         public async Task<bool> Create(CategoryCreateReq model)
         {
-            var validate = await _unitOfWork.Categories.FindWithCondition(c => c.category_name == model.category_name);
+            var validate = await _unitOfWork.Categories.FindWithCondition(c => c.category_name.ToLower() == model.category_name.ToLower());
             if (validate != null)
                 throw new AppException("category_name '" + model.category_name + "' is already existed in system");
 

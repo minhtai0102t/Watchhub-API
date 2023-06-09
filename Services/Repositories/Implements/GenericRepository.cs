@@ -119,5 +119,21 @@ namespace Services.Repositories
             return pagedRequests;
 
         }
+        public async Task<PagedList<T>> GetWithPaging(IQueryable<T> dataQuery, QueryStringParameters pagingParams, Expression<Func<T, bool>> predicate)
+        {
+            PagedList<T> pagedRequests = new PagedList<T>();
+
+            if (pagingParams.PageSize == 0)
+            {
+                await pagedRequests.LoadData(dataQuery);
+            }
+            else
+            {
+                await pagedRequests.LoadData(dataQuery, pagingParams.PageNumber, pagingParams.PageSize, predicate);
+            }
+
+            return pagedRequests;
+
+        }
     }
 }

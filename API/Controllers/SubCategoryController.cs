@@ -1,6 +1,7 @@
 using Ecom_API.Attributes;
 using Ecom_API.Authorization;
 using Ecom_API.DTO.Models;
+using Ecom_API.PagingModel;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,10 +38,11 @@ public class SubCategoryController : ControllerBase
     // [Authorize]
     [HttpGet]
     [Route("GetAll")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)
     {
-        var res = await _subCategoryService.GetAll();
-        return Ok(res);
+        var res = await _subCategoryService.GetAll(query);
+        var response = new { res, res.TotalCount };
+        return Ok(response);
     }
     /// <summary>
     /// Get All by id
@@ -48,10 +50,11 @@ public class SubCategoryController : ControllerBase
     // [Authorize]
     [HttpGet]
     [Route("GetAllById{categoryId}")]
-    public async Task<IActionResult> GetAllById(int categoryId)
+    public async Task<IActionResult> GetAllById([FromQuery] QueryStringParameters query, int categoryId)
     {
-        var res = await _subCategoryService.GetAllById(categoryId);
-        return Ok(res);
+        var res = await _subCategoryService.GetAllById(query, categoryId);
+        var response = new { res, res.TotalCount };
+        return Ok(response);
     }
     /// <summary>
     /// Get by id 

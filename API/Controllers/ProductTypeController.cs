@@ -41,9 +41,7 @@ public class ProductTypeController : ControllerBase
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters param)
     {
         var res = await _productTypeService.GetAll(param);
-        var TotalCount = res.Count();
-        var response = new { res, TotalCount };
-        return Ok(response);
+        return Ok(new { res, res.TotalCount });
     }
     // [Authorize]
     [HttpGet]
@@ -51,8 +49,7 @@ public class ProductTypeController : ControllerBase
     public async Task<IActionResult> GetAllBySubCategoryId([FromQuery] QueryStringParameters param, int subCategoryId)
     {
         var res = await _productTypeService.GetAllBySubCategoryIdPaging(param, subCategoryId);
-        var TotalCount = res.Count();
-        return Ok(new { res, TotalCount });
+        return Ok(new { res, res.TotalCount });
     }
     // [Authorize]
     [HttpGet]
@@ -60,8 +57,7 @@ public class ProductTypeController : ControllerBase
     public async Task<IActionResult> GetAllBybrandId([FromQuery] QueryStringParameters param, int brandId)
     {
         var res = await _productTypeService.GetAllByBrandIdPaging(param, brandId);
-        var TotalCount = res.Count();
-        return Ok(new { res, TotalCount });
+        return Ok(new { res, res.TotalCount });
     }
     // [Authorize]
     [HttpGet]

@@ -10,8 +10,8 @@ public interface IProductTypeService : IDisposable
 {
     //Task<IEnumerable<ProductType>> GetAll();
     Task<PagedList<ProductTypeFullRes>> GetAll(QueryStringParameters pagingParams);
-    Task<IEnumerable<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId);
-    Task<IEnumerable<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId);
+    Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId);
+    Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId);
     Task<int> GetTotalBySubCategoryId(int subCategoryId);
     Task<int> GetTotalByBrandId(int brandId);
     Task<ProductType> GetById(int id);

@@ -1,6 +1,7 @@
 using Ecom_API.Attributes;
 using Ecom_API.Authorization;
 using Ecom_API.DTO.Models;
+using Ecom_API.PagingModel;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,10 +38,11 @@ public class CategoryController : ControllerBase
     // [Authorize]
     [HttpGet]
     [Route("GetAll")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)
     {
-        var res = await _categoryService.GetAll();
-        return Ok(res);
+        var res = await _categoryService.GetAll(query);
+        var response = new { res, res.TotalCount };
+        return Ok(response);
     }
     /// <summary>
     /// Get by id 
@@ -74,9 +76,10 @@ public class CategoryController : ControllerBase
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
-    public async Task<IActionResult> SoftDelete(int id){
+    public async Task<IActionResult> SoftDelete(int id)
+    {
         var res = await _categoryService.SoftDelete(id);
-         if (res)
+        if (res)
         {
             return Ok(new { message = "Category soft delete successful" });
         }
@@ -88,9 +91,10 @@ public class CategoryController : ControllerBase
     // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
-    public async Task<IActionResult> Delete(int id){
+    public async Task<IActionResult> Delete(int id)
+    {
         var res = await _categoryService.Delete(id);
-         if (res)
+        if (res)
         {
             return Ok(new { message = "Category delete successful" });
         }

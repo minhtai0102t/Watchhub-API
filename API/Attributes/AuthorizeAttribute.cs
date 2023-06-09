@@ -9,6 +9,10 @@ namespace Ecom_API.Attributes
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
+        private bool _isAdmin {get; set;}
+        public AuthorizeAttribute(bool authorizeAction = false){
+            _isAdmin = authorizeAction;
+        }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             // skip authorization if action is decorated with [AllowAnonymous] attribute
@@ -31,9 +35,17 @@ namespace Ecom_API.Attributes
             if (user == null)
             {
                 var jsonCreateReq = new { message = "Unauthorized" };
-                context.Result = new JsonResult(jsonCreateReq) {StatusCode = StatusCodes.Status401Unauthorized};
+                context.Result = new JsonResult(jsonCreateReq) { StatusCode = StatusCodes.Status401Unauthorized };
+            }
+            else{
+                // permission denied
+                if(_isAdmin && !user.is_admin){
+                    var jsonCreateReq = new { message = "Permission Denied" };
+                    context.Result = new JsonResult(jsonCreateReq) { StatusCode = StatusCodes.Status403Forbidden };
+                }
             }
         }
     }
+
 }
 

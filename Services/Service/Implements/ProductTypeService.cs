@@ -51,13 +51,14 @@ namespace Ecom_API.Service
                     product_feedback_ids = item.product_feedback_ids
                 });
             }
+            result.TotalCount = listRes.TotalCount;
             return result;
         }
 
-        public async Task<IEnumerable<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
+        public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
             var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
-            var result = new List<ProductTypeFullRes>();
+            var result = new PagedList<ProductTypeFullRes>();
             foreach (var item in items)
             {
                 if (item.sub_category_id == subCategoryId)
@@ -79,12 +80,13 @@ namespace Ecom_API.Service
                     });
                 }
             }
+            result.TotalCount = items.TotalCount;
             return result;
         }
-        public async Task<IEnumerable<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
+        public async Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
         {
             var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
-            var result = new List<ProductTypeFullRes>();
+            var result = new PagedList<ProductTypeFullRes>();
             foreach (var item in items)
             {
                 if (item.brand_id == brandId)
@@ -106,6 +108,7 @@ namespace Ecom_API.Service
                     });
                 }
             }
+            result.TotalCount = items.TotalCount;
             return result;
         }
         public async Task<int> GetTotalBySubCategoryId(int subCategoryId)

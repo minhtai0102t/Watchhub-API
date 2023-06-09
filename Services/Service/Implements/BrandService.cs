@@ -6,6 +6,8 @@ using Ecom_API.Helpers;
 using Isopoh.Cryptography.Argon2;
 using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
+using Ecom_API.PagingModel;
+using EBird.Application.Model.PagingModel;
 
 namespace Ecom_API.Service
 {
@@ -27,9 +29,9 @@ namespace Ecom_API.Service
             _mapper = mapper;
             _cache = cache;
         }
-        public async Task<IEnumerable<Brand>> GetAll()
+        public async Task<PagedList<Brand>> GetAll(QueryStringParameters query)
         {
-            return await _unitOfWork.Brands.GetAllAsync();
+            return await _unitOfWork.Brands.GetAllWithPaging(query);
         }
         public async Task<Brand> GetById(int id)
         {
