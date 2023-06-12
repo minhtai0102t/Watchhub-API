@@ -48,9 +48,9 @@ namespace Ecom_API.Service
                     throw new AppException("brand " + id + " does not exist");
                 }
                 else{
-                    var name = await _unitOfWork.Brands.FindAllWithCondition(c => c.brand_name == model.brand_name);
+                    var name = await _unitOfWork.Brands.FindAllWithCondition(c => c.brand_name == model.brand_name && c.brand_logo == model.brand_logo);
                     if(name.Any()){
-                        throw new AppException("category " + model.brand_name + " is already exist");
+                        throw new AppException("brand " + model.brand_name + " is already exist");
                     }
                 }
                 item.brand_name = model.brand_name;

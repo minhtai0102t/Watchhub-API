@@ -17,7 +17,6 @@ public class ProductCoreController : ControllerBase
     /// <summary>
     /// Create
     /// </summary>
-    [Authorize]
     [HttpPost]
     [Route("Create")]
     public async Task<IActionResult> Create(ProductCoreCreateReq obj)
@@ -35,7 +34,6 @@ public class ProductCoreController : ControllerBase
     /// <summary>
     /// Get All
     /// </summary>
-    // [Authorize]
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)
@@ -47,7 +45,6 @@ public class ProductCoreController : ControllerBase
     /// <summary>
     /// Get by id 
     /// </summary>
-    // [Authorize]
     [HttpGet]
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
@@ -58,7 +55,6 @@ public class ProductCoreController : ControllerBase
     /// <summary>
     /// Get by id 
     /// </summary>
-    // [Authorize]
     [HttpPut]
     [Route("Update{id}")]
     public async Task<IActionResult> Update(ProductCoreCreateReq obj, int id)
@@ -73,7 +69,6 @@ public class ProductCoreController : ControllerBase
             return BadRequest(new { message = "ProductCore update failed" });
         }
     }
-    // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id)
@@ -88,7 +83,6 @@ public class ProductCoreController : ControllerBase
             return BadRequest(new { message = "ProductCore soft delete failed" });
         }
     }
-    // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
     public async Task<IActionResult> Delete(int id)

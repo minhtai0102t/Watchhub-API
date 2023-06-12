@@ -18,7 +18,7 @@ namespace Ecom_API.DBHelpers
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>();
+            modelBuilder.Entity<User>().Property(c => c.created_date).HasDefaultValue(DateTime.Now.ToUniversalTime());
             modelBuilder.Entity<SubCategory>();
             modelBuilder.Entity<ProductType>();
             modelBuilder.Entity<ProductFeedback>();

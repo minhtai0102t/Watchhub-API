@@ -7,7 +7,7 @@ namespace Ecom_API.DTO.Entities
     public class ProductAlbert : BaseEntity
     {
         [Required]
-        public string albert_name;
+    public string albert_name { get; set; }
     }
 }
 

@@ -7,7 +7,7 @@ namespace Ecom_API.DTO.Entities
     public class ProductCore : BaseEntity
     {
         [Required]
-        public string core_name;
+        public string core_name { get; set; }
     }
 }
 

@@ -3,6 +3,7 @@
 using AutoMapper;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
+using global::DTO.DTO.Models.Request;
 
 public class AutoMapperProfile : Profile
 {
@@ -13,8 +14,12 @@ public class AutoMapperProfile : Profile
         CreateMap<CategoryCreateReq, Category>();
         CreateMap<SubCategoryCreateReq, SubCategory>();
         CreateMap<BrandCreateReq, Brand>();
-         CreateMap<ProductTypeCreateReq, ProductType>();
-         // GoogleUser -> User
+        CreateMap<ProductAlbertCreateReq, ProductAlbert>();
+        CreateMap<ProductCoreCreateReq, ProductCore>();
+        CreateMap<ProductGlassCreateReq, ProductGlass>();
+        CreateMap<ProductTypeCreateReq, ProductType>();
+        CreateMap<ProductCreateReq, Product>();
+        // GoogleUser -> User
         CreateMap<GoogleUser, User>().ReverseMap();
         // UpdateRequest -> User
         CreateMap<UserUpdateReq, User>()

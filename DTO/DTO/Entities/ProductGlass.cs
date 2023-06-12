@@ -7,7 +7,7 @@ namespace Ecom_API.DTO.Entities
     public class ProductGlass : BaseEntity
     {
         [Required]
-        public string glass_name;   
+        public string glass_name { get; set; }   
     }
 }
 

@@ -15,10 +15,10 @@ namespace Services.Repositories
 
         public async Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams)
         {
-           var dataQuery = dbSet.AsNoTracking();
+            var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams);
         }
-         public async Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate)
+        public async Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate)
         {
             var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams, predicate);

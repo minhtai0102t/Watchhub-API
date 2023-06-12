@@ -7,7 +7,8 @@
         public ISubCategoryRepository SubCategories { get; }
         public IBrandRepository Brands { get; }
         public IProductTypeRepository ProductTypes { get; }
-        // public IProductAlbertRepository ProductAlberts { get; }
+        public IProductRepository Products { get; }
+        public IProductAlbertRepository ProductAlberts { get; }
         public IProductCoreRepository ProductCores { get; }
         public IProductGlassRepository ProductGlasses { get; }
         public Task<int> SaveChangesAsync();

@@ -295,17 +295,41 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("product_additional_information")
+                        .HasColumnType("text");
+
                     b.Property<int>("product_albert_id")
                         .HasColumnType("integer");
 
                     b.Property<int>("product_core_id")
                         .HasColumnType("integer");
 
+                    b.Property<string>("product_dial_color")
+                        .HasColumnType("text");
+
+                    b.Property<string>("product_dial_height")
+                        .HasColumnType("text");
+
+                    b.Property<string>("product_dial_width")
+                        .HasColumnType("text");
+
+                    b.Property<string>("product_features")
+                        .HasColumnType("text");
+
                     b.Property<int>("product_glass_id")
                         .HasColumnType("integer");
 
+                    b.Property<string>("product_guarantee")
+                        .HasColumnType("text");
+
+                    b.Property<string>("product_source")
+                        .HasColumnType("text");
+
                     b.Property<int>("product_type_id")
                         .HasColumnType("integer");
+
+                    b.Property<string>("product_waterproof")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("updated_date")
                         .HasColumnType("timestamp with time zone");
@@ -324,10 +348,11 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<string>("albert_name")
-                    .HasColumnType("text");
-
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("albert_name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("created_date")
                         .HasColumnType("timestamp with time zone");
@@ -355,9 +380,11 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<string>("core_name")
-                    .HasColumnType("text");
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("core_name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("created_date")
                         .HasColumnType("timestamp with time zone");
@@ -424,9 +451,6 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<string>("glass_name")
-                    .HasColumnType("text");
-
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<DateTime>("created_date")
@@ -434,6 +458,10 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.Property<int>("created_user")
                         .HasColumnType("integer");
+
+                    b.Property<string>("glass_name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("boolean");
@@ -562,7 +590,9 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<DateTime>("created_date")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValue(new DateTime(2023, 6, 12, 3, 4, 42, 735, DateTimeKind.Utc).AddTicks(1996));
 
                     b.Property<int>("created_user")
                         .HasColumnType("integer");

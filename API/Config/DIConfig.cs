@@ -5,7 +5,7 @@ using Services.Repositories;
 
 namespace Ecom_API.Config
 {
-    public static class DIConfig 
+    public static class DIConfig
     {
         public static void DIConfiguration(this IServiceCollection service)
         {
@@ -16,9 +16,10 @@ namespace Ecom_API.Config
             service.AddScoped<ISubCategoryService, SubCategoryService>();
             service.AddScoped<IBrandService, BrandService>();
             service.AddScoped<IProductTypeService, ProductTypeService>();
-            // service.AddScoped<IProductAlbertService, ProductAlbertService>();
+            service.AddScoped<IProductAlbertService, ProductAlbertService>();
             service.AddScoped<IProductCoreService, ProductCoreService>();
             service.AddScoped<IProductGlassService, ProductGlassService>();
+            service.AddScoped<IProductService, ProductService>();
             service.AddScoped<GoogleHelperService>();
         }
     }

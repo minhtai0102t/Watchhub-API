@@ -1,5 +1,4 @@
 ﻿using Ecom_API.DBHelpers;
-using Services.Repositories;
 
 namespace Services.Repositories
 {
@@ -10,15 +9,16 @@ namespace Services.Repositories
         {
             _dbContext = context;
         }
-
         private IUserRepository _userRepository;
         private ICategoryRepository _categoryRepository;
         private ISubCategoryRepository _subCategoryRepository;
         private IBrandRepository _brandRepository;
         private IProductTypeRepository _productTypeRepository;
-        // private IProductAlbertRepository _productAlbertRepository;
+        private IProductAlbertRepository _productAlbertRepository;
         private IProductCoreRepository _productCoreRepository;
         private IProductGlassRepository _productGlassRepository;
+        private IProductRepository _product;
+
         public IUserRepository Users
         {
             get
@@ -74,18 +74,17 @@ namespace Services.Repositories
                 return _productTypeRepository;
             }
         }
-        // public IProductAlbertRepository ProductAlberts
-        // {
-        //     get
-        //     {
-        //         if (_productAlbertRepository == null)
-        //         {
-        //             _productAlbertRepository = new ProductAlbertRepository(_dbContext);
-        //         }
-        //         return _productAlbertRepository;
-        //     }
-        // }
-
+        public IProductAlbertRepository ProductAlberts
+        {
+            get
+            {
+                if (_productAlbertRepository == null)
+                {
+                    _productAlbertRepository = new ProductAlbertRepository(_dbContext);
+                }
+                return _productAlbertRepository;
+            }
+        }
         public IProductCoreRepository ProductCores
         {
             get
@@ -106,6 +105,17 @@ namespace Services.Repositories
                     _productGlassRepository = new ProductGlassRepository(_dbContext);
                 }
                 return _productGlassRepository;
+            }
+        }
+        public IProductRepository Products
+        {
+            get
+            {
+                if (_product == null)
+                {
+                    _product = new ProductRepository(_dbContext);
+                }
+                return _product;
             }
         }
         public async Task<int> SaveChangesAsync()

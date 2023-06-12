@@ -53,7 +53,7 @@ namespace Ecom_API.Service
                     }
                 }
                 item.core_name = model.core_name;
-                item.updated_date = DateTime.Now;
+                item.updated_date = DateTime.Now.ToUniversalTime();
                 await _unitOfWork.ProductCores.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;

@@ -18,20 +18,20 @@ public class ProductGlassController : ControllerBase
     /// Create
     /// </summary>
     // [Authorize]
-    // [HttpPost]
-    // [Route("Create")]
-    // public async Task<IActionResult> Create(ProductGlassCreateReq obj)
-    // {
-    //     var res = await _ProductGlassService.Create(obj);
-    //     if (res)
-    //     {
-    //         return Ok(new { message = "ProductGlass creation successful" });
-    //     }
-    //     else
-    //     {
-    //         return BadRequest(new { message = "ProductGlass creation fail" });
-    //     }
-    // }
+    [HttpPost]
+    [Route("Create")]
+    public async Task<IActionResult> Create(ProductGlassCreateReq obj)
+    {
+        var res = await _ProductGlassService.Create(obj);
+        if (res)
+        {
+            return Ok(new { message = "ProductGlass creation successful" });
+        }
+        else
+        {
+            return BadRequest(new { message = "ProductGlass creation fail" });
+        }
+    }
     /// <summary>
     /// Get All
     /// </summary>

@@ -53,7 +53,7 @@ namespace Ecom_API.Service
                     }
                 }
                 item.glass_name = model.glass_name;
-                item.updated_date = DateTime.Now;
+                item.updated_date = DateTime.Now.ToUniversalTime();
                 await _unitOfWork.ProductGlasses.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;
