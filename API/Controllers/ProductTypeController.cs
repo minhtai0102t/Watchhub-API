@@ -15,6 +15,17 @@ public class ProductTypeController : ControllerBase
         _productTypeService = productTypeService;
     }
     /// <summary>
+    /// Search
+    /// </summary>
+    // [Authorize]
+    [HttpPost]
+    [Route("Search")]
+    public async Task<IActionResult> Search([FromQuery] QueryStringParameters param, string searchTerm)
+    {
+        var res = await _productTypeService.Search(param, searchTerm);
+        return Ok(new { res, res.TotalCount });
+    }
+    /// <summary>
     /// Create
     /// </summary>
     // [Authorize]

@@ -1,12 +1,12 @@
 using AutoMapper;
+using EBird.Application.Model.PagingModel;
 using Ecom_API.Authorization;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
-using Services.Repositories;
-using Microsoft.Extensions.Caching.Memory;
 using Ecom_API.PagingModel;
-using EBird.Application.Model.PagingModel;
+using Microsoft.Extensions.Caching.Memory;
+using Services.Repositories;
 
 namespace Ecom_API.Service
 {
@@ -28,7 +28,15 @@ namespace Ecom_API.Service
             _mapper = mapper;
             _cache = cache;
         }
-
+        public async Task<PagedList<ProductType>> Search(QueryStringParameters pagingParams, string searchTerm)
+        {
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.product_type_name.ToLower().Contains(searchTerm.Trim().ToLower()));
+                return result;
+            }
+            return new PagedList<ProductType>();
+        }
         public async Task<PagedList<ProductTypeFullRes>> GetAll(QueryStringParameters pagingParams)
         {
             var result = new PagedList<ProductTypeFullRes>();
