@@ -37,7 +37,8 @@ namespace Ecom_API.Service
                 // validate
                 if (user == null || !Argon2.Verify(user.password, model.password))
                     throw new AppException("email or password is incorrect");
-                if(!user.is_verified){
+                if (!user.is_verified)
+                {
                     throw new AppException("user is not verified");
                 }
                 // authentication successful
@@ -126,7 +127,8 @@ namespace Ecom_API.Service
         {
             if (_cache.TryGetValue(email, out string storedCode))
             {
-                if(code == storedCode){
+                if (code == storedCode)
+                {
                     // Update isVerify = true
                     var user = await _unitOfWork.Users.FindWithCondition(c => c.email == email);
                     user.is_verified = true;
@@ -148,15 +150,19 @@ namespace Ecom_API.Service
             isExisted.phone = model.phone;
             isExisted.username = model.username;
             isExisted.fullname = model.fullname;
+            isExisted.updated_date = DateTime.Now.ToUniversalTime();
             await _unitOfWork.Users.UpdateAsync(isExisted);
             var res = await _unitOfWork.SaveChangesAsync();
-            if(res == 1){
-                return new UpdateRes{
+            if (res == 1)
+            {
+                return new UpdateRes
+                {
                     message = "Update successfully",
                     token = _jwtUtils.GenerateToken(isExisted)
                 };
             }
-            return new UpdateRes{
+            return new UpdateRes
+            {
                 message = "Update fail",
                 token = ""
             };

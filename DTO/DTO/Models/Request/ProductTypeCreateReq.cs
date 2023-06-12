@@ -8,4 +8,7 @@ public class ProductTypeCreateReq
     public int price {get;set;}
     public int brand_id { get; set; }
     public int sub_category_id { get; set; }
+    public List<int> product_albert_ids { get; set; }
+    public List<int> product_core_ids { get; set; }
+    public List<int> product_glass_ids { get; set; }
 }

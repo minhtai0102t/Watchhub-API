@@ -278,3 +278,7 @@ D:/Workplace/Watchhub-API/API/obj/Debug/net6.0/ref/Ecom-API.dll
 D:/WorkPlace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:/WorkPlace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
 D:/WorkPlace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/toddpham12/Watchhub-API/API/bin/Debug/net6.0/Google.Apis.dll
+/Users/toddpham12/Watchhub-API/API/bin/Debug/net6.0/Google.Apis.Core.dll
+/Users/toddpham12/Watchhub-API/API/bin/Debug/net6.0/Google.Apis.Customsearch.v1.dll
+/Users/toddpham12/Watchhub-API/API/bin/Debug/net6.0/Newtonsoft.Json.dll

@@ -324,6 +324,9 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
+                    b.Property<string>("albert_name")
+                    .HasColumnType("text");
+
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<DateTime>("created_date")
@@ -352,6 +355,8 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
+                    b.Property<string>("core_name")
+                    .HasColumnType("text");
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<DateTime>("created_date")
@@ -419,6 +424,9 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
+                    b.Property<string>("glass_name")
+                    .HasColumnType("text");
+
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<DateTime>("created_date")
@@ -463,6 +471,15 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.Property<int>("price")
                         .HasColumnType("integer");
+
+                    b.Property<List<int>>("productAlberts")
+                        .HasColumnType("integer[]");
+
+                    b.Property<List<int>>("productCores")
+                        .HasColumnType("integer[]");
+
+                    b.Property<List<int>>("productGlasses")
+                        .HasColumnType("integer[]");
 
                     b.Property<List<int>>("product_feedback_ids")
                         .HasColumnType("integer[]");

@@ -12,12 +12,13 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        var services = builder.Services;    
+        var services = builder.Services;
 
         services.AddCors();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c => {
+        services.AddSwaggerGen(c =>
+        {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Watchhub API", Version = "v1" });
 
             // Add a security definition for JWT authentication
@@ -74,15 +75,16 @@ internal class Program
         services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Mac"), b => b.MigrationsAssembly("Ecom-API")));
 
         services.AddDbContext<ApiDbContextHosting>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting"), b => b.MigrationsAssembly("Ecom-API")));
+        services.AddDbContext<ApiDbContextHostingNew>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting-New"), b => b.MigrationsAssembly("Ecom-API")));
 
         var app = builder.Build();
         // Configure the HTTP request pipeline.
         //if (app.Environment.IsDevelopment())
         //{
         app.UseSwagger();
-        app.UseSwaggerUI(c => {
+        app.UseSwaggerUI(c =>
+        {
         });
-        //}
         app.UseHttpsRedirection();
 
         app.UseAuthentication();

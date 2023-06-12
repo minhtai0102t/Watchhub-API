@@ -58,6 +58,13 @@ namespace EBird.Application.Model.PagingModel
             items = items.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
                                 
             this.AddRange(items);
+        }public async Task LoadData(IQueryable<T> queryList, Expression<Func<T, bool>> predicate)
+        {
+            var items = await queryList.Where(predicate).ToListAsync();
+            var count = items.Count();
+            this.TotalCount = count;
+                                
+            this.AddRange(items);
         }
         public async Task LoadData(IQueryable<T> queryList)
         {

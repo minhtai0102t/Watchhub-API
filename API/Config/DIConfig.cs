@@ -1,4 +1,5 @@
 ﻿using Ecom_API.Authorization;
+using Ecom_API.Helpers;
 using Ecom_API.Service;
 using Services.Repositories;
 
@@ -15,6 +16,10 @@ namespace Ecom_API.Config
             service.AddScoped<ISubCategoryService, SubCategoryService>();
             service.AddScoped<IBrandService, BrandService>();
             service.AddScoped<IProductTypeService, ProductTypeService>();
+            // service.AddScoped<IProductAlbertService, ProductAlbertService>();
+            service.AddScoped<IProductCoreService, ProductCoreService>();
+            service.AddScoped<IProductGlassService, ProductGlassService>();
+            service.AddScoped<GoogleHelperService>();
         }
     }
 }

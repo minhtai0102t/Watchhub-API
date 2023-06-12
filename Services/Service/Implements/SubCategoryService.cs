@@ -49,8 +49,14 @@ namespace Ecom_API.Service
                 {
                     throw new AppException("sub_category " + id + " does not exist");
                 }
+                else{
+                    var name = await _unitOfWork.SubCategories.FindAllWithCondition(c => c.sub_category_name == model.sub_category_name);
+                    if(name.Any()){
+                        throw new AppException("category " + model.sub_category_name + " is already exist");
+                    }
+                }
                 item.sub_category_name = model.sub_category_name;
-
+                item.updated_date = DateTime.Now.ToUniversalTime();
                 await _unitOfWork.SubCategories.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;

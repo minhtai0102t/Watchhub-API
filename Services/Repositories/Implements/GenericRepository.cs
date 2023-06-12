@@ -125,7 +125,7 @@ namespace Services.Repositories
 
             if (pagingParams.PageSize == 0)
             {
-                await pagedRequests.LoadData(dataQuery);
+                await pagedRequests.LoadData(dataQuery, predicate);
             }
             else
             {

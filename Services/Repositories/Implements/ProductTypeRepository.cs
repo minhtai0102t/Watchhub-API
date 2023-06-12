@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.PagingModel;
@@ -16,6 +17,11 @@ namespace Services.Repositories
         {
            var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams);
+        }
+         public async Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate)
+        {
+            var dataQuery = dbSet.AsNoTracking();
+            return await GetWithPaging(dataQuery, pagingParams, predicate);
         }
     }
 }

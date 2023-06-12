@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "eY0dzYdVm27drH3NxzIDY7+E54ynMrqDdy1JZJ1RTTmNtY/9Ijmg28TMzN5dPWJiICv7r70BvKPfHBncW7W76g==",
+  "dgSpecHash": "kuwU/tYBqnKFJmTGB7h4fpLrZGJmaFA1jnIkaSMpEPNeznOz9UkQV9IXoTrz9Hhwi/z4fuqvXscHYQGU7c37lg==",
   "success": true,
   "projectFilePath": "/Users/toddpham12/Watchhub-API/API/API.csproj",
   "expectedPackageFiles": [
     "/Users/toddpham12/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
+    "/Users/toddpham12/.nuget/packages/google.apis/1.60.0/google.apis.1.60.0.nupkg.sha512",
+    "/Users/toddpham12/.nuget/packages/google.apis.core/1.60.0/google.apis.core.1.60.0.nupkg.sha512",
+    "/Users/toddpham12/.nuget/packages/google.apis.customsearch.v1/1.49.0.2084/google.apis.customsearch.v1.1.49.0.2084.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/isopoh.cryptography.argon2/1.1.12/isopoh.cryptography.argon2.1.1.12.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/isopoh.cryptography.blake2b/1.1.12/isopoh.cryptography.blake2b.1.1.12.nupkg.sha512",
@@ -44,6 +47,7 @@
     "/Users/toddpham12/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
+    "/Users/toddpham12/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/npgsql/7.0.4/npgsql.7.0.4.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/npgsql.entityframeworkcore.postgresql/7.0.4/npgsql.entityframeworkcore.postgresql.7.0.4.nupkg.sha512",
     "/Users/toddpham12/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",

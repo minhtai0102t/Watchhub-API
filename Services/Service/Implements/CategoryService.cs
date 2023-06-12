@@ -53,10 +53,10 @@ namespace Ecom_API.Service
                     }
                 }
                 item.category_name = model.category_name;
+                item.updated_date = DateTime.Now.ToUniversalTime();
                 await _unitOfWork.Categories.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;
-
             }
             catch (Exception ex)
             {

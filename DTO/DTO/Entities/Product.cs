@@ -16,11 +16,8 @@ namespace Ecom_API.DTO.Entities
         public string? product_additional_information; 
         [Required]
         public int product_type_id { get; set; }
-        [Required]
         public int product_albert_id { get; set; }
-        [Required]
         public int product_core_id { get; set; }
-        [Required]
         public int product_glass_id { get; set; }
     }
 }

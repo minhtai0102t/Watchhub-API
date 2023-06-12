@@ -16,6 +16,9 @@ namespace Services.Repositories
         private ISubCategoryRepository _subCategoryRepository;
         private IBrandRepository _brandRepository;
         private IProductTypeRepository _productTypeRepository;
+        // private IProductAlbertRepository _productAlbertRepository;
+        private IProductCoreRepository _productCoreRepository;
+        private IProductGlassRepository _productGlassRepository;
         public IUserRepository Users
         {
             get
@@ -60,7 +63,7 @@ namespace Services.Repositories
                 return _brandRepository;
             }
         }
-         public IProductTypeRepository ProductTypes
+        public IProductTypeRepository ProductTypes
         {
             get
             {
@@ -69,6 +72,40 @@ namespace Services.Repositories
                     _productTypeRepository = new ProducTypeRepository(_dbContext);
                 }
                 return _productTypeRepository;
+            }
+        }
+        // public IProductAlbertRepository ProductAlberts
+        // {
+        //     get
+        //     {
+        //         if (_productAlbertRepository == null)
+        //         {
+        //             _productAlbertRepository = new ProductAlbertRepository(_dbContext);
+        //         }
+        //         return _productAlbertRepository;
+        //     }
+        // }
+
+        public IProductCoreRepository ProductCores
+        {
+            get
+            {
+                if (_productCoreRepository == null)
+                {
+                    _productCoreRepository = new ProductCoreRepository(_dbContext);
+                }
+                return _productCoreRepository;
+            }
+        }
+        public IProductGlassRepository ProductGlasses
+        {
+            get
+            {
+                if (_productGlassRepository == null)
+                {
+                    _productGlassRepository = new ProductGlassRepository(_dbContext);
+                }
+                return _productGlassRepository;
             }
         }
         public async Task<int> SaveChangesAsync()

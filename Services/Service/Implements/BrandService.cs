@@ -8,6 +8,7 @@ using Services.Repositories;
 using Microsoft.Extensions.Caching.Memory;
 using Ecom_API.PagingModel;
 using EBird.Application.Model.PagingModel;
+using NpgsqlTypes;
 
 namespace Ecom_API.Service
 {
@@ -46,8 +47,15 @@ namespace Ecom_API.Service
                 {
                     throw new AppException("brand " + id + " does not exist");
                 }
+                else{
+                    var name = await _unitOfWork.Brands.FindAllWithCondition(c => c.brand_name == model.brand_name);
+                    if(name.Any()){
+                        throw new AppException("category " + model.brand_name + " is already exist");
+                    }
+                }
                 item.brand_name = model.brand_name;
                 item.brand_logo = model.brand_logo;
+                item.updated_date = DateTime.Now.ToUniversalTime();
                 await _unitOfWork.Brands.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;

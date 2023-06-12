@@ -7,6 +7,9 @@
 /Users/toddpham12/public-asp/Ecom-API.pdb
 /Users/toddpham12/public-asp/AutoMapper.dll
 /Users/toddpham12/public-asp/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/toddpham12/public-asp/Google.Apis.dll
+/Users/toddpham12/public-asp/Google.Apis.Core.dll
+/Users/toddpham12/public-asp/Google.Apis.Customsearch.v1.dll
 /Users/toddpham12/public-asp/Humanizer.dll
 /Users/toddpham12/public-asp/Isopoh.Cryptography.Argon2.dll
 /Users/toddpham12/public-asp/Isopoh.Cryptography.Blake2b.dll
@@ -39,6 +42,7 @@
 /Users/toddpham12/public-asp/Microsoft.IdentityModel.Tokens.dll
 /Users/toddpham12/public-asp/Microsoft.OpenApi.dll
 /Users/toddpham12/public-asp/Mono.TextTemplating.dll
+/Users/toddpham12/public-asp/Newtonsoft.Json.dll
 /Users/toddpham12/public-asp/Npgsql.dll
 /Users/toddpham12/public-asp/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/toddpham12/public-asp/Swashbuckle.AspNetCore.Swagger.dll
