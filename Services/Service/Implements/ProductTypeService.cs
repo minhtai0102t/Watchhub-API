@@ -45,9 +45,9 @@ namespace Ecom_API.Service
             {
                 var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
                 var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
-                // var alberts = await _unitOfWork.ProductAlberts.FindAllWithCondition(c => item.productAlberts.Contains(c.id));
-                var cores = await _unitOfWork.ProductCores.FindAllWithCondition(c => item.productCores.Contains(c.id));
-                var glasses = await _unitOfWork.ProductGlasses.FindAllWithCondition(c => item.productGlasses.Contains(c.id));
+                var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
+                var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
+                var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
                 result.Add(new ProductTypeFullRes
                 {
                     id = item.id,
@@ -61,9 +61,17 @@ namespace Ecom_API.Service
                     sub_category_id = subCategory.id,
                     sub_category_name = subCategory.sub_category_name,
                     product_feedback_ids = item.product_feedback_ids,
-                    // alberts = alberts.ToList(),
-                    cores = cores.ToList(),
-                    glasses = glasses.ToList()
+                    alberts = albert,
+                    cores = core,
+                    glasses = glass,
+                    product_source = item.product_source,
+                    product_guarantee = item.product_guarantee,
+                    product_dial_width = item.product_dial_width,
+                    product_dial_height = item.product_dial_height,
+                    product_dial_color = item.product_dial_color,
+                    product_waterproof = item.product_waterproof,
+                    product_features = item.product_features,
+                    product_additional_information = item.product_additional_information
                 });
             }
             result.TotalCount = listRes.TotalCount;
@@ -80,9 +88,9 @@ namespace Ecom_API.Service
                 {
                     var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
                     var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
-                    // var alberts = await _unitOfWork.ProductAlberts.FindAllWithCondition(c => item.productAlberts.Contains(c.id));
-                    var cores = await _unitOfWork.ProductCores.FindAllWithCondition(c => item.productCores.Contains(c.id));
-                    var glasses = await _unitOfWork.ProductGlasses.FindAllWithCondition(c => item.productGlasses.Contains(c.id));
+                    var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
+                    var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
+                    var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
                     result.Add(new ProductTypeFullRes
                     {
                         id = item.id,
@@ -96,9 +104,17 @@ namespace Ecom_API.Service
                         sub_category_id = subCategory.id,
                         sub_category_name = subCategory.sub_category_name,
                         product_feedback_ids = item.product_feedback_ids,
-                        // alberts = alberts.ToList(),
-                        cores = cores.ToList(),
-                        glasses = glasses.ToList()
+                        alberts = albert,
+                        cores = core,
+                        glasses = glass,
+                        product_source = item.product_source,
+                        product_guarantee = item.product_guarantee,
+                        product_dial_width = item.product_dial_width,
+                        product_dial_height = item.product_dial_height,
+                        product_dial_color = item.product_dial_color,
+                        product_waterproof = item.product_waterproof,
+                        product_features = item.product_features,
+                        product_additional_information = item.product_additional_information
                     });
                 }
             }
@@ -113,9 +129,9 @@ namespace Ecom_API.Service
             {
                 var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
                 var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
-                // var alberts = await _unitOfWork.ProductAlberts.FindAllWithCondition(c => item.productAlberts.Contains(c.id));
-                var cores = await _unitOfWork.ProductCores.FindAllWithCondition(c => item.productCores.Contains(c.id));
-                var glasses = await _unitOfWork.ProductGlasses.FindAllWithCondition(c => item.productGlasses.Contains(c.id));
+                var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
+                var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
+                var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
                 result.Add(new ProductTypeFullRes
                 {
                     id = item.id,
@@ -129,9 +145,17 @@ namespace Ecom_API.Service
                     sub_category_id = subCategory.id,
                     sub_category_name = subCategory.sub_category_name,
                     product_feedback_ids = item.product_feedback_ids,
-                    // alberts = alberts.ToList(),
-                    cores = cores.ToList(),
-                    glasses = glasses.ToList()
+                    alberts = albert,
+                    cores = core,
+                    glasses = glass,
+                    product_source = item.product_source,
+                    product_guarantee = item.product_guarantee,
+                    product_dial_width = item.product_dial_width,
+                    product_dial_height = item.product_dial_height,
+                    product_dial_color = item.product_dial_color,
+                    product_waterproof = item.product_waterproof,
+                    product_features = item.product_features,
+                    product_additional_information = item.product_additional_information
                 });
 
             }
@@ -162,12 +186,10 @@ namespace Ecom_API.Service
                 {
                     throw new AppException("ProductType " + id + " does not exist");
                 }
-                item.product_type_name = model.product_type_name;
-                item.price = model.price;
-                item.brand_id = model.brand_id;
-                item.sub_category_id = model.sub_category_id;
-                item.updated_date = DateTime.Now.ToUniversalTime();
-                await _unitOfWork.ProductTypes.UpdateAsync(item);
+                var mapData = _mapper.Map<ProductType>(model);
+                mapData.id = item.id;
+                mapData.updated_date = DateTime.Now.ToUniversalTime();
+                await _unitOfWork.ProductTypes.UpdateAsync(mapData);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;
 

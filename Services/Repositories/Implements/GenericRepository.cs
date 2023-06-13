@@ -109,11 +109,11 @@ namespace Services.Repositories
 
             if (pagingParams.PageSize == 0)
             {
-                await pagedRequests.LoadData(dataQuery);
+                await pagedRequests.LoadData(dataQuery.OrderBy(c => c.created_date));
             }
             else
             {
-                await pagedRequests.LoadData(dataQuery, pagingParams.PageNumber, pagingParams.PageSize);
+                await pagedRequests.LoadData(dataQuery.OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize);
             }
 
             return pagedRequests;
@@ -125,15 +125,13 @@ namespace Services.Repositories
 
             if (pagingParams.PageSize == 0)
             {
-                await pagedRequests.LoadData(dataQuery, predicate);
+                await pagedRequests.LoadData(dataQuery.OrderBy(c => c.created_date), predicate);
             }
             else
             {
-                await pagedRequests.LoadData(dataQuery, pagingParams.PageNumber, pagingParams.PageSize, predicate);
+                await pagedRequests.LoadData(dataQuery.OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize, predicate);
             }
-
             return pagedRequests;
-
         }
     }
 }

@@ -18,6 +18,7 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductCoreCreateReq, ProductCore>();
         CreateMap<ProductGlassCreateReq, ProductGlass>();
         CreateMap<ProductTypeCreateReq, ProductType>();
+        CreateMap<ProductTypeUpdateReq, ProductType>();
         CreateMap<ProductCreateReq, Product>();
         // GoogleUser -> User
         CreateMap<GoogleUser, User>().ReverseMap();

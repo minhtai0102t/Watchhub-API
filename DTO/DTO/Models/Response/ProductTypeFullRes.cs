@@ -1,10 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Ecom_API.DTO.Entities;
 
 namespace Ecom_API.DTO.Models
 {
-    public class ProductTypeFullRes
+    public class ProductTypeFullRes : BaseEntity
     {
         public int id {get;set;}
         public string product_type_name { get; set; }
@@ -17,8 +15,16 @@ namespace Ecom_API.DTO.Models
         public int sub_category_id { get; set; }
         public string sub_category_name { get; set; }
         public List<int>? product_feedback_ids { get; set; }
-        // public List<ProductAlbert>? alberts {get;set;}
-        public List<ProductCore>? cores {get;set;}
-        public List<ProductGlass>? glasses {get;set;}
+        public ProductAlbert alberts {get;set;}
+        public ProductCore cores {get;set;}
+        public ProductGlass glasses {get;set;}
+        public string product_source { get; set; }
+        public string product_guarantee { get; set; }
+        public string product_dial_width { get; set; }
+        public string product_dial_height { get; set; }
+        public string product_dial_color { get; set; }
+        public string product_waterproof { get; set; }
+        public string product_features { get; set; }
+        public string product_additional_information { get; set; }
     }
 }
