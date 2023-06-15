@@ -1,4 +1,6 @@
-﻿namespace Services.Repositories
+﻿using Services.Repositories.Interfaces;
+
+namespace Services.Repositories
 {
     public interface IUnitOfWork
     {
@@ -11,6 +13,7 @@
         public IProductAlbertRepository ProductAlberts { get; }
         public IProductCoreRepository ProductCores { get; }
         public IProductGlassRepository ProductGlasses { get; }
+        public IPaymentMethodRepository PaymentMethods { get; }
         public Task<int> SaveChangesAsync();
     }
 }

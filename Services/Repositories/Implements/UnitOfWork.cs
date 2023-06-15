@@ -1,4 +1,5 @@
 ﻿using Ecom_API.DBHelpers;
+using Services.Repositories.Interfaces;
 
 namespace Services.Repositories
 {
@@ -17,6 +18,7 @@ namespace Services.Repositories
         private IProductAlbertRepository _productAlbertRepository;
         private IProductCoreRepository _productCoreRepository;
         private IProductGlassRepository _productGlassRepository;
+        private IPaymentMethodRepository _paymentMethodRepository;
         private IProductRepository _product;
 
         public IUserRepository Users
@@ -116,6 +118,17 @@ namespace Services.Repositories
                     _product = new ProductRepository(_dbContext);
                 }
                 return _product;
+            }
+        }
+        public IPaymentMethodRepository PaymentMethods
+        {
+            get
+            {
+                if (_paymentMethodRepository == null)
+                {
+                    _paymentMethodRepository = new PaymentMethodRepository(_dbContext);
+                }
+                return _paymentMethodRepository;
             }
         }
         public async Task<int> SaveChangesAsync()

@@ -1,13 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Ecom_API.DTO.Entities;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Services.CommonConfig;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Ecom_API.DTO.Entities;
-using Services.CommonConfig;
-using Microsoft.Extensions.Options;
-using Ecom_API.DTO.Models;
 
-namespace Ecom_API.Authorization;
+namespace Ecom_API.Helpers;
 
 public interface IJwtUtils
 {

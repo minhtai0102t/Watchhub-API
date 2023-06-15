@@ -1,12 +1,11 @@
 using AutoMapper;
-using Ecom_API.Authorization;
+using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
-using Services.Repositories;
-using Microsoft.Extensions.Caching.Memory;
 using Ecom_API.PagingModel;
-using EBird.Application.Model.PagingModel;
+using Microsoft.Extensions.Caching.Memory;
+using Services.Repositories;
 
 namespace Ecom_API.Service
 {

@@ -1,5 +1,4 @@
 ﻿using Ecom_API.Attributes;
-using Ecom_API.Authorization;
 using Ecom_API.DTO.Models;
 using Ecom_API.PagingModel;
 using Ecom_API.Service;

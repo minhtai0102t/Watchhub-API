@@ -1,6 +1,5 @@
 using AutoMapper;
 using EBird.Application.Model.PagingModel;
-using Ecom_API.Authorization;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;

@@ -1,5 +1,4 @@
-﻿using Ecom_API.Authorization;
-using Ecom_API.Helpers;
+﻿using Ecom_API.Helpers;
 using Ecom_API.Service;
 using Services.Repositories;
 
@@ -20,6 +19,7 @@ namespace Ecom_API.Config
             service.AddScoped<IProductCoreService, ProductCoreService>();
             service.AddScoped<IProductGlassService, ProductGlassService>();
             service.AddScoped<IProductService, ProductService>();
+            service.AddScoped<IPaymentMethodService, PaymentMethodService>();
             service.AddScoped<GoogleHelperService>();
         }
     }

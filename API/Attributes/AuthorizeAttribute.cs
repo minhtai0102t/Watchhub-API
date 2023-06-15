@@ -1,5 +1,5 @@
-﻿using Ecom_API.Authorization;
-using Ecom_API.DTO.Entities;
+﻿using Ecom_API.DTO.Entities;
+using Ecom_API.Helpers;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
