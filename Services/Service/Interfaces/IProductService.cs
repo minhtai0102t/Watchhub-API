@@ -9,8 +9,7 @@ public interface IProductService : IDisposable
 {
     Task<PagedList<Product>> GetAll(QueryStringParameters pagingParams);
     Task<Product> GetById(int id);
-    Task<bool> Update(ProductCreateReq model, int id);
-    Task<bool> Create(ProductCreateReq id);
+    Task<bool> Create(int product_type_id);
     Task<bool> SoftDelete(int id);
     Task<bool> Delete(int id);
 }

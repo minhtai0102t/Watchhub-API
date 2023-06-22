@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "E7Ix9ZvQtV6ayX4rxCD6MQB4LlGN73g98CyuwpJRDff1FqIVXuKI9JleJ/vnR4MdeUpvhPD/6eB/3My0g3USnw==",
+  "dgSpecHash": "72Buiv1XwnpObvqWxMbbM+TQpWl2M7w/EEjvCV+DKwooSQpF4Zk1XTeTHKVzZD51zmZQQU5Os8YvNFY+tUQCFA==",
   "success": true,
   "projectFilePath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj",
   "expectedPackageFiles": [
@@ -34,12 +34,5 @@
     "C:\\Users\\Dell\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1803",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://nexus.concung.io:8081/repository/nuget-release/index.json'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
-    }
-  ]
+  "logs": []
 }

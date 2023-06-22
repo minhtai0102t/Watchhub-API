@@ -2,6 +2,7 @@
 using Ecom_API.DTO.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Services.Repositories;
 using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
@@ -15,9 +16,11 @@ namespace VNPAY_CS_ASPX
         private SortedList<String, String> _requestData = new SortedList<String, String>(new VnPayCompare());
         private SortedList<String, String> _responseData = new SortedList<String, String>(new VnPayCompare());
         private readonly IConfiguration _config;
-        public VnPayUtil(IConfiguration config)
+        private IUnitOfWork _unitOfWork;
+        public VnPayUtil(IConfiguration config, IUnitOfWork unitOfWork)
         {
             _config = config;
+            _unitOfWork = unitOfWork;
         }
         public void AddRequestData(string key, string value)
         {

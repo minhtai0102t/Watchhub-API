@@ -14,7 +14,7 @@ public interface IProductTypeService : IDisposable
     Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId);
     Task<int> GetTotalBySubCategoryId(int subCategoryId);
     Task<int> GetTotalByBrandId(int brandId);
-    Task<ProductType> GetById(int id);
+    Task<ProductTypeFullRes> GetById(int id);
     Task<bool> Update(ProductTypeUpdateReq model, int id);
     Task<bool> Create(ProductTypeCreateReq id);
     Task<bool> SoftDelete(int id);

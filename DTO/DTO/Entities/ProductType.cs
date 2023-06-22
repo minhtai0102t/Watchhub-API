@@ -30,5 +30,7 @@ namespace Ecom_API.DTO.Entities
         public string product_waterproof { get; set; }
         public string product_features { get; set; }
         public string product_additional_information { get; set; }
+        public string gender { get; set; }
+        public string product_type_code { get; set; }
     }
 }

@@ -19,9 +19,9 @@ public class ProductController : ControllerBase
     // [Authorize]
     [HttpPost]
     [Route("Create")]
-    public async Task<IActionResult> Create(ProductCreateReq obj)
+    public async Task<IActionResult> Create(int product_type_id)
     {
-        var res = await _productService.Create(obj);
+        var res = await _productService.Create(product_type_id);
         if (res)
         {
             return Ok(new { message = "Product creation successful" });
@@ -53,24 +53,6 @@ public class ProductController : ControllerBase
     {
         var res = await _productService.GetById(id);
         return Ok(res);
-    }
-    /// <summary>
-    /// Get by id 
-    /// </summary>
-    // [Authorize]
-    [HttpPut]
-    [Route("Update{id}")]
-    public async Task<IActionResult> Update(ProductCreateReq obj, int id)
-    {
-        var res = await _productService.Update(obj, id);
-        if (res)
-        {
-            return Ok(new { message = "Product update successful" });
-        }
-        else
-        {
-            return BadRequest(new { message = "Product update failed" });
-        }
     }
     // [Authorize]
     [HttpDelete]

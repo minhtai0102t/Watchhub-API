@@ -22,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "http://nexus.concung.io:8081/repository/nuget-release/index.json": {},
           "https://api.nuget.org/v3/index.json": {},
           "https://nexus.ingress.concung.io": {}
         },

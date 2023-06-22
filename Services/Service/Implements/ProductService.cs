@@ -1,5 +1,4 @@
 using AutoMapper;
-using DTO.DTO.Models.Request;
 using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.Helpers;
@@ -35,33 +34,14 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Products.GetByIdAsync(id);
         }
-        public async Task<bool> Update(ProductCreateReq model, int id)
-        {
-            try
-            {
-                var item = await GetById(id);
-                if (item == null)
-                {
-                    throw new AppException("Product " + id + " does not exist");
-                }
-                item = _mapper.Map<Product>(model);
-                item.updated_date = DateTime.Now.ToUniversalTime();
-                await _unitOfWork.Products.UpdateAsync(item);
-                var res = await _unitOfWork.SaveChangesAsync();
-                return res == 1 ? true : false;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public async Task<bool> Create(ProductCreateReq model)
+        public async Task<bool> Create(int product_type_id)
         {
             // map model to new user object
-            var item = _mapper.Map<Product>(model);
 
-            await _unitOfWork.Products.CreateAsync(item);
+            await _unitOfWork.Products.CreateAsync(new Product { 
+                product_type_id = product_type_id
+            });
+
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }

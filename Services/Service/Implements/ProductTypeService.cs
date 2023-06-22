@@ -47,18 +47,13 @@ namespace Ecom_API.Service
                 var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
                 var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
                 var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-                result.Add(new ProductTypeFullRes
+                var productTypeRes = new ProductTypeFullRes
                 {
                     id = item.id,
                     product_type_name = item.product_type_name,
                     quantity = item.quantity,
                     price = item.price,
                     product_image_uuid = item.product_image_uuid,
-                    brand_id = brand.id,
-                    brand_name = brand.brand_name,
-                    brand_logo = brand.brand_logo,
-                    sub_category_id = subCategory.id,
-                    sub_category_name = subCategory.sub_category_name,
                     product_feedback_ids = item.product_feedback_ids,
                     alberts = albert,
                     cores = core,
@@ -71,12 +66,23 @@ namespace Ecom_API.Service
                     product_waterproof = item.product_waterproof,
                     product_features = item.product_features,
                     product_additional_information = item.product_additional_information
-                });
+                };
+                if (brand != null)
+                {
+                    productTypeRes.brand_id = brand.id;
+                    productTypeRes.brand_name = brand.brand_name;
+                    productTypeRes.brand_logo = brand.brand_logo;
+                }
+                if (subCategory != null)
+                {
+                    productTypeRes.sub_category_id = subCategory.id;
+                    productTypeRes.sub_category_name = subCategory.sub_category_name;
+                }
+                result.Add(productTypeRes);
             }
             result.TotalCount = listRes.TotalCount;
             return result;
         }
-
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
             var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.sub_category_id == subCategoryId);
@@ -171,11 +177,48 @@ namespace Ecom_API.Service
             var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.brand_id == brandId);
             return items.Count();
         }
-        public async Task<ProductType> GetById(int id)
+        public async Task<ProductTypeFullRes> GetById(int id)
         {
-            return await _unitOfWork.ProductTypes.GetByIdAsync(id);
-        }
+            var item = await _unitOfWork.ProductTypes.GetByIdAsync(id);
 
+            var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
+            var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+            var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
+            var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
+            var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
+            var productTypeRes = new ProductTypeFullRes
+            {
+                id = item.id,
+                product_type_name = item.product_type_name,
+                quantity = item.quantity,
+                price = item.price,
+                product_image_uuid = item.product_image_uuid,
+                product_feedback_ids = item.product_feedback_ids,
+                alberts = albert,
+                cores = core,
+                glasses = glass,
+                product_source = item.product_source,
+                product_guarantee = item.product_guarantee,
+                product_dial_width = item.product_dial_width,
+                product_dial_height = item.product_dial_height,
+                product_dial_color = item.product_dial_color,
+                product_waterproof = item.product_waterproof,
+                product_features = item.product_features,
+                product_additional_information = item.product_additional_information
+            };
+            if (brand != null)
+            {
+                productTypeRes.brand_id = brand.id;
+                productTypeRes.brand_name = brand.brand_name;
+                productTypeRes.brand_logo = brand.brand_logo;
+            }
+            if (subCategory != null)
+            {
+                productTypeRes.sub_category_id = subCategory.id;
+                productTypeRes.sub_category_name = subCategory.sub_category_name;
+            }
+            return productTypeRes;
+        }
         public async Task<bool> Update(ProductTypeUpdateReq model, int id)
         {
             try
@@ -206,6 +249,7 @@ namespace Ecom_API.Service
 
             // map model to new user object
             var productType = _mapper.Map<ProductType>(model);
+            // product type full name generate
 
             await _unitOfWork.ProductTypes.CreateAsync(productType);
             var res = await _unitOfWork.SaveChangesAsync();
@@ -223,7 +267,6 @@ namespace Ecom_API.Service
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
-
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -232,20 +275,17 @@ namespace Ecom_API.Service
                 {
                     // TODO: dispose managed state (managed objects)
                 }
-
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
                 // TODO: set large fields to null
                 disposedValue = true;
             }
         }
-
         // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         ~ProductTypeService()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: false);
         }
-
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
