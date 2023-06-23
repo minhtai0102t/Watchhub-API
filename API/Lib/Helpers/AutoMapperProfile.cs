@@ -21,6 +21,7 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductTypeUpdateReq, ProductType>();
         CreateMap<ProductCreateReq, Product>();
         CreateMap<PaymentMethodCreateReq, PaymentMethod>();
+        CreateMap<ProductType, ProductTypeFullRes>();
         // GoogleUser -> User
         CreateMap<GoogleUser, User>().ReverseMap();
         // UpdateRequest -> User

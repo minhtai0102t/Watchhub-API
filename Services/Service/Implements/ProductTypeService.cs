@@ -47,26 +47,10 @@ namespace Ecom_API.Service
                 var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
                 var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
                 var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-                var productTypeRes = new ProductTypeFullRes
-                {
-                    id = item.id,
-                    product_type_name = item.product_type_name,
-                    quantity = item.quantity,
-                    price = item.price,
-                    product_image_uuid = item.product_image_uuid,
-                    product_feedback_ids = item.product_feedback_ids,
-                    alberts = albert,
-                    cores = core,
-                    glasses = glass,
-                    product_source = item.product_source,
-                    product_guarantee = item.product_guarantee,
-                    product_dial_width = item.product_dial_width,
-                    product_dial_height = item.product_dial_height,
-                    product_dial_color = item.product_dial_color,
-                    product_waterproof = item.product_waterproof,
-                    product_features = item.product_features,
-                    product_additional_information = item.product_additional_information
-                };
+                var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
+                productTypeRes.alberts = albert;
+                productTypeRes.cores = core;
+                productTypeRes.glasses = glass;
                 if (brand != null)
                 {
                     productTypeRes.brand_id = brand.id;
@@ -83,6 +67,7 @@ namespace Ecom_API.Service
             result.TotalCount = listRes.TotalCount;
             return result;
         }
+
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
             var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.sub_category_id == subCategoryId);
@@ -96,36 +81,19 @@ namespace Ecom_API.Service
                     var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
                     var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
                     var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-                    result.Add(new ProductTypeFullRes
-                    {
-                        id = item.id,
-                        product_type_name = item.product_type_name,
-                        quantity = item.quantity,
-                        price = item.price,
-                        product_image_uuid = item.product_image_uuid,
-                        brand_id = brand.id,
-                        brand_name = brand.brand_name,
-                        brand_logo = brand.brand_logo,
-                        sub_category_id = subCategory.id,
-                        sub_category_name = subCategory.sub_category_name,
-                        product_feedback_ids = item.product_feedback_ids,
-                        alberts = albert,
-                        cores = core,
-                        glasses = glass,
-                        product_source = item.product_source,
-                        product_guarantee = item.product_guarantee,
-                        product_dial_width = item.product_dial_width,
-                        product_dial_height = item.product_dial_height,
-                        product_dial_color = item.product_dial_color,
-                        product_waterproof = item.product_waterproof,
-                        product_features = item.product_features,
-                        product_additional_information = item.product_additional_information
-                    });
+
+                    var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
+                    productTypeRes.alberts = albert;
+                    productTypeRes.cores = core;
+                    productTypeRes.glasses = glass;
+
+                    result.Add(productTypeRes);
                 }
             }
             result.TotalCount = items.TotalCount;
             return result;
         }
+
         public async Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
         {
             var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.brand_id == brandId);
@@ -137,32 +105,13 @@ namespace Ecom_API.Service
                 var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
                 var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
                 var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-                result.Add(new ProductTypeFullRes
-                {
-                    id = item.id,
-                    product_type_name = item.product_type_name,
-                    quantity = item.quantity,
-                    price = item.price,
-                    product_image_uuid = item.product_image_uuid,
-                    brand_id = brand.id,
-                    brand_name = brand.brand_name,
-                    brand_logo = brand.brand_logo,
-                    sub_category_id = subCategory.id,
-                    sub_category_name = subCategory.sub_category_name,
-                    product_feedback_ids = item.product_feedback_ids,
-                    alberts = albert,
-                    cores = core,
-                    glasses = glass,
-                    product_source = item.product_source,
-                    product_guarantee = item.product_guarantee,
-                    product_dial_width = item.product_dial_width,
-                    product_dial_height = item.product_dial_height,
-                    product_dial_color = item.product_dial_color,
-                    product_waterproof = item.product_waterproof,
-                    product_features = item.product_features,
-                    product_additional_information = item.product_additional_information
-                });
+                var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
 
+                productTypeRes.alberts = albert;
+                productTypeRes.cores = core;
+                productTypeRes.glasses = glass;
+
+                result.Add(productTypeRes);
             }
             result.TotalCount = items.TotalCount;
             return result;
@@ -186,37 +135,25 @@ namespace Ecom_API.Service
             var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
             var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
             var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-            var productTypeRes = new ProductTypeFullRes
-            {
-                id = item.id,
-                product_type_name = item.product_type_name,
-                quantity = item.quantity,
-                price = item.price,
-                product_image_uuid = item.product_image_uuid,
-                product_feedback_ids = item.product_feedback_ids,
-                alberts = albert,
-                cores = core,
-                glasses = glass,
-                product_source = item.product_source,
-                product_guarantee = item.product_guarantee,
-                product_dial_width = item.product_dial_width,
-                product_dial_height = item.product_dial_height,
-                product_dial_color = item.product_dial_color,
-                product_waterproof = item.product_waterproof,
-                product_features = item.product_features,
-                product_additional_information = item.product_additional_information
-            };
+            var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
+
+            productTypeRes.alberts = albert;
+            productTypeRes.cores = core;
+            productTypeRes.glasses = glass;
+
             if (brand != null)
             {
                 productTypeRes.brand_id = brand.id;
                 productTypeRes.brand_name = brand.brand_name;
                 productTypeRes.brand_logo = brand.brand_logo;
             }
+
             if (subCategory != null)
             {
                 productTypeRes.sub_category_id = subCategory.id;
                 productTypeRes.sub_category_name = subCategory.sub_category_name;
             }
+            
             return productTypeRes;
         }
         public async Task<bool> Update(ProductTypeUpdateReq model, int id)
