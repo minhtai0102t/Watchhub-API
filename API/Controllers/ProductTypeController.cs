@@ -77,7 +77,7 @@ public class ProductTypeController : ControllerBase
         return Ok(new { total = res });
     }
     // [Authorize]
-    [HttpGet]
+    [HttpGet] 
     [Route("GetTotalByBrandId{brandId}")]
     public async Task<IActionResult> GetTotalBybrandId(int brandId)
     {

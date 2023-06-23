@@ -54,3 +54,17 @@ D:/Workplace/Watchhub-API/DTO/obj/Debug/net6.0/ref/DTO.dll
 /Users/toddpham12/Watchhub-API/DTO/obj/Debug/net6.0/DTO.pdb
 /Users/toddpham12/Watchhub-API/DTO/obj/Debug/net6.0/DTO.genruntimeconfig.cache
 /Users/toddpham12/Watchhub-API/DTO/obj/Debug/net6.0/ref/DTO.dll
+D:\Workplace\Watchhub-API\DTO\bin\Debug\net6.0\DTO.deps.json
+D:\Workplace\Watchhub-API\DTO\bin\Debug\net6.0\DTO.runtimeconfig.json
+D:\Workplace\Watchhub-API\DTO\bin\Debug\net6.0\DTO.dll
+D:\Workplace\Watchhub-API\DTO\bin\Debug\net6.0\DTO.pdb
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\DTO.csproj.AssemblyReference.cache
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\DTO.GeneratedMSBuildEditorConfig.editorconfig
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\DTO.AssemblyInfoInputs.cache
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\DTO.AssemblyInfo.cs
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\DTO.csproj.CoreCompileInputs.cache
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\DTO.dll
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\refint\DTO.dll
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\DTO.pdb
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\DTO.genruntimeconfig.cache
+D:\Workplace\Watchhub-API\DTO\obj\Debug\net6.0\ref\DTO.dll

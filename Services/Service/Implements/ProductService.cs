@@ -34,12 +34,13 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Products.GetByIdAsync(id);
         }
-        public async Task<bool> Create(int product_type_id)
+        public async Task<bool> Create(int product_type_id, string product_code)
         {
             // map model to new user object
 
             await _unitOfWork.Products.CreateAsync(new Product { 
-                product_type_id = product_type_id
+                product_type_id = product_type_id,
+                product_code = product_code
             });
 
             var res = await _unitOfWork.SaveChangesAsync();

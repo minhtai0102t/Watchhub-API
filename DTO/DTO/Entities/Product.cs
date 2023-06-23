@@ -7,6 +7,7 @@ namespace Ecom_API.DTO.Entities
     public class Product : BaseEntity
     {
         public int product_type_id { get; set; }
+        public string product_code { get; set; }
     }
 }
 

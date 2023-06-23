@@ -106,14 +106,13 @@ namespace Services.Repositories
         public async Task<PagedList<T>> GetWithPaging(IQueryable<T> dataQuery, QueryStringParameters pagingParams)
         {
             PagedList<T> pagedRequests = new PagedList<T>();
-
             if (pagingParams.PageSize == 0)
             {
-                await pagedRequests.LoadData(dataQuery.OrderBy(c => c.created_date));
+                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date));
             }
             else
             {
-                await pagedRequests.LoadData(dataQuery.OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize);
+                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize);
             }
 
             return pagedRequests;
@@ -125,11 +124,11 @@ namespace Services.Repositories
 
             if (pagingParams.PageSize == 0)
             {
-                await pagedRequests.LoadData(dataQuery.OrderBy(c => c.created_date), predicate);
+                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date), predicate);
             }
             else
             {
-                await pagedRequests.LoadData(dataQuery.OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize, predicate);
+                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize, predicate);
             }
             return pagedRequests;
         }

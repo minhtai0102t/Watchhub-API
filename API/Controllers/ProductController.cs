@@ -1,5 +1,3 @@
-using DTO.DTO.Models.Request;
-using Ecom_API.DTO.Models;
 using Ecom_API.PagingModel;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +17,9 @@ public class ProductController : ControllerBase
     // [Authorize]
     [HttpPost]
     [Route("Create")]
-    public async Task<IActionResult> Create(int product_type_id)
+    public async Task<IActionResult> Create(int product_type_id, string product_code)
     {
-        var res = await _productService.Create(product_type_id);
+        var res = await _productService.Create(product_type_id, product_code);
         if (res)
         {
             return Ok(new { message = "Product creation successful" });

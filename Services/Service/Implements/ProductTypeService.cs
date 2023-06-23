@@ -44,13 +44,16 @@ namespace Ecom_API.Service
             {
                 var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
                 var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+
                 var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
                 var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
                 var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
                 var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
+
                 productTypeRes.alberts = albert;
                 productTypeRes.cores = core;
                 productTypeRes.glasses = glass;
+
                 if (brand != null)
                 {
                     productTypeRes.brand_id = brand.id;
@@ -64,10 +67,10 @@ namespace Ecom_API.Service
                 }
                 result.Add(productTypeRes);
             }
+
             result.TotalCount = listRes.TotalCount;
             return result;
         }
-
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
             var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.sub_category_id == subCategoryId);
@@ -78,6 +81,7 @@ namespace Ecom_API.Service
                 {
                     var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
                     var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+
                     var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
                     var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
                     var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
@@ -87,13 +91,25 @@ namespace Ecom_API.Service
                     productTypeRes.cores = core;
                     productTypeRes.glasses = glass;
 
+                    if (brand != null)
+                    {
+                        productTypeRes.brand_id = brand.id;
+                        productTypeRes.brand_name = brand.brand_name;
+                        productTypeRes.brand_logo = brand.brand_logo;
+                    }
+                    if (subCategory != null)
+                    {
+                        productTypeRes.sub_category_id = subCategory.id;
+                        productTypeRes.sub_category_name = subCategory.sub_category_name;
+                    }
+
                     result.Add(productTypeRes);
                 }
             }
+
             result.TotalCount = items.TotalCount;
             return result;
         }
-
         public async Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
         {
             var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.brand_id == brandId);
@@ -102,6 +118,7 @@ namespace Ecom_API.Service
             {
                 var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
                 var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+
                 var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
                 var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
                 var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
@@ -110,6 +127,18 @@ namespace Ecom_API.Service
                 productTypeRes.alberts = albert;
                 productTypeRes.cores = core;
                 productTypeRes.glasses = glass;
+
+                if (brand != null)
+                {
+                    productTypeRes.brand_id = brand.id;
+                    productTypeRes.brand_name = brand.brand_name;
+                    productTypeRes.brand_logo = brand.brand_logo;
+                }
+                if (subCategory != null)
+                {
+                    productTypeRes.sub_category_id = subCategory.id;
+                    productTypeRes.sub_category_name = subCategory.sub_category_name;
+                }
 
                 result.Add(productTypeRes);
             }
@@ -153,7 +182,7 @@ namespace Ecom_API.Service
                 productTypeRes.sub_category_id = subCategory.id;
                 productTypeRes.sub_category_name = subCategory.sub_category_name;
             }
-            
+
             return productTypeRes;
         }
         public async Task<bool> Update(ProductTypeUpdateReq model, int id)
@@ -180,23 +209,37 @@ namespace Ecom_API.Service
         }
         public async Task<bool> Create(ProductTypeCreateReq model)
         {
-            var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_name == model.product_type_name);
-            if (validate != null)
-                throw new AppException("product_type_name '" + model.product_type_name + "' is already existed in system");
+            try
+            {
+                var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_name == model.product_type_name);
+                if (validate != null)
+                    throw new AppException("product_type_name '" + model.product_type_name + "' is already existed in system");
 
-            // map model to new user object
-            var productType = _mapper.Map<ProductType>(model);
-            // product type full name generate
+                // map model to new user object
+                var productType = _mapper.Map<ProductType>(model);
+                // product type full name generate
 
-            await _unitOfWork.ProductTypes.CreateAsync(productType);
-            var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+                await _unitOfWork.ProductTypes.CreateAsync(productType);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<bool> SoftDelete(int id)
         {
-            await _unitOfWork.ProductTypes.SoftDeleteAsync(id);
-            var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+            try
+            {
+                await _unitOfWork.ProductTypes.SoftDeleteAsync(id);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<bool> Delete(int id)
         {
