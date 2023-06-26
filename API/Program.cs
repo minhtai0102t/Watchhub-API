@@ -71,6 +71,8 @@ internal class Program
 
         services.AddMemoryCache();
 
+        services.AddHttpContextAccessor();
+
         //connection string
         //services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Mac"), b => b.MigrationsAssembly("Ecom-API")));
         services.AddDbContext<ApiDbContextHosting>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting"), b => b.MigrationsAssembly("Ecom-API")));

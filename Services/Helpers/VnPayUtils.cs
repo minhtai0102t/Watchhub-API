@@ -1,5 +1,4 @@
 ﻿using DTO.DTO.Models;
-using Ecom_API.DTO.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Services.Repositories;
@@ -17,6 +16,11 @@ namespace VNPAY_CS_ASPX
         private SortedList<String, String> _responseData = new SortedList<String, String>(new VnPayCompare());
         private readonly IConfiguration _config;
         private IUnitOfWork _unitOfWork;
+        // private string callbackUrl = "https://localhost:8383/swagger/index.html";
+        private string callbackUrl = "https://localhost:8383/payment/payment_response";
+        // private string callbackUrl = "https://zenttt.bsite.net/payment/payment_response";
+
+        // private string callbackUrl = "https://watchhub.website/vnpay";
         public VnPayUtil(IConfiguration config, IUnitOfWork unitOfWork)
         {
             _config = config;
@@ -66,7 +70,7 @@ namespace VNPAY_CS_ASPX
             AddRequestData("vnp_Locale", "vn");
             AddRequestData("vnp_OrderInfo", "Thanh toan don hang: " + Guid.NewGuid().ToString());
             AddRequestData("vnp_OrderType", "other");
-            AddRequestData("vnp_ReturnUrl", model.CallbackUrl);
+            AddRequestData("vnp_ReturnUrl", callbackUrl);
             AddRequestData("vnp_TxnRef", txnRef); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
             StringBuilder data = new StringBuilder();
             foreach (KeyValuePair<string, string> kv in _requestData)
@@ -153,7 +157,7 @@ namespace VNPAY_CS_ASPX
             string ipAddress;
             try
             {
-                
+
                 ipAddress = _httpContextAccessor.HttpContext.Request.Headers["HTTP_X_FORWARDED_FOR"];
                 if (string.IsNullOrEmpty(ipAddress) || (ipAddress.ToLower() == "unknown") || ipAddress.Length > 45)
                     ipAddress = _httpContextAccessor.HttpContext.Request.Headers["REMOTE_ADDR"];
@@ -165,7 +169,14 @@ namespace VNPAY_CS_ASPX
 
             return ipAddress;
         }
+        public async Task<bool> StoreTransaction(){
+            
+            
+            
+            return true;
+        }
     }
+
 
     public class VnPayCompare : IComparer<string>
     {
@@ -177,5 +188,20 @@ namespace VNPAY_CS_ASPX
             var vnpCompare = CompareInfo.GetCompareInfo("en-US");
             return vnpCompare.Compare(x, y, CompareOptions.Ordinal);
         }
+    }
+    public class PaymentResponse
+    {
+        public string Amount { get; set; }
+        public string BankCode { get; set; }
+        public string BankTranNo { get; set; }
+        public string CardType { get; set; }
+        public string OrderInfo { get; set; }
+        public string PayDate { get; set; }
+        public string ResponseCode { get; set; }
+        public string TmnCode { get; set; }
+        public string TransactionNo { get; set; }
+        public string TransactionStatus { get; set; }
+        public string TxnRef { get; set; }
+        public string SecureHash { get; set; }
     }
 }

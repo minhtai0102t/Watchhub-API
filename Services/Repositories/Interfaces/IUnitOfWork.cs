@@ -14,6 +14,8 @@ namespace Services.Repositories
         public IProductCoreRepository ProductCores { get; }
         public IProductGlassRepository ProductGlasses { get; }
         public IPaymentMethodRepository PaymentMethods { get; }
+        public IVNPayRepository VNPays { get; }
+        public IOrderRepository Orders { get; }
         public Task<int> SaveChangesAsync();
     }
 }

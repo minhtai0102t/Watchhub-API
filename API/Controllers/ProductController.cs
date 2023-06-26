@@ -52,6 +52,17 @@ public class ProductController : ControllerBase
         var res = await _productService.GetById(id);
         return Ok(res);
     }
+    /// <summary>
+    /// Get by GetByProductTypeId 
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("GetByProductTypeId{id}")]
+    public async Task<IActionResult> GetByProductTypeId([FromQuery] QueryStringParameters query, int id)
+    {
+        var res = await _productService.GetByProductTypeId(query, id);
+        return Ok(new { res, res.TotalCount });
+    }
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]

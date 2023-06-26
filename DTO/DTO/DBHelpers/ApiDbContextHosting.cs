@@ -25,14 +25,13 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<Product>();
             modelBuilder.Entity<PaymentMethod>();
             modelBuilder.Entity<Payment>();
-            modelBuilder.Entity<OrderStatus>();
-            modelBuilder.Entity<OrderDetail>();
             modelBuilder.Entity<Order>();
             modelBuilder.Entity<Category>();
             modelBuilder.Entity<Brand>();
             modelBuilder.Entity<ProductAlbert>();
             modelBuilder.Entity<ProductCore>();
             modelBuilder.Entity<ProductGlass>();
+            modelBuilder.Entity<VNPay>();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

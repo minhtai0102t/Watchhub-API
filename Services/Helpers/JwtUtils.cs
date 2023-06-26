@@ -31,7 +31,6 @@ public class JwtUtils : IJwtUtils
         claimIdentity.AddClaim(new Claim("username", user.username == null ? "" : user.username));
         claimIdentity.AddClaim(new Claim("fullname", user.fullname));
         claimIdentity.AddClaim(new Claim("email", user.email));
-        claimIdentity.AddClaim(new Claim("address", user.address != null ? user.address : ""));
         claimIdentity.AddClaim(new Claim("avatar", user.avatar == null ? "" : user.avatar));
         claimIdentity.AddClaim(new Claim("phone", user.phone == null ? "" : user.phone));
         claimIdentity.AddClaim(new Claim("created_date", user.created_date.ToString()));

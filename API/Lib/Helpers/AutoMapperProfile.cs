@@ -4,6 +4,7 @@ using AutoMapper;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using global::DTO.DTO.Models.Request;
+using VNPAY_CS_ASPX;
 
 public class AutoMapperProfile : Profile
 {
@@ -22,10 +23,13 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductCreateReq, Product>();
         CreateMap<PaymentMethodCreateReq, PaymentMethod>();
         CreateMap<ProductType, ProductTypeFullRes>();
+        CreateMap<PaymentResponse, VNPay>();
+        CreateMap<OrderCreateReq, Order>();
         // GoogleUser -> User
         CreateMap<GoogleUser, User>().ReverseMap();
         // UpdateRequest -> User
         CreateMap<UserUpdateReq, User>()
+        
             .ForAllMembers(x => x.Condition(
                 (src, dest, prop) =>
                 {

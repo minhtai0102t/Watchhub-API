@@ -20,7 +20,8 @@ namespace Services.Repositories
         private IProductGlassRepository _productGlassRepository;
         private IPaymentMethodRepository _paymentMethodRepository;
         private IProductRepository _product;
-
+        private IVNPayRepository _vnpay;
+        private IOrderRepository _order;
         public IUserRepository Users
         {
             get
@@ -131,6 +132,29 @@ namespace Services.Repositories
                 return _paymentMethodRepository;
             }
         }
+        public IVNPayRepository VNPays
+        {
+            get
+            {
+                if (_vnpay == null)
+                {
+                    _vnpay = new VNPayRepository(_dbContext);
+                }
+                return _vnpay;
+            }
+        }
+        public IOrderRepository Orders
+        {
+            get
+            {
+                if (_order == null)
+                {
+                    _order = new OrderRepository(_dbContext);
+                }
+                return _order;
+            }
+        }
+
         public async Task<int> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync();

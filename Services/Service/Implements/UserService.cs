@@ -6,6 +6,7 @@ using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
 using Isopoh.Cryptography.Argon2;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using Services.Repositories;
 
 namespace Ecom_API.Service
@@ -144,11 +145,12 @@ namespace Ecom_API.Service
             var isExisted = await _unitOfWork.Users.GetByIdAsync(id);
             if (isExisted == null)
                 throw new AppException("user " + id + " does not exist");
+
             isExisted.avatar = model.avatar;
-            isExisted.address = model.address;
             isExisted.phone = model.phone;
             isExisted.username = model.username;
             isExisted.fullname = model.fullname;
+            isExisted.addresses = JsonConvert.SerializeObject(model.userAddresses).ToString();
             isExisted.updated_date = DateTime.Now.ToUniversalTime();
             await _unitOfWork.Users.UpdateAsync(isExisted);
             var res = await _unitOfWork.SaveChangesAsync();

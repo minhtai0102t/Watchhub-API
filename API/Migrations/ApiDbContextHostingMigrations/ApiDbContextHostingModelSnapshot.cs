@@ -108,16 +108,33 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.Property<int>("created_user")
                         .HasColumnType("integer");
 
+                    b.Property<string>("district")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("is_deleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("order_detail_id")
+                    b.Property<string>("order_info")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("order_status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("payment_method_id")
                         .HasColumnType("integer");
 
-                    b.Property<int>("order_id")
-                        .HasColumnType("integer");
+                    b.Property<string>("province")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int>("total_money_amount")
+                    b.Property<string>("street")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("total_amount")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("updated_date")
@@ -129,83 +146,13 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.Property<int>("user_id")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ward")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("id");
 
                     b.ToTable("orders");
-                });
-
-            modelBuilder.Entity("Ecom_API.DTO.Entities.OrderDetail", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("created_user")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("money_amount")
-                        .HasColumnType("integer");
-
-                    b.Property<List<int>>("product_ids")
-                        .IsRequired()
-                        .HasColumnType("integer[]");
-
-                    b.Property<int>("quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("updated_date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("updated_user")
-                        .HasColumnType("integer");
-
-                    b.HasKey("id");
-
-                    b.ToTable("order_details");
-                });
-
-            modelBuilder.Entity("Ecom_API.DTO.Entities.OrderStatus", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("created_user")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("order_id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("order_status_name")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<DateTime>("updated_date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("updated_user")
-                        .HasColumnType("integer");
-
-                    b.HasKey("id");
-
-                    b.ToTable("order_status");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Payment", b =>
@@ -592,9 +539,9 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("address")
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
+                    b.Property<string>("addresses")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("avatar")
                         .HasMaxLength(1000)
@@ -603,7 +550,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.Property<DateTime>("created_date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 6, 23, 4, 44, 42, 838, DateTimeKind.Utc).AddTicks(8972));
+                        .HasDefaultValue(new DateTime(2023, 6, 25, 6, 29, 44, 733, DateTimeKind.Utc).AddTicks(1700));
 
                     b.Property<int>("created_user")
                         .HasColumnType("integer");
@@ -619,6 +566,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<bool>("is_admin")
+                        .HasMaxLength(2000)
                         .HasColumnType("boolean");
 
                     b.Property<bool>("is_deleted")
@@ -652,6 +600,82 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.HasKey("id");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("Ecom_API.DTO.Entities.VNPay", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BankCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BankTranNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CardType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OrderInfo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PayDate")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResponseCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecureHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TmnCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TransactionNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TransactionStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TxnRef")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("created_user")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("updated_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("updated_user")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("vnpay_payment");
                 });
 #pragma warning restore 612, 618
         }
