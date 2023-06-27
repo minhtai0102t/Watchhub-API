@@ -2,6 +2,7 @@ using Ecom_API.DTO.Models;
 using Ecom_API.PagingModel;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
+using static Ecom_API.Helpers.Constants;
 
 [ApiController]
 [Route("[controller]")]
@@ -42,6 +43,18 @@ public class OrderController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+      /// <summary>
+    /// Get All
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("SearchByOrderStatus")]
+    public async Task<IActionResult> SearchByOrderStatus([FromQuery] QueryStringParameters query, string orderStatus)
+    {
+        var res = await _OrderService.SearchByOrderStatus(query, orderStatus);
+        var response = new { res, res.TotalCount };
+        return Ok(response);
+    }
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -52,6 +65,20 @@ public class OrderController : ControllerBase
     {
         var res = await _OrderService.GetById(id);
         return Ok(res);
+    }
+    [HttpPut]
+    [Route("Update{id}")]
+    public async Task<IActionResult> Update(int id, string orderStatus)
+    {
+        var res = await _OrderService.Update(id, orderStatus);
+        if (res)
+        {
+            return Ok(new { message = "Order status update successful" });
+        }
+        else
+        {
+            return BadRequest(new { message = "Order status update failed" });
+        }
     }
     // [Authorize]
     [HttpDelete]
