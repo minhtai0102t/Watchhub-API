@@ -28,6 +28,29 @@ namespace Ecom_API.Service
             _mapper = mapper;
             _cache = cache;
         }
+        public async Task<bool> Create(ProductTypeCreateReq model)
+        {
+            try
+            {
+                var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_name == model.product_type_name);
+                if (validate != null)
+                    throw new AppException("product_type_name '" + model.product_type_name + "' is already existed in system");
+
+                // map model to new user object
+                var productType = _mapper.Map<ProductType>(model);
+                productType.gender = model.gender.ToString();
+                productType.product_dial_color = model.product_dial_color.ToString();
+                // product type full name generate
+
+                await _unitOfWork.ProductTypes.CreateAsync(productType);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<PagedList<ProductType>> Search(QueryStringParameters pagingParams, string searchTerm)
         {
             if (!string.IsNullOrEmpty(searchTerm))
@@ -215,35 +238,14 @@ namespace Ecom_API.Service
                     throw new AppException("ProductType " + id + " does not exist");
                 }
                 var mapData = _mapper.Map<ProductType>(model);
+                mapData.gender = model.gender.ToString();
+                mapData.product_dial_color = model.product_dial_color.ToString();
                 mapData.id = item.id;
                 mapData.updated_date = DateTime.Now.ToUniversalTime();
                 await _unitOfWork.ProductTypes.UpdateAsync(mapData);
                 var res = await _unitOfWork.SaveChangesAsync();
 
                 return res == 1 ? true : false;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public async Task<bool> Create(ProductTypeCreateReq model)
-        {
-            try
-            {
-                var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_name == model.product_type_name);
-                if (validate != null)
-                    throw new AppException("product_type_name '" + model.product_type_name + "' is already existed in system");
-
-                // map model to new user object
-                var productType = _mapper.Map<ProductType>(model);
-                productType.gender = model.gender.ToString();
-                productType.product_dial_color = model.product_dial_color.ToString();
-                // product type full name generate
-
-                await _unitOfWork.ProductTypes.CreateAsync(productType);
-                var res = await _unitOfWork.SaveChangesAsync();
-                return res >= 1 ? true : false;
             }
             catch (Exception ex)
             {
