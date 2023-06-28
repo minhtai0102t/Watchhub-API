@@ -16,7 +16,8 @@ public interface IProductTypeService : IDisposable
     Task<int> GetTotalBySubCategoryId(int subCategoryId);
     Task<int> GetTotalByBrandId(int brandId);
     Task<ProductTypeFullRes> GetById(int id);
-    Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice = 0, int maxPrice = 1000000000);
+    Task<PagedList<ProductType>> Filter(QueryStringParameters pagingParams, FilterOptions filterOptions);
+    Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice , int maxPrice);
     Task<PagedList<ProductType>> FilterByGender(QueryStringParameters pagingParams, GENDER gender);
     Task<PagedList<ProductType>> FilterByDialColor(QueryStringParameters pagingParams, DIAL_COLOR color);
     Task<bool> Update(ProductTypeUpdateReq model, int id);

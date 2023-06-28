@@ -65,7 +65,7 @@ namespace VNPAY_CS_ASPX
             AddRequestData("vnp_Locale", "vn");
             AddRequestData("vnp_OrderInfo", "Thanh toan don hang: " + Guid.NewGuid().ToString());
             AddRequestData("vnp_OrderType", "other");
-            AddRequestData("vnp_ReturnUrl", callbackUrl);
+            AddRequestData("vnp_ReturnUrl", model.callbackUrl);
             AddRequestData("vnp_TxnRef", txnRef); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
             StringBuilder data = new StringBuilder();
             foreach (KeyValuePair<string, string> kv in _requestData)

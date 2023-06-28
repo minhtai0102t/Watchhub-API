@@ -37,6 +37,10 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString());
         }
+        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus, int userId)
+        {
+            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString() && c.user_id == userId);
+        }
         public async Task<Order> GetById(int id)
         {
             return await _unitOfWork.Orders.GetByIdAsync(id);
@@ -50,7 +54,7 @@ namespace Ecom_API.Service
             item.order_status = req.order_status.ToString();
             item.order_info = orderInfo;
             await _unitOfWork.Orders.CreateAsync(item);
-            
+
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
@@ -58,7 +62,8 @@ namespace Ecom_API.Service
         {
             // map model to new user object
             var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
-            if(order == null){
+            if (order == null)
+            {
                 throw new AppException($"Order {orderId} is not exist");
             }
             order.order_status = orderStatus.ToString();

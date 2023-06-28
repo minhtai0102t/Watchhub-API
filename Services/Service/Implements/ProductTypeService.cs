@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
@@ -209,7 +210,40 @@ namespace Ecom_API.Service
 
             return productTypeRes;
         }
-        public async Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice = 0, int maxPrice = 1000000000)
+        public async Task<PagedList<ProductType>> Filter(QueryStringParameters pagingParams, FilterOptions filterOptions)
+        {
+            try
+            {
+                string dialColor = filterOptions.dialColor.ToString();
+                string gender = filterOptions.gender.ToString();
+                int? minPrice = filterOptions.minPrice;
+                int? maxPrice = filterOptions.maxPrice;
+                Expression<Func<ProductType, bool>> predicate = p => true;
+                if (!string.IsNullOrEmpty(dialColor))
+                {
+                    Expression<Func<ProductType, bool>> condition = p => p.product_dial_color.Equals(dialColor);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (!string.IsNullOrEmpty(gender))
+                {
+                    Expression<Func<ProductType, bool>> condition = p => p.gender.Equals(gender);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (minPrice != null && maxPrice != null && minPrice >= 0 && maxPrice > minPrice)
+                {
+                    Expression<Func<ProductType, bool>> condition = p => p.price >= filterOptions.minPrice && p.price <= filterOptions.maxPrice;
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, predicate);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public async Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice , int maxPrice)
         {
             if (maxPrice == 0)
             {

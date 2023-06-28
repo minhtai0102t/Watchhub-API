@@ -78,7 +78,7 @@ public class ProductTypeController : ControllerBase
         return Ok(new { total = res });
     }
     // [Authorize]
-    [HttpGet] 
+    [HttpGet]
     [Route("GetTotalByBrandId{brandId}")]
     public async Task<IActionResult> GetTotalBybrandId(int brandId)
     {
@@ -98,12 +98,23 @@ public class ProductTypeController : ControllerBase
         return Ok(res);
     }
     /// <summary>
+    /// Filter
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("Filter")]
+    public async Task<IActionResult> Filter([FromQuery] QueryStringParameters param, [FromQuery] FilterOptions filterOptions)
+    {
+        var res = await _productTypeService.Filter(param, filterOptions);
+        return Ok(new { res, res.TotalCount });
+    }
+    /// <summary>
     /// Search
     /// </summary>
     // [Authorize]
     [HttpGet]
     [Route("FilterByPrice")]
-    public async Task<IActionResult> FilterByPrice([FromQuery] QueryStringParameters param, int minPrice = 0, int maxPrice = 1000000000)
+    public async Task<IActionResult> FilterByPrice([FromQuery] QueryStringParameters param, int minPrice = 0, int maxPrice = 500000000)
     {
         var res = await _productTypeService.FilterByPrice(param, minPrice, maxPrice);
         return Ok(new { res, res.TotalCount });
