@@ -9,5 +9,6 @@ namespace DTO.DTO.Models
     public class PaymentRequestModel
     {
         public double Amount { get; set; }
+        public string callbackUrl { get; set; }
     }
 }

@@ -32,6 +32,10 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Orders.GetAllWithPaging(query);
         }
+        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, string orderStatus)
+        {
+            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.Trim());
+        }
         public async Task<Order> GetById(int id)
         {
             return await _unitOfWork.Orders.GetByIdAsync(id);
@@ -44,6 +48,20 @@ namespace Ecom_API.Service
             item.order_info = orderInfo;
             await _unitOfWork.Orders.CreateAsync(item);
             
+            var res = await _unitOfWork.SaveChangesAsync();
+            return res >= 1 ? true : false;
+        }
+        public async Task<bool> Update(int orderId, string orderStatus)
+        {
+            // map model to new user object
+            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+            if(order == null){
+                throw new AppException($"Order {orderId} is not exist");
+            }
+            order.order_status = orderStatus;
+            order.updated_date = DateTime.Now.ToUniversalTime();
+
+            await _unitOfWork.Orders.UpdateAsync(order);
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }

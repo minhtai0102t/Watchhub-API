@@ -8,8 +8,10 @@ namespace Ecom_API.Service;
 public interface IOrderService : IDisposable
 {
     Task<PagedList<Order>> GetAll(QueryStringParameters pagingParams);
+    Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters pagingParams, string orderStatus);
     Task<Order> GetById(int id);
     Task<bool> Create(OrderCreateReq req);
+    Task<bool> Update(int orderId, string orderStatus);
     Task<bool> SoftDelete(int id);
     Task<bool> Delete(int id);
 }
