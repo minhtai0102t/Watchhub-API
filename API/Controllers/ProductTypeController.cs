@@ -2,6 +2,7 @@ using Ecom_API.DTO.Models;
 using Ecom_API.PagingModel;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
+using static Ecom_API.Helpers.Constants;
 
 [ApiController]
 [Route("[controller]")]
@@ -95,6 +96,39 @@ public class ProductTypeController : ControllerBase
     {
         var res = await _productTypeService.GetById(id);
         return Ok(res);
+    }
+    /// <summary>
+    /// Search
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("FilterByPrice")]
+    public async Task<IActionResult> FilterByPrice([FromQuery] QueryStringParameters param, int minPrice = 0, int maxPrice = 1000000000)
+    {
+        var res = await _productTypeService.FilterByPrice(param, minPrice, maxPrice);
+        return Ok(new { res, res.TotalCount });
+    }
+    /// <summary>
+    /// Search
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("FilterByGender")]
+    public async Task<IActionResult> FilterByGender([FromQuery] QueryStringParameters param, GENDER gender)
+    {
+        var res = await _productTypeService.FilterByGender(param, gender);
+        return Ok(new { res, res.TotalCount });
+    }
+    /// <summary>
+    /// Search
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("FilterByDialColor")]
+    public async Task<IActionResult> FilterByDialColor([FromQuery] QueryStringParameters param, DIAL_COLOR color)
+    {
+        var res = await _productTypeService.FilterByDialColor(param, color);
+        return Ok(new { res, res.TotalCount });
     }
     /// <summary>
     /// Get by id 

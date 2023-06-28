@@ -1,10 +1,9 @@
 ﻿using DTO.DTO.Models;
-using Microsoft.AspNetCore.Http;
+using Ecom_API.Service;
 using Microsoft.Extensions.Configuration;
 using Services.Repositories;
 using System.Globalization;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace VNPAY_CS_ASPX
@@ -15,16 +14,12 @@ namespace VNPAY_CS_ASPX
         private SortedList<String, String> _requestData = new SortedList<String, String>(new VnPayCompare());
         private SortedList<String, String> _responseData = new SortedList<String, String>(new VnPayCompare());
         private readonly IConfiguration _config;
-        private IUnitOfWork _unitOfWork;
-        // private string callbackUrl = "https://localhost:8383/swagger/index.html";
         private string callbackUrl = "https://localhost:8383/payment/payment_response";
-        // private string callbackUrl = "https://zenttt.bsite.net/payment/payment_response";
-
-        // private string callbackUrl = "https://watchhub.website/vnpay";
-        public VnPayUtil(IConfiguration config, IUnitOfWork unitOfWork)
+        private IUtilService _utils;
+        public VnPayUtil(IConfiguration config, IUtilService utils)
         {
             _config = config;
-            _unitOfWork = unitOfWork;
+            _utils = utils;
         }
         public void AddRequestData(string key, string value)
         {
@@ -66,7 +61,7 @@ namespace VNPAY_CS_ASPX
             AddRequestData("vnp_Amount", ((long)model.Amount * 100).ToString());
             AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));
             AddRequestData("vnp_CurrCode", "VND");
-            AddRequestData("vnp_IpAddr", "");
+            AddRequestData("vnp_IpAddr", _utils.GetIpAddress());
             AddRequestData("vnp_Locale", "vn");
             AddRequestData("vnp_OrderInfo", "Thanh toan don hang: " + Guid.NewGuid().ToString());
             AddRequestData("vnp_OrderType", "other");
@@ -87,7 +82,7 @@ namespace VNPAY_CS_ASPX
             {
                 signData = signData.Remove(data.Length - 1, 1);
             }
-            string vnp_SecureHash = Utils.HmacSHA512(_config["VNPay:vnp_HashSecret"], signData);
+            string vnp_SecureHash = _utils.HmacSHA512(_config["VNPay:vnp_HashSecret"], signData);
             baseUrl += "vnp_SecureHash=" + vnp_SecureHash;
             return baseUrl;
 
@@ -97,7 +92,7 @@ namespace VNPAY_CS_ASPX
         public bool ValidateSignature(string inputHash, string secretKey)
         {
             string rspRaw = GetResponseData();
-            string myChecksum = Utils.HmacSHA512(secretKey, rspRaw);
+            string myChecksum = _utils.HmacSHA512(secretKey, rspRaw);
             return myChecksum.Equals(inputHash, StringComparison.InvariantCultureIgnoreCase);
         }
         private string GetResponseData()
@@ -128,56 +123,6 @@ namespace VNPAY_CS_ASPX
         }
         #endregion
     }
-
-    public class Utils
-    {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public Utils(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
-        public static String HmacSHA512(string key, String inputData)
-        {
-            var hash = new StringBuilder();
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            byte[] inputBytes = Encoding.UTF8.GetBytes(inputData);
-            using (var hmac = new HMACSHA512(keyBytes))
-            {
-                byte[] hashValue = hmac.ComputeHash(inputBytes);
-                foreach (var theByte in hashValue)
-                {
-                    hash.Append(theByte.ToString("x2"));
-                }
-            }
-
-            return hash.ToString();
-        }
-        public string GetIpAddress()
-        {
-            string ipAddress;
-            try
-            {
-
-                ipAddress = _httpContextAccessor.HttpContext.Request.Headers["HTTP_X_FORWARDED_FOR"];
-                if (string.IsNullOrEmpty(ipAddress) || (ipAddress.ToLower() == "unknown") || ipAddress.Length > 45)
-                    ipAddress = _httpContextAccessor.HttpContext.Request.Headers["REMOTE_ADDR"];
-            }
-            catch (Exception ex)
-            {
-                ipAddress = "Invalid IP:" + ex.Message;
-            }
-
-            return ipAddress;
-        }
-        public async Task<bool> StoreTransaction(){
-            
-            
-            
-            return true;
-        }
-    }
-
-
     public class VnPayCompare : IComparer<string>
     {
         public int Compare(string x, string y)

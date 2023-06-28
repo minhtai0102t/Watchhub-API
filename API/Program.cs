@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Services.CommonConfig;
+using System.Text.Json.Serialization;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -15,7 +17,11 @@ internal class Program
         var services = builder.Services;
 
         services.AddCors();
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(jsonOption =>
+        {
+            //Config for present enum as string in swagger, it also convert enum to json file as string type instead of default is int type
+            jsonOption.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        }); ;
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {

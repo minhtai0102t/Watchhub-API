@@ -16,10 +16,11 @@ public class VnPayController : ControllerBase
     private readonly IUnitOfWork _unitOfWork;
     private readonly IHttpContextAccessor _httpContext;
     private readonly IVNPayService _vNPayService;
-    public VnPayController(IConfiguration configuration, IUnitOfWork unitOfWork, IHttpContextAccessor httpContext, IVNPayService vNPayService)
+    private readonly IUtilService _util;
+    public VnPayController(IConfiguration configuration, IUnitOfWork unitOfWork, IHttpContextAccessor httpContext, IVNPayService vNPayService, IUtilService utils)
     {
         _configuration = configuration;
-        this.vnPayUtil = new VnPayUtil(_configuration, _unitOfWork);
+        this.vnPayUtil = new VnPayUtil(_configuration, _util);
         _httpContext = httpContext;
         _vNPayService = vNPayService;
     }

@@ -1,4 +1,6 @@
 
+using static Ecom_API.Helpers.Constants;
+
 namespace Ecom_API.DTO.Models;
 public class ProductTypeCreateReq
 {
@@ -15,10 +17,10 @@ public class ProductTypeCreateReq
     public string product_guarantee { get; set; }
     public string product_dial_width { get; set; }
     public string product_dial_height { get; set; }
-    public string product_dial_color { get; set; }
+    public DIAL_COLOR product_dial_color { get; set; }
     public string product_waterproof { get; set; }
     public string product_features { get; set; }
     public string product_additional_information { get; set; }
-    public string gender { get; set; }
+    public GENDER gender { get; set; }
     public string product_type_code { get; set; }
 }

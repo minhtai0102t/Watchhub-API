@@ -1,3 +1,5 @@
+using static Ecom_API.Helpers.Constants;
+
 namespace Ecom_API.DTO.Models;
 public class OrderCreateReq
 {
@@ -5,7 +7,7 @@ public class OrderCreateReq
     public List<OrderInfo> items { get; set; }
     public int total_amount { get; set; }
     public int payment_method_id { get; set; }
-    public string order_status { get; set; }
+    public ORDER_STATUS order_status { get; set; }
     public class OrderInfo
     {
         public int id { get; set; }

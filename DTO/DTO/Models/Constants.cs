@@ -11,7 +11,8 @@ public static class Constants
     public static string VerificationLinkLocal = "https://localhost:8383/Users/verify";
     public static string VerificationLinkHosting = "https://zenttt.bsite.net/Users/verify";
 
-    public enum ORDER_STATUS{
+    public enum ORDER_STATUS
+    {
         [Description("Chưa thanh toán")]
         UNPAID,
         [Description("Chờ thanh toán")]
@@ -28,6 +29,31 @@ public static class Constants
         COMPLETED,
         [Description("Đã huỷ")]
         CANCELLED
+    }
+    public enum GENDER
+    {
+        MALE,
+        FEMALE
+    }
+    public enum DIAL_COLOR
+    {
+        RED,
+        ORANGE,
+        YELLOW,
+        GREEN,
+        BLUE,
+        INDIGO,
+        VIOLET,
+        PURPLE,
+        PINK,
+        BROWN,
+        GRAY,
+        BLACK,
+        WHITE,
+        CYAN,
+        MAGENTA,
+        SILVER,
+        GOLD
     }
     //public static string VerificationLinkHosting = "https://watchhub.website/verify";
 }

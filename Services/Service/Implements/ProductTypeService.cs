@@ -6,6 +6,7 @@ using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
 using Microsoft.Extensions.Caching.Memory;
 using Services.Repositories;
+using static Ecom_API.Helpers.Constants;
 
 namespace Ecom_API.Service
 {
@@ -185,6 +186,25 @@ namespace Ecom_API.Service
 
             return productTypeRes;
         }
+        public async Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice = 0, int maxPrice = 1000000000)
+        {
+            if (maxPrice == 0)
+            {
+                return new PagedList<ProductType>();
+            }
+            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.price >= minPrice && c.price <= maxPrice));
+            return result;
+        }
+        public async Task<PagedList<ProductType>> FilterByGender(QueryStringParameters pagingParams, GENDER gender)
+        {
+            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.gender == gender.ToString()));
+            return result;
+        }
+        public async Task<PagedList<ProductType>> FilterByDialColor(QueryStringParameters pagingParams, DIAL_COLOR color)
+        {
+            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.product_dial_color == color.ToString()));
+            return result;
+        }
         public async Task<bool> Update(ProductTypeUpdateReq model, int id)
         {
             try
@@ -199,7 +219,7 @@ namespace Ecom_API.Service
                 mapData.updated_date = DateTime.Now.ToUniversalTime();
                 await _unitOfWork.ProductTypes.UpdateAsync(mapData);
                 var res = await _unitOfWork.SaveChangesAsync();
-                
+
                 return res == 1 ? true : false;
             }
             catch (Exception ex)
@@ -217,6 +237,8 @@ namespace Ecom_API.Service
 
                 // map model to new user object
                 var productType = _mapper.Map<ProductType>(model);
+                productType.gender = model.gender.ToString();
+                productType.product_dial_color = model.product_dial_color.ToString();
                 // product type full name generate
 
                 await _unitOfWork.ProductTypes.CreateAsync(productType);
