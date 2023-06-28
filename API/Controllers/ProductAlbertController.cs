@@ -33,7 +33,7 @@ public class ProductAlbertController : ControllerBase
     /// <summary>
     /// Get All
     /// </summary>
-    // [Authorize]
+     //[Authorize]
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)

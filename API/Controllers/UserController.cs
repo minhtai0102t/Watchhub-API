@@ -84,7 +84,7 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="typeof(int)"></param>
     /// <returns>User</returns>
-    [Authorize(true)]
+    [Authorize]
     [HttpGet("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
     {

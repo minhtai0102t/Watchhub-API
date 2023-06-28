@@ -58,7 +58,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("brands");
+                    b.ToTable("brands", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Category", b =>
@@ -91,7 +91,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("categories");
+                    b.ToTable("categories", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Order", b =>
@@ -152,7 +152,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("orders");
+                    b.ToTable("orders", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Payment", b =>
@@ -189,7 +189,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("payments");
+                    b.ToTable("payments", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.PaymentMethod", b =>
@@ -222,7 +222,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("payment_methods");
+                    b.ToTable("payment_methods", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Product", b =>
@@ -257,7 +257,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("products");
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductAlbert", b =>
@@ -289,7 +289,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product_alberts");
+                    b.ToTable("product_alberts", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductCore", b =>
@@ -321,7 +321,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product_cores");
+                    b.ToTable("product_cores", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductFeedback", b =>
@@ -360,7 +360,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product_feedbacks");
+                    b.ToTable("product_feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductGlass", b =>
@@ -392,7 +392,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product_glasses");
+                    b.ToTable("product_glasses", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductType", b =>
@@ -492,7 +492,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product_types");
+                    b.ToTable("product_types", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.SubCategory", b =>
@@ -528,7 +528,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("sub_categories");
+                    b.ToTable("sub_categories", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.User", b =>
@@ -599,7 +599,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.VNPay", b =>
@@ -675,7 +675,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("vnpay_payment");
+                    b.ToTable("vnpay_payment", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -27,15 +27,18 @@ public class JwtUtils : IJwtUtils
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
         var claimIdentity = new ClaimsIdentity();
+
         claimIdentity.AddClaim(new Claim("id", user.id.ToString()));
         claimIdentity.AddClaim(new Claim("username", user.username == null ? "" : user.username));
         claimIdentity.AddClaim(new Claim("fullname", user.fullname));
         claimIdentity.AddClaim(new Claim("email", user.email));
         claimIdentity.AddClaim(new Claim("avatar", user.avatar == null ? "" : user.avatar));
         claimIdentity.AddClaim(new Claim("phone", user.phone == null ? "" : user.phone));
+        claimIdentity.AddClaim(new Claim("addresses", user.addresses == null ? "" : user.addresses));
         claimIdentity.AddClaim(new Claim("created_date", user.created_date.ToString()));
         claimIdentity.AddClaim(new Claim("is_verified", user.is_verified.ToString()));
         claimIdentity.AddClaim(new Claim("is_admin", user.is_admin.ToString()));
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = claimIdentity,
