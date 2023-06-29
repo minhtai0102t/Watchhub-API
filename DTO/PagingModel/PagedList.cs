@@ -27,9 +27,9 @@ namespace EBird.Application.Model.PagingModel
             TotalCount = count;
             CurrentPage = pageNumber;
             PageSize = pageSize;
-            
-            TotalPages = (int) Math.Ceiling(count / (double)pageSize);
-            
+
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
             this.AddRange(items);
         }
 
@@ -39,7 +39,7 @@ namespace EBird.Application.Model.PagingModel
             this.TotalCount = count;
             this.PageSize = pageSize;
             this.CurrentPage = pageNumber;
-            this.TotalPages = (int) Math.Ceiling(count / (double) pageSize);
+            this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
             var items = await queryList
                                 .Skip((pageNumber - 1) * pageSize)
@@ -54,16 +54,17 @@ namespace EBird.Application.Model.PagingModel
             var items = await queryList.Where(predicate).ToListAsync();
             var count = items.Count();
             this.TotalCount = count;
-            this.TotalPages = (int) Math.Ceiling(count / (double) pageSize);
+            this.TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             items = items.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-                                
+
             this.AddRange(items);
-        }public async Task LoadData(IQueryable<T> queryList, Expression<Func<T, bool>> predicate)
+        }
+        public async Task LoadData(IQueryable<T> queryList, Expression<Func<T, bool>> predicate)
         {
             var items = await queryList.Where(predicate).ToListAsync();
             var count = items.Count();
             this.TotalCount = count;
-                                
+
             this.AddRange(items);
         }
         public async Task LoadData(IQueryable<T> queryList)

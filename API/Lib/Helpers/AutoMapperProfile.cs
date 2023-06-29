@@ -4,7 +4,7 @@ using AutoMapper;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using global::DTO.DTO.Models.Request;
-using VNPAY_CS_ASPX;
+using global::DTO.DTO.Models.Response;
 
 public class AutoMapperProfile : Profile
 {

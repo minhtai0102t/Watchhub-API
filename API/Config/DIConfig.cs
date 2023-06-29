@@ -1,7 +1,6 @@
 ﻿using Ecom_API.Helpers;
 using Ecom_API.Service;
 using Services.Repositories;
-using Services.Service.Implements;
 
 namespace Ecom_API.Config
 {
@@ -23,7 +22,6 @@ namespace Ecom_API.Config
             service.AddScoped<IPaymentMethodService, PaymentMethodService>();
             service.AddScoped<IOrderService, OrderService>();
             service.AddScoped<IVNPayService, VNPayService>();
-            service.AddScoped<IUtilService, UtilService>();
             service.AddScoped<GoogleHelperService>();
         }
     }

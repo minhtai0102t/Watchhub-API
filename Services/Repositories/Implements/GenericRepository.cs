@@ -1,8 +1,10 @@
 ﻿using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.PagingModel;
+using Google.Apis.Customsearch.v1.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static Ecom_API.Helpers.Constants;
 
 namespace Services.Repositories
 {
@@ -129,6 +131,77 @@ namespace Services.Repositories
             else
             {
                 await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize, predicate);
+            }
+            return pagedRequests;
+        }
+        public async Task<PagedList<ProductType>> GetWithPaging(IQueryable<ProductType> dataQuery, QueryStringParameters pagingParams, SORT_OPTION sortOption, bool isDecending)
+        {
+            PagedList<ProductType> pagedRequests = new PagedList<ProductType>();
+
+            if (pagingParams.PageSize == 0)
+            {
+                switch (sortOption.ToString())
+                {
+                    case "NAME":
+                        {
+                            if (isDecending)
+                            {
+                                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderByDescending(c => c.product_type_name));
+                                break;
+
+                            }
+                            await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.product_type_name));
+                            break;
+                        }
+                    case "PRICE":
+                        {
+                            if (isDecending)
+                            {
+                                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderByDescending(c => c.price));
+                                break;
+                            }
+                            await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.price));
+                            break;
+                        }
+                    default:
+                        {
+                            await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date));
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                switch (sortOption.ToString())
+                {
+                    case "NAME":
+                        {
+                            if (isDecending)
+                            {
+                                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderByDescending(c => c.product_type_name), pagingParams.PageNumber, pagingParams.PageSize);
+                                break;
+
+                            }
+                            await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.product_type_name), pagingParams.PageNumber, pagingParams.PageSize);
+                            break;
+                        }
+                    case "PRICE":
+                        {
+                            if (isDecending)
+                            {
+                                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderByDescending(c => c.price), pagingParams.PageNumber, pagingParams.PageSize);
+                                break;
+
+                            }
+                            await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.price), pagingParams.PageNumber, pagingParams.PageSize); 
+                            break;
+                        }
+                    default:
+                        {
+                            await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize);
+                            break;
+                        }
+                }
             }
             return pagedRequests;
         }

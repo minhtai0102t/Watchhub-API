@@ -1,26 +1,23 @@
-﻿using System.Collections.Specialized;
-using System.Web;
-using DTO.DTO.Models;
+﻿using DTO.DTO.Models;
+using DTO.DTO.Models.Response;
 using Ecom_API.DTO.Entities;
 using Ecom_API.PagingModel;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
 using Services.Repositories;
-using VNPAY_CS_ASPX;
+using System.Collections.Specialized;
+using System.Web;
+
 [Route("payment")]
 [ApiController]
 public class VnPayController : ControllerBase
 {
     private readonly IConfiguration _configuration;
-    private readonly VnPayUtil vnPayUtil;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IHttpContextAccessor _httpContext;
     private readonly IVNPayService _vNPayService;
-    private readonly IUtilService _util;
-    public VnPayController(IConfiguration configuration, IUnitOfWork unitOfWork, IHttpContextAccessor httpContext, IVNPayService vNPayService, IUtilService utils)
+    public VnPayController(IConfiguration configuration, IUnitOfWork unitOfWork, IHttpContextAccessor httpContext, IVNPayService vNPayService)
     {
         _configuration = configuration;
-        this.vnPayUtil = new VnPayUtil(_configuration, _util);
         _httpContext = httpContext;
         _vNPayService = vNPayService;
     }
@@ -28,7 +25,7 @@ public class VnPayController : ControllerBase
     [HttpPost("create_payment")]
     public async Task<ActionResult<string>> CreatePayment(PaymentRequestModel model)
     {
-        var res = vnPayUtil.CreateRequestUrl(model);
+        var res = _vNPayService.CreateRequestUrl(model);
         return Ok(res);
     }
     [HttpGet("payment_response")]

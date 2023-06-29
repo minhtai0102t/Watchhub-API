@@ -98,14 +98,36 @@ public class ProductTypeController : ControllerBase
         return Ok(res);
     }
     /// <summary>
+    /// Get by id 
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("GetImagesById{id}")]
+    public async Task<IActionResult> GetImagesById(int id)
+    {
+        var res = await _productTypeService.GetImagesById(id);
+        return Ok(res);
+    }
+    /// <summary>
+    /// Get by id 
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("GetByListId")]
+    public async Task<IActionResult> GetByListId([FromQuery] List<int> listId)
+    {
+        var res = await _productTypeService.GetByListId(listId);
+        return Ok(res);
+    }
+    /// <summary>
     /// Filter
     /// </summary>
     // [Authorize]
     [HttpGet]
-    [Route("Filter")]
-    public async Task<IActionResult> Filter([FromQuery] QueryStringParameters param, [FromQuery] FilterOptions filterOptions)
+    [Route("Filter{subCategoryId}")]
+    public async Task<IActionResult> Filter([FromQuery] QueryStringParameters param, int subCategoryId, [FromQuery] FilterOptions filterOptions)
     {
-        var res = await _productTypeService.Filter(param, filterOptions);
+        var res = await _productTypeService.Filter(param, subCategoryId, filterOptions);
         return Ok(new { res, res.TotalCount });
     }
     /// <summary>
@@ -139,6 +161,13 @@ public class ProductTypeController : ControllerBase
     public async Task<IActionResult> FilterByDialColor([FromQuery] QueryStringParameters param, DIAL_COLOR color)
     {
         var res = await _productTypeService.FilterByDialColor(param, color);
+        return Ok(new { res, res.TotalCount });
+    }
+    [HttpGet]
+    [Route("Sort")]
+    public async Task<IActionResult> Sort([FromQuery] QueryStringParameters param, [FromQuery] SORT_OPTION sortOption, bool isDescending = false)
+    {
+        var res = await _productTypeService.Sort(param, sortOption, isDescending);
         return Ok(new { res, res.TotalCount });
     }
     /// <summary>

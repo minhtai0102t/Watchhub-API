@@ -25,5 +25,6 @@ namespace Ecom_API.DTO.Entities
         public string ward { get; set; }
         [Required]
         public string street { get; set; }
+        public List<string>? product_image_uuid { get; set; }
     }
 }

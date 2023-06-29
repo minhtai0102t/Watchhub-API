@@ -3,6 +3,7 @@ using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.PagingModel;
 using Microsoft.EntityFrameworkCore;
+using static Ecom_API.Helpers.Constants;
 
 namespace Services.Repositories
 {
@@ -22,6 +23,11 @@ namespace Services.Repositories
         {
             var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams, predicate);
+        }
+        public async Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, SORT_OPTION sortOption, bool isDecending)
+        {
+            var dataQuery = dbSet.AsNoTracking();
+            return await GetWithPaging(dataQuery, pagingParams, sortOption, isDecending);
         }
     }
 }

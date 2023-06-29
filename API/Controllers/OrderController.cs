@@ -79,6 +79,18 @@ public class OrderController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+    /// <summary>
+    /// Get All
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("FilterByUserId{userId}")]
+    public async Task<IActionResult> SearchUserOrderStatusById([FromQuery] QueryStringParameters query, int userId)
+    {
+        var res = await _OrderService.SearchByOrderStatus(query, userId);
+        var response = new { res, res.TotalCount };
+        return Ok(response);
+    }
     [HttpPut]
     [Route("Update{id}")]
     public async Task<IActionResult> Update(int id, ORDER_STATUS orderStatus)

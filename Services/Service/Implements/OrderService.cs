@@ -41,6 +41,10 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString() && c.user_id == userId);
         }
+        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, int userId)
+        {
+            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.user_id == userId);
+        }
         public async Task<Order> GetById(int id)
         {
             return await _unitOfWork.Orders.GetByIdAsync(id);

@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using AutoMapper;
 using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
@@ -7,6 +6,7 @@ using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
 using Microsoft.Extensions.Caching.Memory;
 using Services.Repositories;
+using System.Linq.Expressions;
 using static Ecom_API.Helpers.Constants;
 
 namespace Ecom_API.Service
@@ -210,7 +210,45 @@ namespace Ecom_API.Service
 
             return productTypeRes;
         }
-        public async Task<PagedList<ProductType>> Filter(QueryStringParameters pagingParams, FilterOptions filterOptions)
+        public async Task<IEnumerable<ProductTypeFullRes>> GetByListId(List<int> listId)
+        {
+            var result = new List<ProductTypeFullRes>();
+            var listItem = await _unitOfWork.ProductTypes.FindAllWithCondition(c => listId.Any(p => p == c.id));
+            foreach (var item in listItem)
+            {
+                var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
+                var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+                var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
+                var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
+                var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
+                var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
+
+                productTypeRes.alberts = albert;
+                productTypeRes.cores = core;
+                productTypeRes.glasses = glass;
+
+                if (brand != null)
+                {
+                    productTypeRes.brand_id = brand.id;
+                    productTypeRes.brand_name = brand.brand_name;
+                    productTypeRes.brand_logo = brand.brand_logo;
+                }
+
+                if (subCategory != null)
+                {
+                    productTypeRes.sub_category_id = subCategory.id;
+                    productTypeRes.sub_category_name = subCategory.sub_category_name;
+                }
+                result.Add(productTypeRes);
+            }
+            return result.OrderBy(c => c.id);
+        }
+        public async Task<List<string>> GetImagesById(int id)
+        {
+            var item = await _unitOfWork.ProductTypes.GetByIdAsync(id);
+            return item.product_image_uuid;
+        }
+        public async Task<PagedList<ProductType>> Filter(QueryStringParameters pagingParams, int subCategoryId, FilterOptions filterOptions)
         {
             try
             {
@@ -218,7 +256,8 @@ namespace Ecom_API.Service
                 string gender = filterOptions.gender.ToString();
                 int? minPrice = filterOptions.minPrice;
                 int? maxPrice = filterOptions.maxPrice;
-                Expression<Func<ProductType, bool>> predicate = p => true;
+                Expression<Func<ProductType, bool>> predicate = p => p.sub_category_id == subCategoryId;
+
                 if (!string.IsNullOrEmpty(dialColor))
                 {
                     Expression<Func<ProductType, bool>> condition = p => p.product_dial_color.Equals(dialColor);
@@ -243,7 +282,7 @@ namespace Ecom_API.Service
             }
 
         }
-        public async Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice , int maxPrice)
+        public async Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice, int maxPrice)
         {
             if (maxPrice == 0)
             {
@@ -261,6 +300,19 @@ namespace Ecom_API.Service
         {
             var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.product_dial_color == color.ToString()));
             return result;
+        }
+        public async Task<PagedList<ProductType>> Sort(QueryStringParameters param, SORT_OPTION sortOption, bool isDescending = false)
+        {
+            try
+            {
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(param, sortOption, isDescending);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public async Task<bool> Update(ProductTypeUpdateReq model, int id)
         {

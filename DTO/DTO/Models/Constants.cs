@@ -47,5 +47,10 @@ public static class Constants
         SILVER,
         GOLD
     }
+    public enum SORT_OPTION
+    {
+        NAME,
+        PRICE
+    }
     //public static string VerificationLinkHosting = "https://watchhub.website/verify";
 }

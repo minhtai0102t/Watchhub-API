@@ -17,4 +17,5 @@ public class OrderCreateReq
     public string district { get; set; }
     public string ward { get; set; }
     public string street { get; set; }
+    public List<string>? product_image_uuid { get; set; }
 }
