@@ -85,7 +85,6 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetTotalByBrandId(brandId);
         return Ok(new { total = res });
     }
-
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -128,6 +127,17 @@ public class ProductTypeController : ControllerBase
     public async Task<IActionResult> Filter([FromQuery] QueryStringParameters param, int subCategoryId, [FromQuery] FilterOptions filterOptions)
     {
         var res = await _productTypeService.Filter(param, subCategoryId, filterOptions);
+        return Ok(new { res, res.TotalCount });
+    }
+    /// <summary>
+    /// Filter Best Seller
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("FilterBestSeller")]
+    public async Task<IActionResult> FilterBestSeller([FromQuery] QueryStringParameters param, [FromQuery] SORT_OPTION sortOption, [FromQuery] GENDER gender)
+    {
+        var res = await _productTypeService.FilterBestSeller(param, sortOption, gender);
         return Ok(new { res, res.TotalCount });
     }
     /// <summary>

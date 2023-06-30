@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ecom_API.DBHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 {
     [DbContext(typeof(ApiDbContextHosting))]
-    partial class ApiDbContextHostingModelSnapshot : ModelSnapshot
+    [Migration("20230630090433_UpdateDb61")]
+    partial class UpdateDb61
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,9 +131,6 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.Property<List<string>>("product_image_uuid")
                         .HasColumnType("text[]");
-
-                    b.Property<List<int>>("product_type_ids")
-                        .HasColumnType("integer[]");
 
                     b.Property<string>("province")
                         .IsRequired()
@@ -487,7 +487,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.Property<int>("quantity")
                         .HasColumnType("integer");
 
-                    b.Property<int>("sold_quantity")
+                    b.Property<int?>("sold_quantity")
                         .HasColumnType("integer");
 
                     b.Property<int>("sub_category_id")
@@ -558,7 +558,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.Property<DateTime>("created_date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 6, 30, 10, 5, 3, 935, DateTimeKind.Utc).AddTicks(2515));
+                        .HasDefaultValue(new DateTime(2023, 6, 30, 9, 4, 32, 982, DateTimeKind.Utc).AddTicks(6881));
 
                     b.Property<int>("created_user")
                         .HasColumnType("integer");

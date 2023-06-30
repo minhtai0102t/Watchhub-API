@@ -24,10 +24,10 @@ namespace Services.Repositories
             var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams, predicate);
         }
-        public async Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, SORT_OPTION sortOption, bool isDecending)
+        public async Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate, SORT_OPTION sortOption, bool isDecending)
         {
             var dataQuery = dbSet.AsNoTracking();
-            return await GetWithPaging(dataQuery, pagingParams, sortOption, isDecending);
+            return await GetWithPaging(dataQuery, pagingParams, predicate, sortOption, isDecending);
         }
     }
 }

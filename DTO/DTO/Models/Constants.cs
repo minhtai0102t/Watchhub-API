@@ -50,7 +50,8 @@ public static class Constants
     public enum SORT_OPTION
     {
         NAME,
-        PRICE
+        PRICE,
+        ON_SOLD
     }
     //public static string VerificationLinkHosting = "https://watchhub.website/verify";
 }

@@ -4,7 +4,6 @@ using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
-using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Services.Repositories;
 using static Ecom_API.Helpers.Constants;
@@ -14,20 +13,17 @@ namespace Ecom_API.Service
     public class OrderService : IOrderService
     {
         private IUnitOfWork _unitOfWork;
-        private IJwtUtils _jwtUtils;
         private bool disposedValue;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
+        private readonly IProductTypeService _productTypeService;
         public OrderService(
-            IJwtUtils jwtUtils,
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IMemoryCache cache)
+            IProductTypeService productTypeService)
         {
             _unitOfWork = unitOfWork;
-            _jwtUtils = jwtUtils;
             _mapper = mapper;
-            _cache = cache;
+            _productTypeService = productTypeService;
         }
         public async Task<PagedList<Order>> GetAll(QueryStringParameters query)
         {
@@ -51,12 +47,20 @@ namespace Ecom_API.Service
         }
         public async Task<bool> Create(OrderCreateReq req)
         {
-            // map model to new user object
-            var orderInfo = JsonConvert.SerializeObject(req.items).ToString();
+            // get list product type by list id
+            var listProductTypeId = req.items.Select(c => c.id).ToList();
+            var listProductType = await _productTypeService.GetByListId(listProductTypeId);
+            foreach (var product in listProductType)
+            {
+                product.quantity = req.items.FirstOrDefault(c => c.id == product.id).quantity;
+            }
+            var orderInfo = JsonConvert.SerializeObject(listProductType).ToString();
             var item = _mapper.Map<Order>(req);
 
             item.order_status = req.order_status.ToString();
             item.order_info = orderInfo;
+            item.product_type_ids = listProductTypeId;
+
             await _unitOfWork.Orders.CreateAsync(item);
 
             var res = await _unitOfWork.SaveChangesAsync();
@@ -89,7 +93,6 @@ namespace Ecom_API.Service
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
-
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

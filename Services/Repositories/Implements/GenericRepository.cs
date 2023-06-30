@@ -1,7 +1,6 @@
 ﻿using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.PagingModel;
-using Google.Apis.Customsearch.v1.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using static Ecom_API.Helpers.Constants;
@@ -134,7 +133,7 @@ namespace Services.Repositories
             }
             return pagedRequests;
         }
-        public async Task<PagedList<ProductType>> GetWithPaging(IQueryable<ProductType> dataQuery, QueryStringParameters pagingParams, SORT_OPTION sortOption, bool isDecending)
+        public async Task<PagedList<ProductType>> GetWithPaging(IQueryable<ProductType> dataQuery, QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate, SORT_OPTION sortOption, bool isDecending)
         {
             PagedList<ProductType> pagedRequests = new PagedList<ProductType>();
 
@@ -161,6 +160,11 @@ namespace Services.Repositories
                                 break;
                             }
                             await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.price));
+                            break;
+                        }
+                    case "ON_SOLD":
+                        {
+                            await pagedRequests.LoadData(dataQuery.Where(predicate).OrderByDescending(c => c.sold_quantity));
                             break;
                         }
                     default:
@@ -193,7 +197,12 @@ namespace Services.Repositories
                                 break;
 
                             }
-                            await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.price), pagingParams.PageNumber, pagingParams.PageSize); 
+                            await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.price), pagingParams.PageNumber, pagingParams.PageSize);
+                            break;
+                        }
+                    case "ON_SOLD":
+                        {
+                            await pagedRequests.LoadData(dataQuery.Where(predicate).OrderByDescending(c => c.sold_quantity));
                             break;
                         }
                     default:

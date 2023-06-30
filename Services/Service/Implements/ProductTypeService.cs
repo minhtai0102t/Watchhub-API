@@ -14,18 +14,15 @@ namespace Ecom_API.Service
     public class ProductTypeService : IProductTypeService
     {
         private IUnitOfWork _unitOfWork;
-        private IJwtUtils _jwtUtils;
         private bool disposedValue;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _cache;
         public ProductTypeService(
-            IJwtUtils jwtUtils,
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IMemoryCache cache)
         {
             _unitOfWork = unitOfWork;
-            _jwtUtils = jwtUtils;
             _mapper = mapper;
             _cache = cache;
         }
@@ -282,6 +279,47 @@ namespace Ecom_API.Service
             }
 
         }
+        public async Task<PagedList<ProductType>> FilterBestSeller(QueryStringParameters pagingParams, SORT_OPTION sortOption, GENDER gender)
+        {
+            try
+            {
+                Expression<Func<ProductType, bool>> predicate = p => true;
+                switch (gender.ToString())
+                {
+                    case "MALE":
+                        {
+                            Expression<Func<ProductType, bool>> condition = p => p.gender.Equals("MALE");
+                            predicate = PredicateBuilder.And(predicate, condition);
+                            break;
+                        }
+                    case "FEMALE":
+                        {
+                            Expression<Func<ProductType, bool>> condition = p => p.gender.Equals("FEMALE");
+                            predicate = PredicateBuilder.And(predicate, condition);
+                            break;
+                        }
+                    case "COUPLE":
+                        {
+                            Expression<Func<ProductType, bool>> condition = p => p.gender.Equals("COUPLE");
+                            predicate = PredicateBuilder.And(predicate, condition);
+                            break;
+                        }
+                    case "UNISEX":
+                        {
+
+                            Expression<Func<ProductType, bool>> condition = p => p.gender.Equals("UNISEX");
+                            predicate = PredicateBuilder.And(predicate, condition);
+                            break;
+                        }
+                }
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, predicate, sortOption, true);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice, int maxPrice)
         {
             if (maxPrice == 0)
@@ -305,7 +343,7 @@ namespace Ecom_API.Service
         {
             try
             {
-                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(param, sortOption, isDescending);
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(param,c => true, sortOption, isDescending);
                 return result;
             }
             catch (Exception ex)

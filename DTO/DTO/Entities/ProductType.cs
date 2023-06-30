@@ -32,5 +32,6 @@ namespace Ecom_API.DTO.Entities
         public string product_additional_information { get; set; }
         public string gender { get; set; }
         public string product_type_code { get; set; }
+        public int sold_quantity { get; set; } = 0;
     }
 }

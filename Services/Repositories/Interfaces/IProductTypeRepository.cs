@@ -10,6 +10,6 @@ namespace Services.Repositories
     {
         Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams);
         Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate);
-        Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, SORT_OPTION sortOption, bool isDecending);
+        Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate, SORT_OPTION sortOption, bool isDecending);
     }
 }
