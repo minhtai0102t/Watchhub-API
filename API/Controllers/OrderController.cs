@@ -22,14 +22,7 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> Create(OrderCreateReq obj)
     {
         var res = await _OrderService.Create(obj);
-        if (res)
-        {
-            return Ok(new { message = "Order creation successful" });
-        }
-        else
-        {
-            return BadRequest(new { message = "Order creation fail" });
-        }
+        return Ok(new { OrderId = res });
     }
     /// <summary>
     /// Get All
@@ -43,7 +36,7 @@ public class OrderController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
-    
+
     /// <summary>
     /// Get by id 
     /// </summary>

@@ -45,7 +45,7 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Orders.GetByIdAsync(id);
         }
-        public async Task<bool> Create(OrderCreateReq req)
+        public async Task<int> Create(OrderCreateReq req)
         {
             // get list product type by list id
             var listProductTypeId = req.items.Select(c => c.id).ToList();
@@ -64,7 +64,7 @@ namespace Ecom_API.Service
             await _unitOfWork.Orders.CreateAsync(item);
 
             var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+            return item.id;
         }
         public async Task<bool> Update(int orderId, ORDER_STATUS orderStatus)
         {
