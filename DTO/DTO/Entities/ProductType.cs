@@ -14,14 +14,7 @@ namespace Ecom_API.DTO.Entities
         [Required]
         public int price { get; set; }
         public List<string>? product_image_uuid { get; set; }
-        [Required]
-        public int brand_id { get; set; }
-        [Required]
-        public int sub_category_id { get; set; }
         public List<int>? product_feedback_ids { get; set; }
-        public int product_albert_id { get; set; }
-        public int product_core_id { get; set; }
-        public int product_glass_id { get; set; }
         public string product_source { get; set; }
         public string product_guarantee { get; set; }
         public string product_dial_width { get; set; }
@@ -33,5 +26,17 @@ namespace Ecom_API.DTO.Entities
         public string gender { get; set; }
         public string product_type_code { get; set; }
         public int sold_quantity { get; set; } = 0;
+        [Required]
+        [ForeignKey("sub_category_id")]
+        public int sub_category_id { get; set; }
+        public SubCategory subCategory { get; set; }
+        [Required]
+        [ForeignKey("brand_id")]
+        public int brand_id { get; set; }
+        public Brand brand { get; set; }
+        public ICollection<ProductAlbert> alberts { get; } = new List<ProductAlbert>();
+        public ICollection<ProductCore> cores { get; } = new List<ProductCore>();
+        public ICollection<ProductGlass> glasses { get; } = new List<ProductGlass>();
+        public ICollection<Product> products { get; } = new List<Product>();
     }
 }

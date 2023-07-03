@@ -157,7 +157,6 @@ D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.Extensions.Configuratio
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.Extensions.Configuration.Binder.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.Extensions.DependencyInjection.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.Extensions.DependencyModel.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.Extensions.Logging.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.Extensions.Logging.Abstractions.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.Extensions.Logging.Configuration.dll
@@ -170,13 +169,11 @@ D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTo
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Microsoft.OpenApi.dll
-D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Mono.TextTemplating.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Npgsql.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Swashbuckle.AspNetCore.Swagger.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll
-D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/System.CodeDom.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/System.Text.Encodings.Web.dll
 D:/Workplace/Watchhub-API/API/bin/Debug/net6.0/System.Text.Json.dll
@@ -314,7 +311,6 @@ D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.Configuratio
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Binder.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.Logging.Configuration.dll
@@ -329,14 +325,12 @@ D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.OpenApi.dll
-D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Mono.TextTemplating.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Npgsql.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\System.CodeDom.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\System.Text.Encodings.Web.dll
 D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\System.Text.Json.dll
@@ -364,3 +358,6 @@ D:\Workplace\Watchhub-API\API\obj\Debug\net6.0\refint\Ecom-API.dll
 D:\Workplace\Watchhub-API\API\obj\Debug\net6.0\Ecom-API.pdb
 D:\Workplace\Watchhub-API\API\obj\Debug\net6.0\API.genruntimeconfig.cache
 D:\Workplace\Watchhub-API\API\obj\Debug\net6.0\ref\Ecom-API.dll
+D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\Mono.TextTemplating.dll
+D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\System.CodeDom.dll

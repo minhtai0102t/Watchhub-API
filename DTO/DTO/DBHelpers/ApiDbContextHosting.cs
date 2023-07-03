@@ -18,20 +18,56 @@ namespace Ecom_API.DBHelpers
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().Property(c => c.created_date).HasDefaultValue(DateTime.Now.ToUniversalTime());
-            modelBuilder.Entity<SubCategory>();
-            modelBuilder.Entity<ProductType>();
+            modelBuilder.Entity<User>();
             modelBuilder.Entity<ProductFeedback>();
-            modelBuilder.Entity<Product>();
             modelBuilder.Entity<PaymentMethod>();
             modelBuilder.Entity<Payment>();
             modelBuilder.Entity<Order>();
             modelBuilder.Entity<Category>();
-            modelBuilder.Entity<Brand>();
             modelBuilder.Entity<ProductAlbert>();
             modelBuilder.Entity<ProductCore>();
             modelBuilder.Entity<ProductGlass>();
             modelBuilder.Entity<VNPay>();
+
+            modelBuilder.Entity<SubCategory>().UseTpcMappingStrategy()
+                .HasMany(c => c.productTypes)
+                .WithOne(c => c.subCategory)
+                .HasForeignKey(c => c.sub_category_id);
+            modelBuilder.Entity<Brand>().UseTpcMappingStrategy()
+                .HasMany(c => c.productTypes)
+                .WithOne(c => c.brand)
+                .HasForeignKey(c => c.brand_id);
+
+            // Config foreign key one to many
+            //modelBuilder.Entity<ProductType>()
+            //    .HasOne(c => c.subCategory)
+            //    .WithMany(c => c.productTypes)
+            //    .HasForeignKey(c => c.sub_category_id);
+
+            //modelBuilder.Entity<ProductType>()
+            //    .HasOne(c => c.brand)
+            //    .WithMany(c => c.productTypes)
+            //    .HasForeignKey(c => c.brand_id);
+
+            modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
+               .HasMany(c => c.alberts)
+               .WithOne(c => c.productType)
+               .HasForeignKey(c => c.product_type_id);
+
+            modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
+               .HasMany(c => c.cores)
+               .WithOne(c => c.productType)
+               .HasForeignKey(c => c.product_type_id);
+
+            modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
+               .HasMany(c => c.glasses)
+               .WithOne(c => c.productType)
+               .HasForeignKey(c => c.product_type_id);
+
+            modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
+                .HasMany(c => c.products)
+                .WithOne(c => c.productType)
+                .HasForeignKey(c => c.product_type_id);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

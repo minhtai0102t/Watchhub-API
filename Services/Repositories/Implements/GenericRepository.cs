@@ -1,5 +1,6 @@
 ﻿using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
+using Ecom_API.DTO.Models;
 using Ecom_API.PagingModel;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -107,6 +108,21 @@ namespace Services.Repositories
         public async Task<PagedList<T>> GetWithPaging(IQueryable<T> dataQuery, QueryStringParameters pagingParams)
         {
             PagedList<T> pagedRequests = new PagedList<T>();
+            if (pagingParams.PageSize == 0)
+            {
+                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date));
+            }
+            else
+            {
+                await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date), pagingParams.PageNumber, pagingParams.PageSize);
+            }
+
+            return pagedRequests;
+
+        }
+        public async Task<PagedList<ProductTypeFullRes>> GetWithPaging(IQueryable<ProductTypeFullRes> dataQuery, QueryStringParameters pagingParams)
+        {
+            PagedList<ProductTypeFullRes> pagedRequests = new PagedList<ProductTypeFullRes>();
             if (pagingParams.PageSize == 0)
             {
                 await pagedRequests.LoadData(dataQuery.Where(c => c.is_deleted == false).OrderBy(c => c.created_date));

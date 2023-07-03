@@ -7,7 +7,11 @@ namespace Ecom_API.DTO.Entities
     public class ProductGlass : BaseEntity
     {
         [Required]
-        public string glass_name { get; set; }   
+        public string glass_name { get; set; }
+        [ForeignKey("product_type_id")]
+        public int? product_type_id { get; set; }   
+        public ProductType productType { get; set; }
+
     }
 }
 

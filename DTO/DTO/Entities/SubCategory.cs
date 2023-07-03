@@ -11,5 +11,6 @@ namespace Ecom_API.DTO.Entities
         public string sub_category_name { get; set; }
         [Required]
         public int category_id { get; set; }
+        public ICollection<ProductType> productTypes { get;} = new List<ProductType>();
     }
 }

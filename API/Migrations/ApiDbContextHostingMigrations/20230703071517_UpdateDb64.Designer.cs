@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ecom_API.DBHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 {
     [DbContext(typeof(ApiDbContextHosting))]
-    partial class ApiDbContextHostingModelSnapshot : ModelSnapshot
+    [Migration("20230703071517_UpdateDb64")]
+    partial class UpdateDb64
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,20 +26,13 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.HasSequence("BrandSequence");
-
-            modelBuilder.HasSequence("ProductTypeSequence");
-
-            modelBuilder.HasSequence("SubCategorySequence");
-
             modelBuilder.Entity("Ecom_API.DTO.Entities.Brand", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValueSql("nextval('\"BrandSequence\"')");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSequence(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<string>("brand_logo")
                         .IsRequired()
@@ -65,9 +61,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("brands", (string)null);
-
-                    b.UseTpcMappingStrategy();
+                    b.ToTable("brands");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Category", b =>
@@ -100,7 +94,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("categories", (string)null);
+                    b.ToTable("categories");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Order", b =>
@@ -167,7 +161,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("orders", (string)null);
+                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Payment", b =>
@@ -204,7 +198,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("payments", (string)null);
+                    b.ToTable("payments");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.PaymentMethod", b =>
@@ -237,7 +231,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("payment_methods", (string)null);
+                    b.ToTable("payment_methods");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Product", b =>
@@ -261,7 +255,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("product_type_id")
+                    b.Property<int>("product_type_id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("updated_date")
@@ -274,7 +268,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("product_type_id");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductAlbert", b =>
@@ -311,7 +305,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("product_type_id");
 
-                    b.ToTable("product_alberts", (string)null);
+                    b.ToTable("product_alberts");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductCore", b =>
@@ -348,7 +342,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("product_type_id");
 
-                    b.ToTable("product_cores", (string)null);
+                    b.ToTable("product_cores");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductFeedback", b =>
@@ -387,7 +381,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product_feedbacks", (string)null);
+                    b.ToTable("product_feedbacks");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductGlass", b =>
@@ -424,17 +418,16 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("product_type_id");
 
-                    b.ToTable("product_glasses", (string)null);
+                    b.ToTable("product_glasses");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductType", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValueSql("nextval('\"ProductTypeSequence\"')");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSequence(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<int>("brand_id")
                         .HasColumnType("integer");
@@ -523,19 +516,16 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("sub_category_id");
 
-                    b.ToTable("product_types", (string)null);
-
-                    b.UseTpcMappingStrategy();
+                    b.ToTable("product_types");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.SubCategory", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValueSql("nextval('\"SubCategorySequence\"')");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSequence(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<int>("category_id")
                         .HasColumnType("integer");
@@ -562,9 +552,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("sub_categories", (string)null);
-
-                    b.UseTpcMappingStrategy();
+                    b.ToTable("sub_categories");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.User", b =>
@@ -583,7 +571,9 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<DateTime>("created_date")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValue(new DateTime(2023, 7, 3, 7, 15, 17, 443, DateTimeKind.Utc).AddTicks(1592));
 
                     b.Property<int>("created_user")
                         .HasColumnType("integer");
@@ -632,7 +622,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.VNPay", b =>
@@ -708,14 +698,16 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("vnpay_payment", (string)null);
+                    b.ToTable("vnpay_payment");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Product", b =>
                 {
                     b.HasOne("Ecom_API.DTO.Entities.ProductType", "productType")
                         .WithMany("products")
-                        .HasForeignKey("product_type_id");
+                        .HasForeignKey("product_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("productType");
                 });

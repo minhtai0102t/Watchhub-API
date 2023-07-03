@@ -60,111 +60,73 @@ namespace Ecom_API.Service
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAll(QueryStringParameters pagingParams)
         {
-            var result = new PagedList<ProductTypeFullRes>();
-            var listRes = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
-            foreach (var item in listRes)
+            try
             {
-                var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
-                var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+                var listRes = await _unitOfWork.ProductTypes.GetFullRes(pagingParams);
+                var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
 
-                var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
-                var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
-                var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-                var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
-
-                productTypeRes.alberts = albert;
-                productTypeRes.cores = core;
-                productTypeRes.glasses = glass;
-
-                if (brand != null)
-                {
-                    productTypeRes.brand_id = brand.id;
-                    productTypeRes.brand_name = brand.brand_name;
-                    productTypeRes.brand_logo = brand.brand_logo;
-                }
-                if (subCategory != null)
-                {
-                    productTypeRes.sub_category_id = subCategory.id;
-                    productTypeRes.sub_category_name = subCategory.sub_category_name;
-                }
-                result.Add(productTypeRes);
+                result.TotalCount = listRes.TotalCount;
+                return result;
             }
-
-            result.TotalCount = listRes.TotalCount;
-            return result;
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
+        //public async Task<PagedList<ProductType>> GetAll(QueryStringParameters pagingParams)
+        //{
+        //    var result = new PagedList<ProductType>();
+        //    var listRes = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams);
+        //    foreach (var item in listRes)
+        //    {
+        //        var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
+        //        var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+
+        //        var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
+        //        var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
+        //        var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
+
+        //        var productTypeRes = _mapper.Map<ProductType>(item);
+
+        //        productTypeRes.alberts = albert;
+        //        productTypeRes.cores = core;
+        //        productTypeRes.glasses = glass;
+
+        //        if (brand != null)
+        //        {
+        //            productTypeRes.brand_id = brand.id;
+        //            productTypeRes.brand_name = brand.brand_name;
+        //            productTypeRes.brand_logo = brand.brand_logo;
+        //        }
+        //        if (subCategory != null)
+        //        {
+        //            productTypeRes.sub_category_id = subCategory.id;
+        //            productTypeRes.sub_category_name = subCategory.sub_category_name;
+        //        }
+        //        result.Add(productTypeRes);
+        //    }
+
+        //    result.TotalCount = listRes.TotalCount;
+        //    return result;
+        //}
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
-            var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.sub_category_id == subCategoryId);
-            var result = new PagedList<ProductTypeFullRes>();
-            foreach (var item in items)
-            {
-                if (item.sub_category_id == subCategoryId)
-                {
-                    var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
-                    var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+            Expression<Func<ProductType, bool>> predicate = p => p.sub_category_id == subCategoryId;
 
-                    var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
-                    var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
-                    var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
+            var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
+            var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+            result.TotalCount = listRes.TotalCount;
 
-                    var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
-                    productTypeRes.alberts = albert;
-                    productTypeRes.cores = core;
-                    productTypeRes.glasses = glass;
-
-                    if (brand != null)
-                    {
-                        productTypeRes.brand_id = brand.id;
-                        productTypeRes.brand_name = brand.brand_name;
-                        productTypeRes.brand_logo = brand.brand_logo;
-                    }
-                    if (subCategory != null)
-                    {
-                        productTypeRes.sub_category_id = subCategory.id;
-                        productTypeRes.sub_category_name = subCategory.sub_category_name;
-                    }
-
-                    result.Add(productTypeRes);
-                }
-            }
-
-            result.TotalCount = items.TotalCount;
             return result;
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
         {
-            var items = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.brand_id == brandId);
-            var result = new PagedList<ProductTypeFullRes>();
-            foreach (var item in items)
-            {
-                var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
-                var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
+            Expression<Func<ProductType, bool>> predicate = p => p.brand_id == brandId;
 
-                var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
-                var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
-                var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-                var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
+            var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
+            var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+            result.TotalCount = listRes.TotalCount;
 
-                productTypeRes.alberts = albert;
-                productTypeRes.cores = core;
-                productTypeRes.glasses = glass;
-
-                if (brand != null)
-                {
-                    productTypeRes.brand_id = brand.id;
-                    productTypeRes.brand_name = brand.brand_name;
-                    productTypeRes.brand_logo = brand.brand_logo;
-                }
-                if (subCategory != null)
-                {
-                    productTypeRes.sub_category_id = subCategory.id;
-                    productTypeRes.sub_category_name = subCategory.sub_category_name;
-                }
-
-                result.Add(productTypeRes);
-            }
-            result.TotalCount = items.TotalCount;
             return result;
         }
         public async Task<int> GetTotalBySubCategoryId(int subCategoryId)
@@ -179,66 +141,18 @@ namespace Ecom_API.Service
         }
         public async Task<ProductTypeFullRes> GetById(int id)
         {
-            var item = await _unitOfWork.ProductTypes.GetByIdAsync(id);
+            var listRes = await _unitOfWork.ProductTypes.GetFullResById(id);
 
-            var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
-            var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
-            var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
-            var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
-            var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-            var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
+            var result = _mapper.Map<ProductTypeFullRes>(listRes);
 
-            productTypeRes.alberts = albert;
-            productTypeRes.cores = core;
-            productTypeRes.glasses = glass;
-
-            if (brand != null)
-            {
-                productTypeRes.brand_id = brand.id;
-                productTypeRes.brand_name = brand.brand_name;
-                productTypeRes.brand_logo = brand.brand_logo;
-            }
-
-            if (subCategory != null)
-            {
-                productTypeRes.sub_category_id = subCategory.id;
-                productTypeRes.sub_category_name = subCategory.sub_category_name;
-            }
-
-            return productTypeRes;
+            return result;
         }
         public async Task<IEnumerable<ProductTypeFullRes>> GetByListId(List<int> listId)
         {
-            var result = new List<ProductTypeFullRes>();
-            var listItem = await _unitOfWork.ProductTypes.FindAllWithCondition(c => listId.Any(p => p == c.id));
-            foreach (var item in listItem)
-            {
-                var brand = await _unitOfWork.Brands.GetByIdAsync(item.brand_id);
-                var subCategory = await _unitOfWork.SubCategories.GetByIdAsync(item.sub_category_id);
-                var albert = await _unitOfWork.ProductAlberts.GetByIdAsync(item.product_albert_id);
-                var core = await _unitOfWork.ProductCores.GetByIdAsync(item.product_core_id);
-                var glass = await _unitOfWork.ProductGlasses.GetByIdAsync(item.product_glass_id);
-                var productTypeRes = _mapper.Map<ProductTypeFullRes>(item);
+            var listRes = await _unitOfWork.ProductTypes.GetFullResByListId(listId);
+            var result = _mapper.Map<IEnumerable<ProductTypeFullRes>>(listRes);
 
-                productTypeRes.alberts = albert;
-                productTypeRes.cores = core;
-                productTypeRes.glasses = glass;
-
-                if (brand != null)
-                {
-                    productTypeRes.brand_id = brand.id;
-                    productTypeRes.brand_name = brand.brand_name;
-                    productTypeRes.brand_logo = brand.brand_logo;
-                }
-
-                if (subCategory != null)
-                {
-                    productTypeRes.sub_category_id = subCategory.id;
-                    productTypeRes.sub_category_name = subCategory.sub_category_name;
-                }
-                result.Add(productTypeRes);
-            }
-            return result.OrderBy(c => c.id);
+            return result;
         }
         public async Task<List<string>> GetImagesById(int id)
         {
@@ -343,7 +257,7 @@ namespace Ecom_API.Service
         {
             try
             {
-                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(param,c => true, sortOption, isDescending);
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(param, c => true, sortOption, isDescending);
                 return result;
             }
             catch (Exception ex)

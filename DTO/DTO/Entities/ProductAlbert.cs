@@ -7,7 +7,10 @@ namespace Ecom_API.DTO.Entities
     public class ProductAlbert : BaseEntity
     {
         [Required]
-    public string albert_name { get; set; }
+        public string albert_name { get; set; }
+        [ForeignKey("product_type_id")]
+        public int? product_type_id { get; set; }
+        public ProductType productType { get; set; }
     }
 }
 

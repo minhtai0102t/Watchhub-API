@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ecom_API.DBHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 {
     [DbContext(typeof(ApiDbContextHosting))]
-    partial class ApiDbContextHostingModelSnapshot : ModelSnapshot
+    [Migration("20230703090903_UpdateDb66")]
+    partial class UpdateDb66
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +68,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("brands", (string)null);
+                    b.ToTable("brands");
 
                     b.UseTpcMappingStrategy();
                 });
@@ -100,7 +103,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("categories", (string)null);
+                    b.ToTable("categories");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Order", b =>
@@ -167,7 +170,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("orders", (string)null);
+                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Payment", b =>
@@ -204,7 +207,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("payments", (string)null);
+                    b.ToTable("payments");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.PaymentMethod", b =>
@@ -237,7 +240,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("payment_methods", (string)null);
+                    b.ToTable("payment_methods");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Product", b =>
@@ -274,7 +277,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("product_type_id");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductAlbert", b =>
@@ -311,7 +314,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("product_type_id");
 
-                    b.ToTable("product_alberts", (string)null);
+                    b.ToTable("product_alberts");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductCore", b =>
@@ -348,7 +351,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("product_type_id");
 
-                    b.ToTable("product_cores", (string)null);
+                    b.ToTable("product_cores");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductFeedback", b =>
@@ -387,7 +390,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("product_feedbacks", (string)null);
+                    b.ToTable("product_feedbacks");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductGlass", b =>
@@ -424,7 +427,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("product_type_id");
 
-                    b.ToTable("product_glasses", (string)null);
+                    b.ToTable("product_glasses");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductType", b =>
@@ -523,7 +526,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasIndex("sub_category_id");
 
-                    b.ToTable("product_types", (string)null);
+                    b.ToTable("product_types");
 
                     b.UseTpcMappingStrategy();
                 });
@@ -562,7 +565,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("sub_categories", (string)null);
+                    b.ToTable("sub_categories");
 
                     b.UseTpcMappingStrategy();
                 });
@@ -632,7 +635,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.VNPay", b =>
@@ -708,7 +711,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
-                    b.ToTable("vnpay_payment", (string)null);
+                    b.ToTable("vnpay_payment");
                 });
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.Product", b =>

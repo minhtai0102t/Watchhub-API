@@ -40,5 +40,11 @@ public class AutoMapperProfile : Profile
                     return true;
                 }
             ));
+        CreateMap<SubCategory, SubCategoryMapper>();
+        CreateMap<Brand, BrandMapper>();
+        CreateMap<ProductAlbert, AlbertMapper>();
+        CreateMap<ProductCore, CoreMapper>();
+        CreateMap<ProductGlass, GlassMapper>();
+
     }
 }
