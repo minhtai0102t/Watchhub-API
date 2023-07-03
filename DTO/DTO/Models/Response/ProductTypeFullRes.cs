@@ -24,10 +24,10 @@ namespace Ecom_API.DTO.Models
         public SubCategoryMapper subCategory { get; set; }
         public int brand_id { get; set; }
         public BrandMapper brand { get; set; }
-        public ICollection<AlbertMapper> alberts { get; }
-        public ICollection<CoreMapper> cores { get; } 
-        public ICollection<GlassMapper> glasses { get; } 
-        public ICollection<Product> products { get; } 
+        public AlbertMapper albert { get; }
+        public CoreMapper core { get; }
+        public GlassMapper glass { get; }
+        public ICollection<ProductMapper> products { get; }
     }
     public class SubCategoryMapper
     {
@@ -50,5 +50,9 @@ namespace Ecom_API.DTO.Models
     public class GlassMapper
     {
         public string glass_name { get; set; }
+    }
+    public class ProductMapper
+    {
+        public string product_code { get; set; }
     }
 }

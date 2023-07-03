@@ -48,24 +48,23 @@ namespace Ecom_API.Service
         public async Task<bool> Create(OrderCreateReq req)
         {
             // get list product type by list id
-            //var listProductTypeId = req.items.Select(c => c.id).ToList();
-            //var listProductType = await _productTypeService.GetByListId(listProductTypeId);
-            //foreach (var product in listProductType)
-            //{
-            //    product.quantity = req.items.FirstOrDefault(c => c.id == product.id).quantity;
-            //}
-            //var orderInfo = JsonConvert.SerializeObject(listProductType).ToString();
-            //var item = _mapper.Map<Order>(req);
+            var listProductTypeId = req.items.Select(c => c.id).ToList();
+            var listProductType = await _productTypeService.GetByListId(listProductTypeId);
+            foreach (var product in listProductType)
+            {
+                product.quantity = req.items.FirstOrDefault(c => c.id == product.id).quantity;
+            }
+            var orderInfo = JsonConvert.SerializeObject(listProductType).ToString();
+            var item = _mapper.Map<Order>(req);
 
-            //item.order_status = req.order_status.ToString();
-            //item.order_info = orderInfo;
-            //item.product_type_ids = listProductTypeId;
+            item.order_status = req.order_status.ToString();
+            item.order_info = orderInfo;
+            item.product_type_ids = listProductTypeId;
 
-            //await _unitOfWork.Orders.CreateAsync(item);
+            await _unitOfWork.Orders.CreateAsync(item);
 
-            //var res = await _unitOfWork.SaveChangesAsync();
-            //return res >= 1 ? true : false;
-            return true;
+            var res = await _unitOfWork.SaveChangesAsync();
+            return res >= 1 ? true : false;
         }
         public async Task<bool> Update(int orderId, ORDER_STATUS orderStatus)
         {

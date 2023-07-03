@@ -34,9 +34,9 @@ namespace Services.Repositories
             var dataQuery = dbSet.AsNoTracking()
                 .Include(c => c.subCategory)
                 .Include(c => c.brand)
-                .Include(c => c.alberts)
-                .Include(c => c.cores)
-                .Include(c => c.glasses);
+                .Include(c => c.albert)
+                .Include(c => c.core)
+                .Include(c => c.glass);
             return await GetWithPaging(dataQuery, pagingParams);
         }
         public async Task<PagedList<ProductType>> GetFullResWithCondition(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate)
@@ -44,9 +44,9 @@ namespace Services.Repositories
             var dataQuery = dbSet.AsNoTracking()
                 .Include(c => c.subCategory)
                 .Include(c => c.brand)
-                .Include(c => c.alberts)
-                .Include(c => c.cores)
-                .Include(c => c.glasses)
+                .Include(c => c.albert)
+                .Include(c => c.core)
+                .Include(c => c.glass)
                 .Where(predicate);
             return await GetWithPaging(dataQuery, pagingParams, predicate);
         }
@@ -55,9 +55,9 @@ namespace Services.Repositories
             var dataQuery = dbSet.AsNoTracking()
                .Include(c => c.subCategory)
                .Include(c => c.brand)
-               .Include(c => c.alberts)
-               .Include(c => c.cores)
-               .Include(c => c.glasses)
+               .Include(c => c.albert)
+               .Include(c => c.core)
+               .Include(c => c.glass)
                .Where(c => ids.Any(p => p == c.id));
             return await dataQuery.ToListAsync();
         }
@@ -66,9 +66,9 @@ namespace Services.Repositories
             var dataQuery = dbSet.AsNoTracking()
                 .Include(c => c.subCategory)
                 .Include(c => c.brand)
-                .Include(c => c.alberts)
-                .Include(c => c.cores)
-                .Include(c => c.glasses)
+                .Include(c => c.albert)
+                .Include(c => c.core)
+                .Include(c => c.glass)
                 .Where(c => c.id == id);
             return await dataQuery.SingleOrDefaultAsync();    
         }

@@ -34,9 +34,9 @@ namespace Ecom_API.DTO.Entities
         [ForeignKey("brand_id")]
         public int brand_id { get; set; }
         public Brand brand { get; set; }
-        public ICollection<ProductAlbert> alberts { get; } = new List<ProductAlbert>();
-        public ICollection<ProductCore> cores { get; } = new List<ProductCore>();
-        public ICollection<ProductGlass> glasses { get; } = new List<ProductGlass>();
+        public ProductAlbert albert { get; }
+        public ProductCore core { get; } 
+        public ProductGlass glass { get; } 
         public ICollection<Product> products { get; } = new List<Product>();
     }
 }

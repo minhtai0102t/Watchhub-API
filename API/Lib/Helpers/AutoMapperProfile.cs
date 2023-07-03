@@ -1,6 +1,7 @@
 ﻿namespace Ecom_API.Helpers;
 
 using AutoMapper;
+using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using global::DTO.DTO.Models.Request;
@@ -22,7 +23,6 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductTypeUpdateReq, ProductType>();
         CreateMap<ProductCreateReq, Product>();
         CreateMap<PaymentMethodCreateReq, PaymentMethod>();
-        CreateMap<ProductType, ProductTypeFullRes>();
         CreateMap<PaymentResponse, VNPay>();
         CreateMap<OrderCreateReq, Order>();
         // GoogleUser -> User
@@ -40,11 +40,12 @@ public class AutoMapperProfile : Profile
                     return true;
                 }
             ));
+        CreateMap<ProductType, ProductTypeFullRes>();
         CreateMap<SubCategory, SubCategoryMapper>();
         CreateMap<Brand, BrandMapper>();
         CreateMap<ProductAlbert, AlbertMapper>();
         CreateMap<ProductCore, CoreMapper>();
         CreateMap<ProductGlass, GlassMapper>();
-
+        CreateMap<Product, ProductMapper>();
     }
 }

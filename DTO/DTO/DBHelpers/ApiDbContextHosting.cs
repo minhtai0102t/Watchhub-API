@@ -50,19 +50,19 @@ namespace Ecom_API.DBHelpers
             //    .HasForeignKey(c => c.brand_id);
 
             modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
-               .HasMany(c => c.alberts)
+               .HasOne(c => c.albert)
                .WithOne(c => c.productType)
-               .HasForeignKey(c => c.product_type_id);
+               .HasForeignKey<ProductAlbert>(c => c.product_type_id);
 
             modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
-               .HasMany(c => c.cores)
+               .HasOne(c => c.core)
                .WithOne(c => c.productType)
-               .HasForeignKey(c => c.product_type_id);
+               .HasForeignKey<ProductCore>(c => c.product_type_id);
 
             modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
-               .HasMany(c => c.glasses)
+               .HasOne(c => c.glass)
                .WithOne(c => c.productType)
-               .HasForeignKey(c => c.product_type_id);
+               .HasForeignKey<ProductGlass>(c => c.product_type_id);
 
             modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
                 .HasMany(c => c.products)
