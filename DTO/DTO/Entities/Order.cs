@@ -27,6 +27,7 @@ namespace Ecom_API.DTO.Entities
         public string street { get; set; }
         public List<string>? product_image_uuid { get; set; }
         public List<int>? product_type_ids { get; set; }
+        [PhoneNumber(ErrorMessage = "Invalid phone number")]
         public string phone { get; set; }
     }
 }

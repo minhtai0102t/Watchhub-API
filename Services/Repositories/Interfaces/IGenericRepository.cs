@@ -10,8 +10,11 @@ namespace Services.Repositories
         Task<IEnumerable<T>> GetAllAsync();
 
         Task<T> GetByIdAsync(int id);
-
         T GetById(int id);
+        Task<T> GetById(int id, params Expression<Func<T, object>>[] includes);
+        Task<IEnumerable<T>> GetByListId(List<int> ids, params Expression<Func<T, object>>[] includes);
+        IQueryable<T> GetAll(params Expression<Func<T, object>>[] includes);
+        IQueryable<T> GetAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
 
         /// <summary>
         ///      Add a new entity to database

@@ -37,6 +37,6 @@ namespace Ecom_API.DTO.Entities
         public ProductAlbert albert { get; }
         public ProductCore core { get; } 
         public ProductGlass glass { get; } 
-        public ICollection<Product> products { get; } = new List<Product>();
+        public IEnumerable<Product> products { get; set; } = new List<Product>();
     }
 }

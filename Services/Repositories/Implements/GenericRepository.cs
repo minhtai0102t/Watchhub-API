@@ -1,6 +1,7 @@
 ﻿using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
+using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -40,6 +41,9 @@ namespace Services.Repositories
         }
         public async Task<T> FindWithCondition(Expression<Func<T, bool>> predicate)
         {
+            Expression<Func<T, bool>> condition = p => p.is_deleted == false;
+            predicate = PredicateBuilder.And(condition, predicate);
+
             return await dbSet.AsNoTracking().FirstOrDefaultAsync(predicate);
         }
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -50,6 +54,42 @@ namespace Services.Repositories
         {
             var entity = await dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.id == id);
             return entity;
+        }
+        public async Task<T> GetById(int id, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = dbSet;
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return await query.FirstOrDefaultAsync(e => e.id == id);
+        }
+        public async Task<IEnumerable<T>> GetByListId(List<int> ids, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = dbSet;
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return await query.Where(e => ids.Any(d => d == e.id)).ToListAsync();
+        }
+        public IQueryable<T> GetAll(params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = dbSet;
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query;
+        }
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = dbSet;
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return query.Where(predicate);
         }
         public T GetById(int id)
         {
@@ -90,6 +130,9 @@ namespace Services.Repositories
             {
                 return await dbSet.AsNoTracking().ToListAsync();
             }
+            Expression<Func<T, bool>> condition = p => p.is_deleted == false;
+            predicate = PredicateBuilder.And(condition, predicate);
+
             return await dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
         public async Task<IEnumerable<T>> GetAllActiveAsync()
@@ -100,7 +143,6 @@ namespace Services.Repositories
         {
             return await dbSet.FirstOrDefaultAsync(x => x.id.Equals(id) && x.is_deleted == false);
         }
-
         public DbSet<T> GetDbSet()
         {
             return dbSet;

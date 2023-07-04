@@ -40,12 +40,14 @@ public class AutoMapperProfile : Profile
                     return true;
                 }
             ));
-        CreateMap<ProductType, ProductTypeFullRes>();
         CreateMap<SubCategory, SubCategoryMapper>();
         CreateMap<Brand, BrandMapper>();
         CreateMap<ProductAlbert, AlbertMapper>();
         CreateMap<ProductCore, CoreMapper>();
         CreateMap<ProductGlass, GlassMapper>();
         CreateMap<Product, ProductMapper>();
+        CreateMap<Product, ProductMapper>();
+        CreateMap<ProductType, ProductTypeFullRes>()
+            .ForMember(opt => opt.products, des => des.MapFrom(x => x.products));
     }
 }
