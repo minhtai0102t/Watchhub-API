@@ -11,9 +11,9 @@ namespace Services.Repositories
         Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams);
         Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate);
         Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate, SORT_OPTION sortOption, bool isDecending);
-        Task<PagedList<ProductType>> GetFullRes(QueryStringParameters pagingParams);
-        Task<PagedList<ProductType>> GetFullResWithCondition(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate);
-        Task<IEnumerable<ProductType>> GetFullResByListId(List<int> ids);
-        Task<ProductType> GetFullResById(int id);
+        //Task<PagedList<ProductType>> GetFullRes(QueryStringParameters pagingParams);
+        //Task<PagedList<ProductType>> GetFullResWithCondition(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate);
+        //Task<IEnumerable<ProductType>> GetFullResByListId(List<int> ids);
+        //Task<ProductType> GetFullResById(int id);
     }
 }

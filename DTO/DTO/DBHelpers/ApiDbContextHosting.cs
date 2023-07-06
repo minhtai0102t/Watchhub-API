@@ -30,10 +30,7 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<VNPay>();
             modelBuilder.Entity<Product>();
 
-            modelBuilder.Entity<SubCategory>().UseTpcMappingStrategy()
-                .HasMany(c => c.productTypes)
-                .WithOne(c => c.subCategory)
-                .HasForeignKey(c => c.sub_category_id);
+            modelBuilder.Entity<SubCategory>().UseTpcMappingStrategy();
 
             modelBuilder.Entity<Brand>().UseTpcMappingStrategy()
                 .HasMany(c => c.productTypes)
@@ -59,6 +56,19 @@ namespace Ecom_API.DBHelpers
                 .HasMany(c => c.products)
                 .WithOne(c => c.productType)
                 .HasForeignKey(c => c.product_type_id);
+
+            modelBuilder.Entity<ProductSubCategory>()
+                .HasKey(pc => new {pc.product_type_id, pc.sub_category_id });
+
+            modelBuilder.Entity<ProductSubCategory>()
+                .HasOne(pc => pc.productType)
+                .WithMany(p => p.productSubCategories)
+                .HasForeignKey(pc => pc.product_type_id);
+
+            modelBuilder.Entity<ProductSubCategory>()
+               .HasOne(pc => pc.subCategory)
+               .WithMany(p => p.productSubCategories)
+               .HasForeignKey(pc => pc.sub_category_id);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

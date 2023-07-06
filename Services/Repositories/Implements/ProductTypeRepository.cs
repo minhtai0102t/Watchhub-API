@@ -29,49 +29,50 @@ namespace Services.Repositories
             var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams, predicate, sortOption, isDecending);
         }
-        public async Task<PagedList<ProductType>> GetFullRes(QueryStringParameters pagingParams)
-        {
-            var dataQuery = dbSet.AsNoTracking()
-                .Include(c => c.subCategory)
-                .Include(c => c.brand)
-                .Include(c => c.albert)
-                .Include(c => c.core)
-                .Include(c => c.glass);
-            return await GetWithPaging(dataQuery, pagingParams);
-        }
-        public async Task<PagedList<ProductType>> GetFullResWithCondition(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate)
-        {
-            var dataQuery = dbSet.AsNoTracking()
-                .Include(c => c.subCategory)
-                .Include(c => c.brand)
-                .Include(c => c.albert)
-                .Include(c => c.core)
-                .Include(c => c.glass)
-                .Where(predicate);
-            return await GetWithPaging(dataQuery, pagingParams, predicate);
-        }
-        public async Task<IEnumerable<ProductType>> GetFullResByListId(List<int> ids)
-        {
-            var dataQuery = dbSet.AsNoTracking()
-               .Include(c => c.subCategory)
-               .Include(c => c.brand)
-               .Include(c => c.albert)
-               .Include(c => c.core)
-               .Include(c => c.glass)
-               .Where(c => ids.Any(p => p == c.id));
-            return await dataQuery.ToListAsync();
-        }
-        public async Task<ProductType> GetFullResById(int id)
-        {
-            var dataQuery = dbSet.AsNoTracking()
-                .Include(c => c.subCategory)
-                .Include(c => c.brand)
-                .Include(c => c.albert)
-                .Include(c => c.core)
-                .Include(c => c.glass)
-                .Where(c => c.id == id);
-            return await dataQuery.SingleOrDefaultAsync();    
-        }
+        //    public async Task<PagedList<ProductType>> GetFullRes(QueryStringParameters pagingParams)
+        //    {
+        //        var dataQuery = dbSet.AsNoTracking()
+        //            .Include(c => c.subCategory)
+        //            .Include(c => c.brand)
+        //            .Include(c => c.albert)
+        //            .Include(c => c.core)
+        //            .Include(c => c.glass);
+        //        return await GetWithPaging(dataQuery, pagingParams);
+        //    }
+        //    public async Task<PagedList<ProductType>> GetFullResWithCondition(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate)
+        //    {
+        //        var dataQuery = dbSet.AsNoTracking()
+        //            .Include(c => c.subCategory)
+        //            .Include(c => c.brand)
+        //            .Include(c => c.albert)
+        //            .Include(c => c.core)
+        //            .Include(c => c.glass)
+        //            .Where(predicate);
+        //        return await GetWithPaging(dataQuery, pagingParams, predicate);
+        //    }
+        //    public async Task<IEnumerable<ProductType>> GetFullResByListId(List<int> ids)
+        //    {
+        //        var dataQuery = dbSet.AsNoTracking()
+        //           .Include(c => c.subCategory)
+        //           .Include(c => c.brand)
+        //           .Include(c => c.albert)
+        //           .Include(c => c.core)
+        //           .Include(c => c.glass)
+        //           .Where(c => ids.Any(p => p == c.id));
+        //        return await dataQuery.ToListAsync();
+        //    }
+        //    public async Task<ProductType> GetFullResById(int id)
+        //    {
+        //        var dataQuery = dbSet.AsNoTracking()
+        //            .Include(c => c.subCategory)
+        //            .Include(c => c.brand)
+        //            .Include(c => c.albert)
+        //            .Include(c => c.core)
+        //            .Include(c => c.glass)
+        //            .Where(c => c.id == id);
+        //        return await dataQuery.SingleOrDefaultAsync();    
+        //    }
+        //}
     }
 }
 

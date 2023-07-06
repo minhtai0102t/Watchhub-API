@@ -1,7 +1,5 @@
 ﻿namespace Ecom_API.Helpers;
-
 using AutoMapper;
-using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using global::DTO.DTO.Models;
@@ -47,8 +45,12 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductCore, CoreMapper>();
         CreateMap<ProductGlass, GlassMapper>();
         CreateMap<Product, ProductMapper>();
+        CreateMap<ProductSubCategory, SubCategoryMapper>()
+            .ForMember(opt => opt.sub_category_name, des => des.MapFrom(x => x.subCategory.sub_category_name))
+            .ForMember(opt => opt.category_id, des => des.MapFrom(x => x.subCategory.category_id));
         CreateMap<ProductType, ProductTypeFullRes>()
-            .ForMember(opt => opt.products, des => des.MapFrom(x => x.products));
+            .ForMember(opt => opt.products, des => des.MapFrom(x => x.products))
+            .ForMember(opt => opt.productSubCategories, des => des.MapFrom(x => x.productSubCategories));
 
         CreateMap<StoreVnPayCreateReq, VNPay>();
     }

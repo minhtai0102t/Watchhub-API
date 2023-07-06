@@ -20,8 +20,6 @@ namespace Ecom_API.DTO.Models
         public string gender { get; set; }
         public string product_type_code { get; set; }
         public int sold_quantity { get; set; }
-        public int sub_category_id { get; set; }
-        public SubCategoryMapper subCategory { get; set; }
         public int brand_id { get; set; }
         public BrandMapper brand { get; set; }
         public int product_albert_id { get; set; }
@@ -30,7 +28,8 @@ namespace Ecom_API.DTO.Models
         public CoreMapper core { get; set; }
         public int product_glass_id { get; set; }
         public GlassMapper glass { get; set; }
-        public IEnumerable<ProductMapper> products { get; set; }
+        public ICollection<SubCategoryMapper> productSubCategories { get; set; }
+        public ICollection<ProductMapper> products { get; set; }
     }
     public class SubCategoryMapper
     {

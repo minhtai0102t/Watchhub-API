@@ -159,5 +159,9 @@ namespace Services.Repositories
         {
             return await _dbContext.SaveChangesAsync();
         }
+        public ApiDbContextHosting GetDbContextHosting()
+        {
+            return this._dbContext;
+        }
     }
 }

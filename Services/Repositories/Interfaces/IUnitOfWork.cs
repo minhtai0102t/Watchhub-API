@@ -1,21 +1,23 @@
-﻿using Services.Repositories.Interfaces;
+﻿using Ecom_API.DBHelpers;
+using Services.Repositories.Interfaces;
 
 namespace Services.Repositories
 {
     public interface IUnitOfWork
     {
-        public IUserRepository Users { get; }
-        public ICategoryRepository Categories { get; }
-        public ISubCategoryRepository SubCategories { get; }
-        public IBrandRepository Brands { get; }
-        public IProductTypeRepository ProductTypes { get; }
-        public IProductRepository Products { get; }
-        public IProductAlbertRepository ProductAlberts { get; }
-        public IProductCoreRepository ProductCores { get; }
-        public IProductGlassRepository ProductGlasses { get; }
-        public IPaymentMethodRepository PaymentMethods { get; }
-        public IVNPayRepository VNPays { get; }
-        public IOrderRepository Orders { get; }
-        public Task<int> SaveChangesAsync();
+        IUserRepository Users { get; }
+        ICategoryRepository Categories { get; }
+        ISubCategoryRepository SubCategories { get; }
+        IBrandRepository Brands { get; }
+        IProductTypeRepository ProductTypes { get; }
+        IProductRepository Products { get; }
+        IProductAlbertRepository ProductAlberts { get; }
+        IProductCoreRepository ProductCores { get; }
+        IProductGlassRepository ProductGlasses { get; }
+        IPaymentMethodRepository PaymentMethods { get; }
+        IVNPayRepository VNPays { get; }
+        IOrderRepository Orders { get; }
+        Task<int> SaveChangesAsync();
+        ApiDbContextHosting GetDbContextHosting();
     }
 }

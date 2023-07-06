@@ -12,20 +12,14 @@ namespace Ecom_API.Service
     public class CategoryService : ICategoryService
     {
         private IUnitOfWork _unitOfWork;
-        private IJwtUtils _jwtUtils;
         private bool disposedValue;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
         public CategoryService(
-            IJwtUtils jwtUtils,
             IUnitOfWork unitOfWork,
-            IMapper mapper,
-            IMemoryCache cache)
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _jwtUtils = jwtUtils;
             _mapper = mapper;
-            _cache = cache;
         }
         public async Task<PagedList<Category>> GetAll(QueryStringParameters query)
         {

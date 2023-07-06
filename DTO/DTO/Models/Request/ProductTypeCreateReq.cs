@@ -9,7 +9,7 @@ public class ProductTypeCreateReq
     public int quantity { get; set; }
     public int price { get; set; }
     public int brand_id { get; set; }
-    public int sub_category_id { get; set; }
+    public List<int> sub_category_ids { get; set; }
     public int product_albert_id { get; set; }
     public int product_core_id { get; set; }
     public int product_glass_id { get; set; }

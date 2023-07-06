@@ -27,10 +27,6 @@ namespace Ecom_API.DTO.Entities
         public string product_type_code { get; set; }
         public int sold_quantity { get; set; } = 0;
         [Required]
-        [ForeignKey("sub_category_id")]
-        public int sub_category_id { get; set; }
-        public SubCategory subCategory { get; set; }
-        [Required]
         [ForeignKey("brand_id")]
         public int brand_id { get; set; }
         public Brand brand { get; set; }
@@ -40,6 +36,7 @@ namespace Ecom_API.DTO.Entities
         public ProductCore core { get; }
         public int? product_glass_id { get; set; }
         public ProductGlass glass { get; }
-        public IEnumerable<Product> products { get; set; } = new List<Product>();
+        public ICollection<ProductSubCategory> productSubCategories { get; set; }
+        public ICollection<Product> products { get; set; } = new List<Product>();
     }
 }

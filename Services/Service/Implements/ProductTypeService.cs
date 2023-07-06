@@ -4,9 +4,7 @@ using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
-using Microsoft.Extensions.Caching.Memory;
 using Services.Repositories;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using static Ecom_API.Helpers.Constants;
 
@@ -17,40 +15,51 @@ namespace Ecom_API.Service
         private IUnitOfWork _unitOfWork;
         private bool disposedValue;
         private readonly IMapper _mapper;
-        private readonly IProductAlbertService _productAlbertService;
-        private readonly IProductCoreService _productCoreService;
-        private readonly IProductGlassService _productGlassService;
         public ProductTypeService(
             IUnitOfWork unitOfWork,
-            IMapper mapper,
-            IProductAlbertService productAlbertService,
-            IProductCoreService productCoreService,
-            IProductGlassService productGlassService)
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _productAlbertService = productAlbertService;
-            _productCoreService = productCoreService;
-            _productGlassService = productGlassService;
         }
         public async Task<bool> Create(ProductTypeCreateReq model)
         {
             try
             {
-                var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_name.Trim().ToLower() == model.product_type_name.Trim().ToLower());
+
+                var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_code.Trim().ToLower() == model.product_type_code.Trim().ToLower());
                 if (validate != null)
-                    throw new AppException("product_type_name '" + model.product_type_name + "' is already existed in system");
+                    throw new AppException("product_type_code '" + model.product_type_code + "' is already existed in system");
 
-
-                // map model to new user object
+                // map model
                 var productType = _mapper.Map<ProductType>(model);
                 productType.gender = model.gender.ToString();
                 productType.product_dial_color = model.product_dial_color.ToString();
 
-                await _unitOfWork.ProductTypes.CreateAsync(productType);
-                var res = await _unitOfWork.SaveChangesAsync();
+                using (var transaction = _unitOfWork.GetDbContextHosting().Database.BeginTransaction())
+                {
+                    try
+                    {
+                        await _unitOfWork.ProductTypes.CreateAsync(productType);
+                        var res = await _unitOfWork.SaveChangesAsync();
 
-                return res >= 1 ? true : false;
+                        productType.productSubCategories = model.sub_category_ids.Select(subCategoryId => new ProductSubCategory
+                        {
+                            product_type_id = productType.id,
+                            sub_category_id = subCategoryId
+                        }).ToList();
+
+                        res = await _unitOfWork.SaveChangesAsync();
+
+                        transaction.Commit();
+                        return res >= 1 ? true : false;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw ex;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -70,7 +79,8 @@ namespace Ecom_API.Service
         {
             try
             {
-                var genericRes = _unitOfWork.ProductTypes.GetAll(c => c.subCategory,
+                var genericRes = _unitOfWork.ProductTypes.GetAll(
+                    c => c.productSubCategories,
                     c => c.brand,
                     c => c.albert,
                     c => c.core,
@@ -93,10 +103,10 @@ namespace Ecom_API.Service
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
-            Expression<Func<ProductType, bool>> predicate = p => p.sub_category_id == subCategoryId;
+            Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
 
             var genericRes = _unitOfWork.ProductTypes.GetAll(predicate,
-                    c => c.subCategory,
+                    c => c.productSubCategories,
                     c => c.brand,
                     c => c.albert,
                     c => c.core,
@@ -116,7 +126,7 @@ namespace Ecom_API.Service
             Expression<Func<ProductType, bool>> predicate = p => p.brand_id == brandId;
 
             var genericRes = _unitOfWork.ProductTypes.GetAll(predicate,
-                   c => c.subCategory,
+                   c => c.productSubCategories,
                    c => c.brand,
                    c => c.albert,
                    c => c.core,
@@ -135,7 +145,7 @@ namespace Ecom_API.Service
         }
         public async Task<int> GetTotalBySubCategoryId(int subCategoryId)
         {
-            var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.sub_category_id == subCategoryId);
+            var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId));
             return items.Count();
         }
         public async Task<int> GetTotalByBrandId(int brandId)
@@ -146,19 +156,19 @@ namespace Ecom_API.Service
         public async Task<ProductTypeFullRes> GetById(int id)
         {
             var genericRes = await _unitOfWork.ProductTypes.GetById(id,
-                           c => c.subCategory,
+                           c => c.productSubCategories,
                            c => c.brand,
                            c => c.albert,
                            c => c.core,
                            c => c.glass);
             var result = _mapper.Map<ProductTypeFullRes>(genericRes);
-            result.products = _mapper.Map<IEnumerable<ProductMapper>>(genericRes.products);
+            result.products = _mapper.Map<IEnumerable<ProductMapper>>(genericRes.products).ToList();
             return result;
         }
         public async Task<IEnumerable<ProductTypeFullRes>> GetByListId(List<int> listId)
         {
             var genericRes = await _unitOfWork.ProductTypes.GetByListId(listId,
-                c => c.subCategory,
+                c => c.productSubCategories,
                 c => c.brand,
                 c => c.albert,
                 c => c.core,
@@ -184,7 +194,7 @@ namespace Ecom_API.Service
                 string gender = filterOptions.gender.ToString();
                 int? minPrice = filterOptions.minPrice;
                 int? maxPrice = filterOptions.maxPrice;
-                Expression<Func<ProductType, bool>> predicate = p => p.sub_category_id == subCategoryId;
+                Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
 
                 if (!string.IsNullOrEmpty(dialColor))
                 {
