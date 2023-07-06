@@ -12,7 +12,7 @@ namespace Ecom_API.DTO.Entities
         [Required]
         [StringLength(1000)]
         public string brand_logo { get; set; }
-        public ICollection<ProductType> productTypes { get;} = new List<ProductType>();
+        public IEnumerable<ProductType> productTypes { get;} = new List<ProductType>();
 
     }
 }

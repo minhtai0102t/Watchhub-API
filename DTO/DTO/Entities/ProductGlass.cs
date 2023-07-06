@@ -8,10 +8,7 @@ namespace Ecom_API.DTO.Entities
     {
         [Required]
         public string glass_name { get; set; }
-        [ForeignKey("product_type_id")]
-        public int? product_type_id { get; set; }   
-        public ProductType productType { get; set; }
-
+        [ForeignKey("product_type_id")] public IEnumerable<ProductType> productTypes { get; } = new List<ProductType>();
     }
 }
 

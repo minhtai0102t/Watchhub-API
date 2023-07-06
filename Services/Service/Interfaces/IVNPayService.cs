@@ -10,7 +10,7 @@ public interface IVNPayService : IDisposable
 {
     Task<PagedList<VNPay>> GetAll(QueryStringParameters query);
     Task<VNPay> GetById(int id);
-    Task<bool> Create(PaymentResponse model);
+    Task<bool> Create(StoreVnPayCreateReq model);
     Task<bool> SoftDelete(int id);
     Task<bool> Delete(int id);
     string CreateRequestUrl(PaymentRequestModel model);

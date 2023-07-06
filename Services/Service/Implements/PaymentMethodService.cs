@@ -39,7 +39,7 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await GetById(id);
+                var item = await _unitOfWork.PaymentMethods.FindWithCondition(c => c.id == id);
                 if (item == null)
                 {
                     throw new AppException("PaymentMethod " + id + " does not exist");

@@ -43,7 +43,7 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await GetById(id);
+                var item = await _unitOfWork.SubCategories.FindWithCondition(c => c.id == id);
                 if (item == null)
                 {
                     throw new AppException("sub_category " + id + " does not exist");
@@ -56,6 +56,7 @@ namespace Ecom_API.Service
                 }
                 item.sub_category_name = model.sub_category_name;
                 item.updated_date = DateTime.Now.ToUniversalTime();
+
                 await _unitOfWork.SubCategories.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;

@@ -12,20 +12,14 @@ namespace Ecom_API.Service
     public class ProductGlassService : IProductGlassService
     {
         private IUnitOfWork _unitOfWork;
-        private IJwtUtils _jwtUtils;
         private bool disposedValue;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
         public ProductGlassService(
-            IJwtUtils jwtUtils,
             IUnitOfWork unitOfWork,
-            IMapper mapper,
-            IMemoryCache cache)
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _jwtUtils = jwtUtils;
             _mapper = mapper;
-            _cache = cache;
         }
         public async Task<PagedList<ProductGlass>> GetAll(QueryStringParameters query)
         {
@@ -39,23 +33,25 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await GetById(id);
+                var item = await _unitOfWork.ProductGlasses.FindWithCondition(c => c.id == id);
                 if (item == null)
                 {
                     throw new AppException("ProductGlass " + id + " does not exist");
                 }
-                else{
-                    var name = await _unitOfWork.ProductGlasses.FindAllWithCondition(c => c.glass_name == model.glass_name);
-                    if(name.Any()){
-                        throw new AppException("category " + model.glass_name + " is already exist");
+                else
+                {
+                    var itemName = await _unitOfWork.ProductGlasses.FindWithCondition(c => c.glass_name.Trim().ToLower() == model.glass_name.Trim().ToLower());
+                    if (itemName != null)
+                    {
+                        throw new AppException("ProductGlass " + model.glass_name + " is already exist");
                     }
                 }
                 item.glass_name = model.glass_name;
                 item.updated_date = DateTime.Now.ToUniversalTime();
+
                 await _unitOfWork.ProductGlasses.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;
-
             }
             catch (Exception ex)
             {

@@ -17,32 +17,39 @@ namespace Ecom_API.Service
         private IUnitOfWork _unitOfWork;
         private bool disposedValue;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
+        private readonly IProductAlbertService _productAlbertService;
+        private readonly IProductCoreService _productCoreService;
+        private readonly IProductGlassService _productGlassService;
         public ProductTypeService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IMemoryCache cache)
+            IProductAlbertService productAlbertService,
+            IProductCoreService productCoreService,
+            IProductGlassService productGlassService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _cache = cache;
+            _productAlbertService = productAlbertService;
+            _productCoreService = productCoreService;
+            _productGlassService = productGlassService;
         }
         public async Task<bool> Create(ProductTypeCreateReq model)
         {
             try
             {
-                var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_name == model.product_type_name);
+                var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_name.Trim().ToLower() == model.product_type_name.Trim().ToLower());
                 if (validate != null)
                     throw new AppException("product_type_name '" + model.product_type_name + "' is already existed in system");
+
 
                 // map model to new user object
                 var productType = _mapper.Map<ProductType>(model);
                 productType.gender = model.gender.ToString();
                 productType.product_dial_color = model.product_dial_color.ToString();
-                // product type full name generate
 
                 await _unitOfWork.ProductTypes.CreateAsync(productType);
                 var res = await _unitOfWork.SaveChangesAsync();
+
                 return res >= 1 ? true : false;
             }
             catch (Exception ex)
@@ -280,7 +287,7 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await GetById(id);
+                var item = await _unitOfWork.ProductTypes.FindWithCondition(c => c.id == id);
                 if (item == null)
                 {
                     throw new AppException("ProductType " + id + " does not exist");
@@ -289,7 +296,9 @@ namespace Ecom_API.Service
                 mapData.gender = model.gender.ToString();
                 mapData.product_dial_color = model.product_dial_color.ToString();
                 mapData.id = item.id;
+                mapData.created_date = item.created_date;
                 mapData.updated_date = DateTime.Now.ToUniversalTime();
+
                 await _unitOfWork.ProductTypes.UpdateAsync(mapData);
                 var res = await _unitOfWork.SaveChangesAsync();
 
@@ -319,6 +328,22 @@ namespace Ecom_API.Service
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
+        //private async Task UpdateForeignKeyId(int id, int product_albert_id, int product_core_id, int product_glass_id)
+        //{
+        //    // update albert, glass, core id
+        //    if (product_albert_id > 0)
+        //    {
+        //        await _productAlbertService.Update(new ProductAlbertUpdateReq { product_type_id = id }, product_albert_id);
+        //    }
+        //    if (product_core_id > 0)
+        //    {
+        //        await _productCoreService.Update(new ProductAlbertUpdateReq { product_type_id = id }, product_core_id);
+        //    }
+        //    if (product_glass_id > 0)
+        //    {
+        //        await _productGlassService.Update(new ProductAlbertUpdateReq { product_type_id = id }, product_glass_id);
+        //    }
+        //}
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

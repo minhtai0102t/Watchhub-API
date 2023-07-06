@@ -24,8 +24,11 @@ namespace Ecom_API.DTO.Models
         public SubCategoryMapper subCategory { get; set; }
         public int brand_id { get; set; }
         public BrandMapper brand { get; set; }
+        public int product_albert_id { get; set; }
         public AlbertMapper albert { get; set; }
+        public int product_core_id { get; set; }
         public CoreMapper core { get; set; }
+        public int product_glass_id { get; set; }
         public GlassMapper glass { get; set; }
         public IEnumerable<ProductMapper> products { get; set; }
     }

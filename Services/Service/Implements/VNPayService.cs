@@ -45,7 +45,7 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.VNPays.GetByIdAsync(id);
         }
-        public async Task<bool> Create(PaymentResponse model)
+        public async Task<bool> Create(StoreVnPayCreateReq model)
         {
             // map model to new user object
             var vNPay = _mapper.Map<VNPay>(model);
@@ -66,7 +66,6 @@ namespace Ecom_API.Service
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
-
         public void AddRequestData(string key, string value)
         {
             if (!String.IsNullOrEmpty(value))

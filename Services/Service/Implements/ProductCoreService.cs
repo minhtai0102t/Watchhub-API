@@ -39,19 +39,22 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await GetById(id);
+                var item = await _unitOfWork.ProductCores.FindWithCondition(c => c.id == id);
                 if (item == null)
                 {
                     throw new AppException("ProductCore " + id + " does not exist");
                 }
-                else{
-                    var name = await _unitOfWork.ProductCores.FindAllWithCondition(c => c.core_name == model.core_name);
-                    if(name.Any()){
-                        throw new AppException("category " + model.core_name + " is already exist");
+                else
+                {
+                    var itemName = await _unitOfWork.ProductCores.FindWithCondition(c => c.core_name.Trim().ToLower() == model.core_name.Trim().ToLower());
+                    if (itemName != null)
+                    {
+                        throw new AppException("ProductCore " + model.core_name + " is already exist");
                     }
                 }
                 item.core_name = model.core_name;
                 item.updated_date = DateTime.Now.ToUniversalTime();
+
                 await _unitOfWork.ProductCores.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;

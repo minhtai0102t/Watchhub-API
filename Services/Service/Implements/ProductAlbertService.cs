@@ -4,7 +4,6 @@ using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
-using Microsoft.Extensions.Caching.Memory;
 using Services.Repositories;
 
 namespace Ecom_API.Service
@@ -12,20 +11,14 @@ namespace Ecom_API.Service
     public class ProductAlbertService : IProductAlbertService
     {
         private IUnitOfWork _unitOfWork;
-        private IJwtUtils _jwtUtils;
         private bool disposedValue;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
         public ProductAlbertService(
-            IJwtUtils jwtUtils,
             IUnitOfWork unitOfWork,
-            IMapper mapper,
-            IMemoryCache cache)
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _jwtUtils = jwtUtils;
             _mapper = mapper;
-            _cache = cache;
         }
         public async Task<PagedList<ProductAlbert>> GetAll(QueryStringParameters query)
         {
@@ -39,21 +32,22 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await GetById(id);
+                var item = await _unitOfWork.ProductAlberts.FindWithCondition(c => c.id == id);
                 if (item == null)
                 {
                     throw new AppException("ProductAlbert " + id + " does not exist");
                 }
                 else
                 {
-                    var name = await _unitOfWork.ProductAlberts.FindAllWithCondition(c => c.albert_name == model.albert_name);
-                    if (name.Any())
+                    var itemName = await _unitOfWork.ProductAlberts.FindWithCondition(c => c.albert_name.Trim().ToLower() == model.albert_name.Trim().ToLower());
+                    if(itemName != null)
                     {
-                        throw new AppException("category " + model.albert_name + " is already exist");
+                        throw new AppException("ProductAlbert " + model.albert_name + " is already exist");
                     }
                 }
                 item.albert_name = model.albert_name;
                 item.updated_date = DateTime.Now.ToUniversalTime();
+
                 await _unitOfWork.ProductAlberts.UpdateAsync(item);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res == 1 ? true : false;
@@ -71,9 +65,9 @@ namespace Ecom_API.Service
                 throw new AppException("albert_name '" + model.albert_name + "' is already existed in system");
 
             // map model to new user object
-            var category = _mapper.Map<ProductAlbert>(model);
+            var albert = _mapper.Map<ProductAlbert>(model);
 
-            await _unitOfWork.ProductAlberts.CreateAsync(category);
+            await _unitOfWork.ProductAlberts.CreateAsync(albert);
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }

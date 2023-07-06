@@ -142,7 +142,7 @@ namespace Ecom_API.Service
         public async Task<UpdateRes> Update(UserUpdateReq model, int id)
         {
             // validate
-            var isExisted = await _unitOfWork.Users.GetByIdAsync(id);
+            var isExisted = await _unitOfWork.Users.FindWithCondition(c => c.id == id);
             if (isExisted == null)
                 throw new AppException("user " + id + " does not exist");
 
@@ -152,6 +152,7 @@ namespace Ecom_API.Service
             isExisted.fullname = model.fullname;
             isExisted.addresses = JsonConvert.SerializeObject(model.userAddresses).ToString();
             isExisted.updated_date = DateTime.Now.ToUniversalTime();
+
             await _unitOfWork.Users.UpdateAsync(isExisted);
             var res = await _unitOfWork.SaveChangesAsync();
             if (res == 1)

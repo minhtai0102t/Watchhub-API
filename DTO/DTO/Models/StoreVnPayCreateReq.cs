@@ -1,9 +1,6 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Ecom_API.DTO.Entities
+﻿namespace DTO.DTO.Models
 {
-    [Table("vnpay_payment")]
-    public class VNPay : BaseEntity
+    public class StoreVnPayCreateReq
     {
         public string Amount { get; set; }
         public string BankCode { get; set; }

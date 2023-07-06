@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ecom_API.DBHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 {
     [DbContext(typeof(ApiDbContextHosting))]
-    partial class ApiDbContextHostingModelSnapshot : ModelSnapshot
+    [Migration("20230705084313_UpdateDb68")]
+    partial class UpdateDb68
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -440,7 +443,13 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     NpgsqlPropertyBuilderExtensions.UseSequence(b.Property<int>("id"));
 
+                    b.Property<int?>("albert_id")
+                        .HasColumnType("integer");
+
                     b.Property<int>("brand_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("core_id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("created_date")
@@ -453,6 +462,9 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("glass_id")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("is_deleted")
                         .HasColumnType("boolean");
 
@@ -462,12 +474,6 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                     b.Property<string>("product_additional_information")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int?>("product_albert_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("product_core_id")
-                        .HasColumnType("integer");
 
                     b.Property<string>("product_dial_color")
                         .IsRequired()
@@ -487,9 +493,6 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.Property<List<int>>("product_feedback_ids")
                         .HasColumnType("integer[]");
-
-                    b.Property<int?>("product_glass_id")
-                        .HasColumnType("integer");
 
                     b.Property<string>("product_guarantee")
                         .IsRequired()
@@ -535,13 +538,13 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("albert_id");
+
                     b.HasIndex("brand_id");
 
-                    b.HasIndex("product_albert_id");
+                    b.HasIndex("core_id");
 
-                    b.HasIndex("product_core_id");
-
-                    b.HasIndex("product_glass_id");
+                    b.HasIndex("glass_id");
 
                     b.HasIndex("sub_category_id");
 
@@ -750,23 +753,23 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 
             modelBuilder.Entity("Ecom_API.DTO.Entities.ProductType", b =>
                 {
+                    b.HasOne("Ecom_API.DTO.Entities.ProductAlbert", "albert")
+                        .WithMany("productTypes")
+                        .HasForeignKey("albert_id");
+
                     b.HasOne("Ecom_API.DTO.Entities.Brand", "brand")
                         .WithMany("productTypes")
                         .HasForeignKey("brand_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ecom_API.DTO.Entities.ProductAlbert", "albert")
-                        .WithMany("productTypes")
-                        .HasForeignKey("product_albert_id");
-
                     b.HasOne("Ecom_API.DTO.Entities.ProductCore", "core")
                         .WithMany("productTypes")
-                        .HasForeignKey("product_core_id");
+                        .HasForeignKey("core_id");
 
                     b.HasOne("Ecom_API.DTO.Entities.ProductGlass", "glass")
                         .WithMany("productTypes")
-                        .HasForeignKey("product_glass_id");
+                        .HasForeignKey("glass_id");
 
                     b.HasOne("Ecom_API.DTO.Entities.SubCategory", "subCategory")
                         .WithMany("productTypes")

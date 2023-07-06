@@ -39,7 +39,7 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await GetById(id);
+                var item = await _unitOfWork.Brands.FindWithCondition(c => c.id == id);
                 if (item == null)
                 {
                     throw new AppException("brand " + id + " does not exist");

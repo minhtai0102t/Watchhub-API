@@ -28,41 +28,32 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<ProductCore>();
             modelBuilder.Entity<ProductGlass>();
             modelBuilder.Entity<VNPay>();
+            modelBuilder.Entity<Product>();
 
             modelBuilder.Entity<SubCategory>().UseTpcMappingStrategy()
                 .HasMany(c => c.productTypes)
                 .WithOne(c => c.subCategory)
                 .HasForeignKey(c => c.sub_category_id);
+
             modelBuilder.Entity<Brand>().UseTpcMappingStrategy()
                 .HasMany(c => c.productTypes)
                 .WithOne(c => c.brand)
                 .HasForeignKey(c => c.brand_id);
 
-            // Config foreign key one to many
-            //modelBuilder.Entity<ProductType>()
-            //    .HasOne(c => c.subCategory)
-            //    .WithMany(c => c.productTypes)
-            //    .HasForeignKey(c => c.sub_category_id);
+            modelBuilder.Entity<ProductAlbert>().UseTpcMappingStrategy()
+                .HasMany(c => c.productTypes)
+                .WithOne(c => c.albert)
+                .HasForeignKey(c => c.product_albert_id);
 
-            //modelBuilder.Entity<ProductType>()
-            //    .HasOne(c => c.brand)
-            //    .WithMany(c => c.productTypes)
-            //    .HasForeignKey(c => c.brand_id);
+            modelBuilder.Entity<ProductCore>().UseTpcMappingStrategy()
+                .HasMany(c => c.productTypes)
+                .WithOne(c => c.core)
+                .HasForeignKey(c => c.product_core_id);
 
-            modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
-               .HasOne(c => c.albert)
-               .WithOne(c => c.productType)
-               .HasForeignKey<ProductAlbert>(c => c.product_type_id);
-
-            modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
-               .HasOne(c => c.core)
-               .WithOne(c => c.productType)
-               .HasForeignKey<ProductCore>(c => c.product_type_id);
-
-            modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
-               .HasOne(c => c.glass)
-               .WithOne(c => c.productType)
-               .HasForeignKey<ProductGlass>(c => c.product_type_id);
+            modelBuilder.Entity<ProductGlass>().UseTpcMappingStrategy()
+                .HasMany(c => c.productTypes)
+                .WithOne(c => c.glass)
+                .HasForeignKey(c => c.product_glass_id);
 
             modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
                 .HasMany(c => c.products)

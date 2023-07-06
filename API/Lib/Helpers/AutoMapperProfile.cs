@@ -4,6 +4,7 @@ using AutoMapper;
 using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
+using global::DTO.DTO.Models;
 using global::DTO.DTO.Models.Request;
 using global::DTO.DTO.Models.Response;
 
@@ -46,8 +47,9 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductCore, CoreMapper>();
         CreateMap<ProductGlass, GlassMapper>();
         CreateMap<Product, ProductMapper>();
-        CreateMap<Product, ProductMapper>();
         CreateMap<ProductType, ProductTypeFullRes>()
             .ForMember(opt => opt.products, des => des.MapFrom(x => x.products));
+
+        CreateMap<StoreVnPayCreateReq, VNPay>();
     }
 }

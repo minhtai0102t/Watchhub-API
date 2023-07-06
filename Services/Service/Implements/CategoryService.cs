@@ -39,14 +39,16 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await GetById(id);
+                var item = await _unitOfWork.Categories.FindWithCondition(c => c.id == id);
                 if (item == null)
                 {
                     throw new AppException("category " + id + " does not exist");
                 }
-                else{
+                else
+                {
                     var name = await _unitOfWork.Categories.FindAllWithCondition(c => c.category_name == model.category_name);
-                    if(name.Any()){
+                    if (name.Any())
+                    {
                         throw new AppException("category " + model.category_name + " is already exist");
                     }
                 }
