@@ -79,20 +79,15 @@ namespace Ecom_API.Service
         {
             try
             {
-                var genericRes = _unitOfWork.ProductTypes.GetAll(
-                    c => c.productSubCategories,
-                    c => c.brand,
-                    c => c.albert,
-                    c => c.core,
-                    c => c.glass);
-
-                var listRes = await _unitOfWork.ProductTypes.GetWithPaging(genericRes, pagingParams);
+                var listRes = await _unitOfWork.ProductTypes.GetFullRes(pagingParams);
 
                 var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+
                 for (int i = 0; i < result.Count; i++)
                 {
                     result[i].products = _mapper.Map<ICollection<ProductMapper>>(listRes[i].products);
                 }
+
                 result.TotalCount = listRes.TotalCount;
                 return result;
             }
@@ -105,15 +100,9 @@ namespace Ecom_API.Service
         {
             Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
 
-            var genericRes = _unitOfWork.ProductTypes.GetAll(predicate,
-                    c => c.productSubCategories,
-                    c => c.brand,
-                    c => c.albert,
-                    c => c.core,
-                    c => c.glass);
-
-            var listRes = await _unitOfWork.ProductTypes.GetWithPaging(genericRes, pagingParams);
+            var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
             var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+
             for (int i = 0; i < result.Count; i++)
             {
                 result[i].products = _mapper.Map<ICollection<ProductMapper>>(listRes[i].products);
@@ -124,15 +113,7 @@ namespace Ecom_API.Service
         public async Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
         {
             Expression<Func<ProductType, bool>> predicate = p => p.brand_id == brandId;
-
-            var genericRes = _unitOfWork.ProductTypes.GetAll(predicate,
-                   c => c.productSubCategories,
-                   c => c.brand,
-                   c => c.albert,
-                   c => c.core,
-                   c => c.glass);
-
-            var listRes = await _unitOfWork.ProductTypes.GetWithPaging(genericRes, pagingParams);
+            var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
 
             var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
             for (int i = 0; i < result.Count; i++)
@@ -155,29 +136,21 @@ namespace Ecom_API.Service
         }
         public async Task<ProductTypeFullRes> GetById(int id)
         {
-            var genericRes = await _unitOfWork.ProductTypes.GetById(id,
-                           c => c.productSubCategories,
-                           c => c.brand,
-                           c => c.albert,
-                           c => c.core,
-                           c => c.glass);
-            var result = _mapper.Map<ProductTypeFullRes>(genericRes);
-            result.products = _mapper.Map<IEnumerable<ProductMapper>>(genericRes.products).ToList();
+            var listRes = await _unitOfWork.ProductTypes.GetFullResById(id);
+
+            var result = _mapper.Map<ProductTypeFullRes>(listRes);
+            result.products = _mapper.Map<IEnumerable<ProductMapper>>(listRes.products).ToList();
+
             return result;
         }
         public async Task<IEnumerable<ProductTypeFullRes>> GetByListId(List<int> listId)
         {
-            var genericRes = await _unitOfWork.ProductTypes.GetByListId(listId,
-                c => c.productSubCategories,
-                c => c.brand,
-                c => c.albert,
-                c => c.core,
-                c => c.glass);
+            var listRes = await _unitOfWork.ProductTypes.GetFullResByListId(listId);
 
-            var result = _mapper.Map<IEnumerable<ProductTypeFullRes>>(genericRes).ToList();
+            var result = _mapper.Map<IEnumerable<ProductTypeFullRes>>(listRes).ToList();
             for (int i = 0; i < result.Count(); i++)
             {
-                result[i].products = _mapper.Map<ICollection<ProductMapper>>(genericRes.ToList()[i].products);
+                result[i].products = _mapper.Map<ICollection<ProductMapper>>(listRes.ToList()[i].products);
             }
             return result;
         }
