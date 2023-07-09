@@ -8,8 +8,9 @@ namespace Ecom_API.Service;
 
 public interface ICategoryService : IDisposable
 {
-    Task<PagedList<Category>> GetAll(QueryStringParameters query);
-    Task<Category> GetById(int id);
+    Task<PagedList<CategoryFullRes>> GetAll(QueryStringParameters query);
+    Task<CategoryFullRes> GetById(int id);
+    Task<IEnumerable<CategoryFullRes>> GetByListId(List<int> ids);
     Task<bool> Update(CategoryUpdateReq model, int id);
     Task<bool> Create(CategoryCreateReq id);
     Task<bool> SoftDelete(int id);

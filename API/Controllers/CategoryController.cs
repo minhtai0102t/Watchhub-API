@@ -53,6 +53,13 @@ public class CategoryController : ControllerBase
         var res = await _categoryService.GetById(id);
         return Ok(res);
     }
+    [HttpGet]
+    [Route("GetByListId{ids}")]
+    public async Task<IActionResult> GetByListId(List<int> ids)
+    {
+        var res = await _categoryService.GetByListId(ids);
+        return Ok(res);
+    }
     /// <summary>
     /// Get by id 
     /// </summary>

@@ -61,5 +61,6 @@ namespace Services.Repositories
         /// </summary>
         /// <returns></returns>
         DbSet<T> GetDbSet();
+       Task Detach (T entity);
     }
 }

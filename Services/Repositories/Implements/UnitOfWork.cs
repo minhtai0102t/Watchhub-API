@@ -22,6 +22,7 @@ namespace Services.Repositories
         private IProductRepository _product;
         private IVNPayRepository _vnpay;
         private IOrderRepository _order;
+        private IProductSubRepository _productSub;
         public IUserRepository Users
         {
             get
@@ -152,6 +153,17 @@ namespace Services.Repositories
                     _order = new OrderRepository(_dbContext);
                 }
                 return _order;
+            }
+        }
+        public IProductSubRepository ProductSub
+        {
+            get
+            {
+                if (_productSub == null)
+                {
+                    _productSub = new ProductSubRepository(_dbContext);
+                }
+                return _productSub;
             }
         }
 

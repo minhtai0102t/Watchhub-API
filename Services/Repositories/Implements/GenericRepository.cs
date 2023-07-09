@@ -272,5 +272,16 @@ namespace Services.Repositories
             }
             return pagedRequests;
         }
+        public async Task Detach(T entity)
+        {
+            try
+            {
+                dbSet.Entry(entity).State = EntityState.Detached;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

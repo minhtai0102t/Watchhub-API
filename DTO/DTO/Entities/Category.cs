@@ -9,5 +9,6 @@ namespace Ecom_API.DTO.Entities
         [Required]
         [StringLength(1000)]
         public string category_name { get; set; }
+        public ICollection<SubCategory> subCategories {get;set;}
     }
 }

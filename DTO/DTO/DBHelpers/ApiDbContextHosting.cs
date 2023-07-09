@@ -30,7 +30,10 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<VNPay>();
             modelBuilder.Entity<Product>();
 
-            modelBuilder.Entity<SubCategory>().UseTpcMappingStrategy();
+            modelBuilder.Entity<SubCategory>().UseTpcMappingStrategy()
+                .HasOne(c => c.category)
+                .WithMany(c => c.subCategories)
+                .HasForeignKey(c => c.category_id);
 
             modelBuilder.Entity<Brand>().UseTpcMappingStrategy()
                 .HasMany(c => c.productTypes)

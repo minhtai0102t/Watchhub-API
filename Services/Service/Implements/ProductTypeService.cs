@@ -98,7 +98,7 @@ namespace Ecom_API.Service
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
-            Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
+            Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId) && p.is_deleted == false;
 
             var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
             var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
@@ -112,7 +112,7 @@ namespace Ecom_API.Service
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
         {
-            Expression<Func<ProductType, bool>> predicate = p => p.brand_id == brandId;
+            Expression<Func<ProductType, bool>> predicate = p => p.brand_id == brandId && p.is_deleted == false;
             var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
 
             var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
@@ -159,24 +159,30 @@ namespace Ecom_API.Service
             var item = await _unitOfWork.ProductTypes.GetByIdAsync(id);
             return item.product_image_uuid;
         }
-        public async Task<PagedList<ProductType>> Filter(QueryStringParameters pagingParams, int subCategoryId, FilterOptions filterOptions)
+        public async Task<PagedList<ProductTypeFullRes>> Filter(QueryStringParameters pagingParams, int subCategoryId, FilterOptions filterOptions)
         {
             try
             {
-                string dialColor = filterOptions.dialColor.ToString();
-                string gender = filterOptions.gender.ToString();
+                List<DIAL_COLOR> dialColors = filterOptions.dialColors;
+                List<GENDER> genders = filterOptions.genders;
+                List<int> brands = filterOptions.brands;
                 int? minPrice = filterOptions.minPrice;
                 int? maxPrice = filterOptions.maxPrice;
                 Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
 
-                if (!string.IsNullOrEmpty(dialColor))
+                if (dialColors.Any())
                 {
-                    Expression<Func<ProductType, bool>> condition = p => p.product_dial_color.Equals(dialColor);
+                    Expression<Func<ProductType, bool>> condition = p => dialColors.Any(q => q.ToString() == p.product_dial_color);
                     predicate = PredicateBuilder.And(predicate, condition);
                 }
-                if (!string.IsNullOrEmpty(gender))
+                if (genders.Any())
                 {
-                    Expression<Func<ProductType, bool>> condition = p => p.gender.Equals(gender);
+                    Expression<Func<ProductType, bool>> condition = p => genders.Any(q => p.gender == q.ToString());
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (brands.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => brands.Any(q => p.brand_id == q);
                     predicate = PredicateBuilder.And(predicate, condition);
                 }
                 if (minPrice != null && maxPrice != null && minPrice >= 0 && maxPrice > minPrice)
@@ -184,7 +190,14 @@ namespace Ecom_API.Service
                     Expression<Func<ProductType, bool>> condition = p => p.price >= filterOptions.minPrice && p.price <= filterOptions.maxPrice;
                     predicate = PredicateBuilder.And(predicate, condition);
                 }
-                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, predicate);
+                var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
+                var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+
+                for (int i = 0; i < result.Count; i++)
+                {
+                    result[i].products = _mapper.Map<ICollection<ProductMapper>>(listRes[i].products);
+                }
+                result.TotalCount = listRes.TotalCount;
                 return result;
             }
             catch (Exception ex)
@@ -270,22 +283,73 @@ namespace Ecom_API.Service
         {
             try
             {
-                var item = await _unitOfWork.ProductTypes.FindWithCondition(c => c.id == id);
+                var item = await _unitOfWork.ProductTypes.GetFullResById(id);
                 if (item == null)
                 {
                     throw new AppException("ProductType " + id + " does not exist");
                 }
-                var mapData = _mapper.Map<ProductType>(model);
-                mapData.gender = model.gender.ToString();
-                mapData.product_dial_color = model.product_dial_color.ToString();
-                mapData.id = item.id;
-                mapData.created_date = item.created_date;
-                mapData.updated_date = DateTime.Now.ToUniversalTime();
+                if (!model.sub_category_ids.Any())
+                {
+                    throw new AppException("Sub categories cannot be empty");
+                }
+                else
+                {
+                    var isALlExisted = await _unitOfWork.SubCategories.GetByListId(model.sub_category_ids);
+                    if (isALlExisted == null || isALlExisted.Count() != model.sub_category_ids.Count())
+                    {
+                        throw new AppException("Some of sub categories are not exist in database");
+                    }
+                }
+                // mapper
+                item.product_type_name = model.product_type_name;
+                item.product_image_uuid = model.product_image_uuid;
+                item.price = model.price;
+                item.brand_id = model.brand_id;
+                item.product_albert_id = model.product_albert_id;
+                item.product_core_id = model.product_core_id;
+                item.product_glass_id = model.product_glass_id;
+                item.product_source = model.product_source;
+                item.product_guarantee = model.product_guarantee;
+                item.product_dial_width = model.product_dial_width;
+                item.product_dial_height = model.product_dial_height;
+                item.product_dial_color = model.product_dial_color.ToString();
+                item.product_waterproof = model.product_waterproof;
+                item.product_features = model.product_features;
+                item.product_additional_information = model.product_additional_information;
+                item.gender = model.gender.ToString();
+                item.updated_date = DateTime.Now.ToUniversalTime();
+                item.product_dial_color = model.product_dial_color.ToString();
+                item.gender = model.gender.ToString();
+                // resolve ProductSubCategories
+                // update product type
+                using (var transaction = _unitOfWork.GetDbContextHosting().Database.BeginTransaction())
+                {
+                    try
+                    {
+                        // update product type
+                        item.productSubCategories.Clear();
+                        var res = await _unitOfWork.SaveChangesAsync();
 
-                await _unitOfWork.ProductTypes.UpdateAsync(mapData);
-                var res = await _unitOfWork.SaveChangesAsync();
+                        await _unitOfWork.ProductTypes.UpdateAsync(item);
+                        res = await _unitOfWork.SaveChangesAsync();
 
-                return res == 1 ? true : false;
+                        item.productSubCategories = model.sub_category_ids.Select(subCategoryId => new ProductSubCategory
+                        {
+                            product_type_id = item.id,
+                            sub_category_id = subCategoryId
+                        }).ToList();
+                        // update many to many relationship
+                        res = await _unitOfWork.SaveChangesAsync();
+
+                        transaction.Commit();
+                        return res >= 1 ? true : false;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw ex;
+                    }
+                }
             }
             catch (Exception ex)
             {

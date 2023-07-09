@@ -4,7 +4,6 @@ using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
-using Microsoft.Extensions.Caching.Memory;
 using Services.Repositories;
 
 namespace Ecom_API.Service
@@ -21,13 +20,35 @@ namespace Ecom_API.Service
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<PagedList<Category>> GetAll(QueryStringParameters query)
+        public async Task<PagedList<CategoryFullRes>> GetAll(QueryStringParameters query)
         {
-            return await _unitOfWork.Categories.GetAllWithPaging(query);
+            var listRes = await _unitOfWork.Categories.GetFullRes(query);
+            var res = _mapper.Map<PagedList<CategoryFullRes>>(listRes);
+
+            foreach(var item in res){
+                item.subCategories = item.subCategories.GroupBy(x => x.sub_category_name)
+                                                        .Select(g => g.First())
+                                                        .ToList();
+            }
+            res.TotalCount = listRes.TotalCount;
+            return res;
+
         }
-        public async Task<Category> GetById(int id)
+        public async Task<CategoryFullRes> GetById(int id)
         {
-            return await _unitOfWork.Categories.GetByIdAsync(id);
+            var listRes = await _unitOfWork.Categories.GetFullResById(id);
+
+            var res = _mapper.Map<CategoryFullRes>(listRes);
+
+            return res;
+        }
+        public async Task<IEnumerable<CategoryFullRes>> GetByListId(List<int> ids)
+        {
+            var listRes = await _unitOfWork.Categories.GetFullResByListId(ids);
+
+            var res = _mapper.Map<IEnumerable<CategoryFullRes>>(listRes);
+
+            return res;
         }
         public async Task<bool> Update(CategoryUpdateReq model, int id)
         {
@@ -72,9 +93,17 @@ namespace Ecom_API.Service
         }
         public async Task<bool> SoftDelete(int id)
         {
-            await _unitOfWork.Categories.SoftDeleteAsync(id);
-            var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+            try
+            {
+                await _unitOfWork.Categories.SoftDeleteAsync(id);
+                var res = await _unitOfWork.SaveChangesAsync();
+
+                return res >= 1 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<bool> Delete(int id)
         {

@@ -40,6 +40,7 @@ public class AutoMapperProfile : Profile
                 }
             ));
         CreateMap<SubCategory, SubCategoryMapper>();
+        CreateMap<SubCategory, SubCategoryMapperShort>();
         CreateMap<Brand, BrandMapper>();
         CreateMap<ProductAlbert, AlbertMapper>();
         CreateMap<ProductCore, CoreMapper>();
@@ -53,5 +54,7 @@ public class AutoMapperProfile : Profile
             .ForMember(opt => opt.productSubCategories, des => des.MapFrom(x => x.productSubCategories));
 
         CreateMap<StoreVnPayCreateReq, VNPay>();
+        CreateMap<Category, CategoryFullRes>()
+            .ForMember(opt => opt.subCategories, des => des.MapFrom(x => x.subCategories));
     }
 }

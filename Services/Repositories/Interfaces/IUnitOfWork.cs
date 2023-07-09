@@ -17,6 +17,7 @@ namespace Services.Repositories
         IPaymentMethodRepository PaymentMethods { get; }
         IVNPayRepository VNPays { get; }
         IOrderRepository Orders { get; }
+        IProductSubRepository ProductSub { get; }
         Task<int> SaveChangesAsync();
         ApiDbContextHosting GetDbContextHosting();
     }
