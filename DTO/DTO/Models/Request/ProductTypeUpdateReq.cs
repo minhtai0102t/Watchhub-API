@@ -23,7 +23,7 @@ public class ProductTypeUpdateReq
     public string gender { get; set; }
     public int sold_quantity { get; set; }
     public int brand_id { get; set; }
-    public int? product_albert_id { get; set; }
-    public int? product_core_id { get; set; }
-    public int? product_glass_id { get; set; }
+    public int product_albert_id { get; set; }
+    public int product_core_id { get; set; }
+    public int product_glass_id { get; set; }
 }

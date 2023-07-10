@@ -30,12 +30,12 @@ namespace Ecom_API.DTO.Entities
         [ForeignKey("brand_id")]
         public int brand_id { get; set; }
         public Brand brand { get; set; }
-        public int? product_albert_id { get; set; }
-        public ProductAlbert albert { get; }
-        public int? product_core_id { get; set; }
-        public ProductCore core { get; }
-        public int? product_glass_id { get; set; }
-        public ProductGlass glass { get; }
+        public int product_albert_id { get; set; }
+        public ProductAlbert albert { get; set; }
+        public int product_core_id { get; set; }
+        public ProductCore core { get; set; }
+        public int product_glass_id { get; set; }
+        public ProductGlass glass { get; set; }
         public ICollection<ProductSubCategory> productSubCategories { get; set; }
         public ICollection<Product> products { get; set; } = new List<Product>();
     }

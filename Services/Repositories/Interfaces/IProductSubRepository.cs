@@ -1,12 +1,11 @@
-﻿using EBird.Application.Model.PagingModel;
-using Ecom_API.DTO.Entities;
-using Ecom_API.PagingModel;
+﻿using Ecom_API.DTO.Entities;
 
 namespace Services.Repositories
 {
     public interface IProductSubRepository
     {
-        Task Update(int productTypeId, List<int> subIds);
+        Task DeleteByProductTypeId(int productTypeId);
+        Task DeleteBySubCateId(int subCateId);
         Task<ICollection<ProductSubCategory>> GetWithProductTypeId(int productTypeId);
     }
 }

@@ -39,14 +39,13 @@ public class AutoMapperProfile : Profile
                     return true;
                 }
             ));
-        CreateMap<SubCategory, SubCategoryMapper>();
         CreateMap<SubCategory, SubCategoryMapperShort>();
         CreateMap<Brand, BrandMapper>();
         CreateMap<ProductAlbert, AlbertMapper>();
         CreateMap<ProductCore, CoreMapper>();
         CreateMap<ProductGlass, GlassMapper>();
         CreateMap<Product, ProductMapper>();
-        CreateMap<ProductSubCategory, SubCategoryMapper>()
+        CreateMap<ProductSubCategory, ProductSubCategoryMapper>()
             .ForMember(opt => opt.sub_category_name, des => des.MapFrom(x => x.subCategory.sub_category_name))
             .ForMember(opt => opt.category_id, des => des.MapFrom(x => x.subCategory.category_id));
         CreateMap<ProductType, ProductTypeFullRes>()

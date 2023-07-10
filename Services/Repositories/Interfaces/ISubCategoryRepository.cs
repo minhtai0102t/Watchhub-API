@@ -9,7 +9,7 @@ namespace Services.Repositories
     {
         Task<PagedList<SubCategory>> GetAllWithPaging(QueryStringParameters pagingParams);
         Task<PagedList<SubCategory>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<SubCategory, bool>> predicate);
-        
+        Task DeleteByCategoryId(int cateId);
     }
 
 }

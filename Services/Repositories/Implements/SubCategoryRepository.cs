@@ -17,10 +17,22 @@ namespace Services.Repositories
             var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams);
         }
-         public async Task<PagedList<SubCategory>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<SubCategory, bool>> predicate)
+        public async Task<PagedList<SubCategory>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<SubCategory, bool>> predicate)
         {
             var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams, predicate);
+        }
+        public async Task DeleteByCategoryId(int cateId)
+        {
+            try
+            {
+                var listDelete = await dbSet.Where(c => c.category_id == cateId).ToListAsync();
+                dbSet.RemoveRange(listDelete);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

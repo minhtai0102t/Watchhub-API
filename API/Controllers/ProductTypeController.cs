@@ -133,46 +133,46 @@ public class ProductTypeController : ControllerBase
     /// Filter Best Seller
     /// </summary>
     // [Authorize]
-    [HttpGet]
-    [Route("FilterBestSeller")]
-    public async Task<IActionResult> FilterBestSeller([FromQuery] QueryStringParameters param, [FromQuery] SORT_OPTION sortOption, [FromQuery] GENDER gender)
-    {
-        var res = await _productTypeService.FilterBestSeller(param, sortOption, gender);
-        return Ok(new { res, res.TotalCount });
-    }
+    //[HttpGet]
+    //[Route("FilterBestSeller")]
+    //public async Task<IActionResult> FilterBestSeller([FromQuery] QueryStringParameters param, [FromQuery] SORT_OPTION sortOption, [FromQuery] GENDER gender)
+    //{
+    //    var res = await _productTypeService.FilterBestSeller(param, sortOption, gender);
+    //    return Ok(new { res, res.TotalCount });
+    //}
     /// <summary>
     /// Search
     /// </summary>
     // [Authorize]
-    [HttpGet]
-    [Route("FilterByPrice")]
-    public async Task<IActionResult> FilterByPrice([FromQuery] QueryStringParameters param, int minPrice = 0, int maxPrice = 500000000)
-    {
-        var res = await _productTypeService.FilterByPrice(param, minPrice, maxPrice);
-        return Ok(new { res, res.TotalCount });
-    }
+    //[HttpGet]
+    //[Route("FilterByPrice")]
+    //public async Task<IActionResult> FilterByPrice([FromQuery] QueryStringParameters param, int minPrice = 0, int maxPrice = 500000000)
+    //{
+    //    var res = await _productTypeService.FilterByPrice(param, minPrice, maxPrice);
+    //    return Ok(new { res, res.TotalCount });
+    //}
     /// <summary>
     /// Search
     /// </summary>
     // [Authorize]
-    [HttpGet]
-    [Route("FilterByGender")]
-    public async Task<IActionResult> FilterByGender([FromQuery] QueryStringParameters param, GENDER gender)
-    {
-        var res = await _productTypeService.FilterByGender(param, gender);
-        return Ok(new { res, res.TotalCount });
-    }
+    //[HttpGet]
+    //[Route("FilterByGender")]
+    //public async Task<IActionResult> FilterByGender([FromQuery] QueryStringParameters param, GENDER gender)
+    //{
+    //    var res = await _productTypeService.FilterByGender(param, gender);
+    //    return Ok(new { res, res.TotalCount });
+    //}
     /// <summary>
     /// Search
     /// </summary>
     // [Authorize]
-    [HttpGet]
-    [Route("FilterByDialColor")]
-    public async Task<IActionResult> FilterByDialColor([FromQuery] QueryStringParameters param, DIAL_COLOR color)
-    {
-        var res = await _productTypeService.FilterByDialColor(param, color);
-        return Ok(new { res, res.TotalCount });
-    }
+    //[HttpGet]
+    //[Route("FilterByDialColor")]
+    //public async Task<IActionResult> FilterByDialColor([FromQuery] QueryStringParameters param, DIAL_COLOR color)
+    //{
+    //    var res = await _productTypeService.FilterByDialColor(param, color);
+    //    return Ok(new { res, res.TotalCount });
+    //}
     [HttpGet]
     [Route("Sort")]
     public async Task<IActionResult> Sort([FromQuery] QueryStringParameters param, [FromQuery] SORT_OPTION sortOption, bool isDescending = false)

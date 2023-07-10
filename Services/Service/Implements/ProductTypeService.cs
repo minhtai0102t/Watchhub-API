@@ -4,7 +4,9 @@ using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
+using Microsoft.EntityFrameworkCore.Query;
 using Services.Repositories;
+using System.Linq;
 using System.Linq.Expressions;
 using static Ecom_API.Helpers.Constants;
 
@@ -163,21 +165,39 @@ namespace Ecom_API.Service
         {
             try
             {
-                List<DIAL_COLOR> dialColors = filterOptions.dialColors;
-                List<GENDER> genders = filterOptions.genders;
                 List<int> brands = filterOptions.brands;
                 int? minPrice = filterOptions.minPrice;
                 int? maxPrice = filterOptions.maxPrice;
-                Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
+                List<int> alberts = filterOptions.alberts;
+                List<int> cores = filterOptions.cores;
+                List<int> glasses = filterOptions.glasses;
+                List<string> genders = filterOptions.genders;
+                List<string> dialColors = filterOptions.dialColors;
 
+                Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
+                if (alberts.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => alberts.Any(q => q == p.product_albert_id);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (cores.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => cores.Any(q => q == p.product_core_id);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (glasses.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => glasses.Any(q => q == p.product_glass_id);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
                 if (dialColors.Any())
                 {
-                    Expression<Func<ProductType, bool>> condition = p => dialColors.Any(q => q.ToString() == p.product_dial_color);
+                    Expression<Func<ProductType, bool>> condition = p => dialColors.Any(q => q == p.product_dial_color);
                     predicate = PredicateBuilder.And(predicate, condition);
                 }
                 if (genders.Any())
                 {
-                    Expression<Func<ProductType, bool>> condition = p => genders.Any(q => p.gender == q.ToString());
+                    Expression<Func<ProductType, bool>> condition = p => genders.Any(q => p.gender == q);
                     predicate = PredicateBuilder.And(predicate, condition);
                 }
                 if (brands.Any())
@@ -202,7 +222,7 @@ namespace Ecom_API.Service
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
 
         }
@@ -284,6 +304,7 @@ namespace Ecom_API.Service
             try
             {
                 var item = await _unitOfWork.ProductTypes.GetFullResById(id);
+                var subCategoryIds = item.productSubCategories.Select(c => c.sub_category_id).ToList();
                 if (item == null)
                 {
                     throw new AppException("ProductType " + id + " does not exist");
@@ -320,40 +341,29 @@ namespace Ecom_API.Service
                 item.updated_date = DateTime.Now.ToUniversalTime();
                 item.product_dial_color = model.product_dial_color.ToString();
                 item.gender = model.gender.ToString();
+
                 // resolve ProductSubCategories
-                // update product type
-                using (var transaction = _unitOfWork.GetDbContextHosting().Database.BeginTransaction())
+                // B1: Delete all Product sub categories
+                // B2: Update product type
+                // B3: Add new Product sub categories
+                await _unitOfWork.ProductSub.DeleteByProductTypeId(item.id);
+                var res = await _unitOfWork.SaveChangesAsync();
+
+                item.productSubCategories = model.sub_category_ids.Select(subCategoryId => new ProductSubCategory
                 {
-                    try
-                    {
-                        // update product type
-                        item.productSubCategories.Clear();
-                        var res = await _unitOfWork.SaveChangesAsync();
+                    product_type_id = item.id,
+                    sub_category_id = subCategoryId
+                }).ToList();
+                await _unitOfWork.ProductTypes.UpdateAsync(item);
 
-                        await _unitOfWork.ProductTypes.UpdateAsync(item);
-                        res = await _unitOfWork.SaveChangesAsync();
+                res = await _unitOfWork.SaveChangesAsync();
 
-                        item.productSubCategories = model.sub_category_ids.Select(subCategoryId => new ProductSubCategory
-                        {
-                            product_type_id = item.id,
-                            sub_category_id = subCategoryId
-                        }).ToList();
-                        // update many to many relationship
-                        res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
 
-                        transaction.Commit();
-                        return res >= 1 ? true : false;
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        throw ex;
-                    }
-                }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
         public async Task<bool> SoftDelete(int id)

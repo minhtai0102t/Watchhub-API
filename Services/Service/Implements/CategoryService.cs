@@ -107,8 +107,13 @@ namespace Ecom_API.Service
         }
         public async Task<bool> Delete(int id)
         {
-            await _unitOfWork.Categories.DeleteAsync(id);
+            // delete all record in sub categories contain category id
+            await _unitOfWork.SubCategories.DeleteByCategoryId(id);
             var res = await _unitOfWork.SaveChangesAsync();
+
+            // delete category
+            await _unitOfWork.Categories.DeleteAsync(id);
+            res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
 

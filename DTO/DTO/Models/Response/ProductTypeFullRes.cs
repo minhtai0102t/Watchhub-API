@@ -1,4 +1,5 @@
 using Ecom_API.DTO.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecom_API.DTO.Models
 {
@@ -28,13 +29,15 @@ namespace Ecom_API.DTO.Models
         public CoreMapper core { get; set; }
         public int product_glass_id { get; set; }
         public GlassMapper glass { get; set; }
-        public ICollection<SubCategoryMapper> productSubCategories { get; set; }
+        public ICollection<ProductSubCategoryMapper> productSubCategories { get; set; }
         public ICollection<ProductMapper> products { get; set; }
-    }
-    public class SubCategoryMapper
+    }   
+    public class ProductSubCategoryMapper
     {
-        public string sub_category_name { get; set; }
+        public int product_type_id { get; set; }
+        public int sub_category_id { get; set; }
         public int category_id { get; set; }
+        public string sub_category_name { get; set; }
     }
     public class BrandMapper
     {

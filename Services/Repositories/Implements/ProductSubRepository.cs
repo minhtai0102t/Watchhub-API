@@ -1,6 +1,4 @@
-﻿using EBird.Application.Model.PagingModel;
-using Ecom_API.DTO.Entities;
-using Ecom_API.PagingModel;
+﻿using Ecom_API.DTO.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Services.Repositories
@@ -14,20 +12,24 @@ namespace Services.Repositories
             _context = context;
             dbSet = context.Set<ProductSubCategory>();
         }
-        public async Task Update(int productTypeId, List<int> subIds)
+        public async Task DeleteByProductTypeId(int productTypeId)
         {
             try
             {
-                var entities = await dbSet.Where(e => e.product_type_id == productTypeId).ToListAsync();
-                dbSet.RemoveRange(entities);
-
-                var listNewEntity = subIds.Select(c => new ProductSubCategory
-                {
-                    product_type_id = productTypeId,
-                    sub_category_id = c
-                }).ToList();
-                await dbSet.AddRangeAsync(listNewEntity);
-                await _context.SaveChangesAsync();
+                var listDelete = await dbSet.Where(c => c.product_type_id == productTypeId).ToListAsync();
+                dbSet.RemoveRange(listDelete);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task DeleteBySubCateId(int subCateId)
+        {
+            try
+            {
+                var listDelete = await dbSet.Where(c => c.sub_category_id == subCateId).ToListAsync();
+                dbSet.RemoveRange(listDelete);
             }
             catch (Exception ex)
             {

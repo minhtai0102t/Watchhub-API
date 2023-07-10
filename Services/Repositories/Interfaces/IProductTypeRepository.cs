@@ -15,5 +15,6 @@ namespace Services.Repositories
         Task<PagedList<ProductType>> GetFullResWithCondition(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate);
         Task<IEnumerable<ProductType>> GetFullResByListId(List<int> ids);
         Task<ProductType> GetFullResById(int id);
+        Task<ProductType> GetFullResByIdReadOnly(int id);
     }
 }

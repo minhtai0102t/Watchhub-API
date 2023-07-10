@@ -65,9 +65,21 @@ namespace Services.Repositories
                .Where(c => ids.Any(p => p == c.id)&& c.is_deleted == false);
             return await dataQuery.ToListAsync();
         }
-        public async Task<ProductType> GetFullResById(int id)
+        public async Task<ProductType> GetFullResByIdReadOnly(int id)
         {
             var dataQuery = dbSet.AsNoTracking()
+                .Include(c => c.productSubCategories)
+                    .ThenInclude(x => x.subCategory)
+                .Include(c => c.brand)
+                .Include(c => c.albert)
+                .Include(c => c.core)
+                .Include(c => c.glass)
+                .Where(c => c.id == id && c.is_deleted == false);
+            return await dataQuery.SingleOrDefaultAsync();
+        }
+        public async Task<ProductType> GetFullResById(int id)
+        {
+            var dataQuery = dbSet
                 .Include(c => c.productSubCategories)
                     .ThenInclude(x => x.subCategory)
                 .Include(c => c.brand)
