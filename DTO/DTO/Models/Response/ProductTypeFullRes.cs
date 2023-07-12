@@ -1,5 +1,4 @@
 using Ecom_API.DTO.Entities;
-using System.ComponentModel.DataAnnotations;
 
 namespace Ecom_API.DTO.Models
 {

@@ -4,9 +4,7 @@ using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
 using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
-using Microsoft.EntityFrameworkCore.Query;
 using Services.Repositories;
-using System.Linq;
 using System.Linq.Expressions;
 using static Ecom_API.Helpers.Constants;
 
@@ -28,7 +26,6 @@ namespace Ecom_API.Service
         {
             try
             {
-
                 var validate = await _unitOfWork.ProductTypes.FindWithCondition(c => c.product_type_code.Trim().ToLower() == model.product_type_code.Trim().ToLower());
                 if (validate != null)
                     throw new AppException("product_type_code '" + model.product_type_code + "' is already existed in system");
@@ -59,13 +56,13 @@ namespace Ecom_API.Service
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
         public async Task<PagedList<ProductType>> Search(QueryStringParameters pagingParams, string searchTerm)
@@ -95,7 +92,7 @@ namespace Ecom_API.Service
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
@@ -118,12 +115,13 @@ namespace Ecom_API.Service
             var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
 
             var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+
             for (int i = 0; i < result.Count; i++)
             {
                 result[i].products = _mapper.Map<ICollection<ProductMapper>>(listRes[i].products);
             }
-            result.TotalCount = listRes.TotalCount;
 
+            result.TotalCount = listRes.TotalCount;
             return result;
         }
         public async Task<int> GetTotalBySubCategoryId(int subCategoryId)
@@ -226,6 +224,71 @@ namespace Ecom_API.Service
             }
 
         }
+        public async Task<PagedList<ProductTypeFullRes>> Filter(QueryStringParameters pagingParams, FilterOptions filterOptions)
+        {
+            try
+            {
+                List<int> brands = filterOptions.brands;
+                int? minPrice = filterOptions.minPrice;
+                int? maxPrice = filterOptions.maxPrice;
+                List<int> alberts = filterOptions.alberts;
+                List<int> cores = filterOptions.cores;
+                List<int> glasses = filterOptions.glasses;
+                List<string> genders = filterOptions.genders;
+                List<string> dialColors = filterOptions.dialColors;
+
+                Expression<Func<ProductType, bool>> predicate = p => true;
+                if (alberts.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => alberts.Any(q => q == p.product_albert_id);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (cores.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => cores.Any(q => q == p.product_core_id);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (glasses.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => glasses.Any(q => q == p.product_glass_id);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (dialColors.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => dialColors.Any(q => q == p.product_dial_color);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (genders.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => genders.Any(q => p.gender == q);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (brands.Any())
+                {
+                    Expression<Func<ProductType, bool>> condition = p => brands.Any(q => p.brand_id == q);
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                if (minPrice != null && maxPrice != null && minPrice >= 0 && maxPrice > minPrice)
+                {
+                    Expression<Func<ProductType, bool>> condition = p => p.price >= filterOptions.minPrice && p.price <= filterOptions.maxPrice;
+                    predicate = PredicateBuilder.And(predicate, condition);
+                }
+                var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
+                var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+
+                for (int i = 0; i < result.Count; i++)
+                {
+                    result[i].products = _mapper.Map<ICollection<ProductMapper>>(listRes[i].products);
+                }
+                result.TotalCount = listRes.TotalCount;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
         public async Task<PagedList<ProductType>> FilterBestSeller(QueryStringParameters pagingParams, SORT_OPTION sortOption, GENDER gender)
         {
             try
@@ -264,7 +327,7 @@ namespace Ecom_API.Service
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
         public async Task<PagedList<ProductType>> FilterByPrice(QueryStringParameters pagingParams, int minPrice, int maxPrice)
@@ -295,7 +358,7 @@ namespace Ecom_API.Service
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
 
         }
@@ -376,7 +439,7 @@ namespace Ecom_API.Service
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
         public async Task<bool> Delete(int id)

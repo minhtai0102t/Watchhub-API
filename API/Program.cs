@@ -74,15 +74,19 @@ internal class Program
         // configure DI for application services
         services.DIConfiguration();
 
-
         services.AddMemoryCache();
 
         services.AddHttpContextAccessor();
 
         //connection string
-        //services.AddDbContext<ApiDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Mac"), b => b.MigrationsAssembly("Ecom-API")));
-        services.AddDbContext<ApiDbContextHosting>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting"), b => b.MigrationsAssembly("Ecom-API")));
-
+        services.AddDbContext<ApiDbContextHosting>(opt =>
+            opt.UseNpgsql(
+            builder.Configuration.GetConnectionString("Connection-Hosting"),
+                b => b.MigrationsAssembly("Ecom-API")
+                    .CommandTimeout(30) // Set the retry timeout to 60 seconds
+                    .EnableRetryOnFailure()
+                )
+        );
         //services.AddDbContext<ApiDbContextHostingNew>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting-New"), b => b.MigrationsAssembly("Ecom-API")));
 
         var app = builder.Build();

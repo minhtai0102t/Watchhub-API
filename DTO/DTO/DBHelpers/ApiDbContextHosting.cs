@@ -76,7 +76,11 @@ namespace Ecom_API.DBHelpers
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseLoggerFactory(loggerFactory);
+            optionsBuilder.UseLoggerFactory(loggerFactory)
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
+
         }
     }
 }

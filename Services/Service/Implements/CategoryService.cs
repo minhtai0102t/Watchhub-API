@@ -116,7 +116,6 @@ namespace Ecom_API.Service
             res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
-
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -131,7 +130,6 @@ namespace Ecom_API.Service
                 disposedValue = true;
             }
         }
-
         // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         ~CategoryService()
         {
