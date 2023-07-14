@@ -122,7 +122,7 @@ public class ProductTypeController : ControllerBase
     /// Filter
     /// </summary>
     // [Authorize]
-    [HttpGet]
+    [HttpPost]
     [Route("FilterBySubCategoryId{subCategoryId}")]
     public async Task<IActionResult> FilterBySubCategoryId([FromQuery] QueryStringParameters param, int subCategoryId, [FromQuery] FilterOptions filterOptions)
     {
@@ -133,9 +133,9 @@ public class ProductTypeController : ControllerBase
     /// Filter
     /// </summary>
     // [Authorize]
-    [HttpGet]
+    [HttpPost]
     [Route("Filter")]
-    public async Task<IActionResult> Filter([FromQuery] QueryStringParameters param, [FromQuery] FilterOptions filterOptions)
+    public async Task<IActionResult> Filter([FromQuery] QueryStringParameters param, FilterOptions filterOptions)
     {
         var res = await _productTypeService.Filter(param, filterOptions);
         return Ok(new { res, res.TotalCount });

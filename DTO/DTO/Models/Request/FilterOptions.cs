@@ -4,7 +4,6 @@ namespace Ecom_API.DTO.Models;
 public class FilterOptions
 {
     public List<int> brands { get; set; } = new List<int>();
-
     public int? minPrice { get; set; } = 0;
     public int? maxPrice { get; set; } = 500000000;
     public List<int> alberts { get; set; } = new List<int>();
