@@ -7,9 +7,10 @@ namespace Ecom_API.DTO.Entities
     public class Product : BaseEntity
     {
         [ForeignKey("product_type_id")]
-        public int? product_type_id { get; set; }
+        public int product_type_id { get; set; }
         public ProductType productType { get; set; }
         public string product_code { get; set; }
+        public bool is_on_sale { get; set; } = true;
     }
 }
 

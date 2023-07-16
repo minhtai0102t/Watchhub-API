@@ -83,8 +83,6 @@ internal class Program
             opt.UseNpgsql(
             builder.Configuration.GetConnectionString("Connection-Hosting"),
                 b => b.MigrationsAssembly("Ecom-API")
-                    .CommandTimeout(30) // Set the retry timeout to 60 seconds
-                    .EnableRetryOnFailure()
                 )
         );
         //services.AddDbContext<ApiDbContextHostingNew>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting-New"), b => b.MigrationsAssembly("Ecom-API")));

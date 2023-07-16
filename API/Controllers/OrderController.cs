@@ -49,6 +49,17 @@ public class OrderController : ControllerBase
         return Ok(res);
     }
     /// <summary>
+    /// Get order detail by id 
+    /// </summary>
+    // [Authorize]
+    [HttpGet]
+    [Route("GetOrderDetailById{id}")]
+    public async Task<IActionResult> GetOrderDetailById(int id)
+    {
+        var res = await _OrderService.GetOrderDetailById(id);
+        return Ok(res);
+    }
+    /// <summary>
     /// Get All
     /// </summary>
     // [Authorize]
@@ -126,6 +137,34 @@ public class OrderController : ControllerBase
         else
         {
             return BadRequest(new { message = "Order delete failed" });
+        }
+    }
+    [HttpPost]
+    [Route("T3PDeliverySuccess{orderId}")]
+    public async Task<IActionResult> T3PDeliverySuccess(int orderId)
+    {
+        var res = await _OrderService.T3PDeliveryUpdateSuccessful(orderId);
+        if (res)
+        {
+            return Ok(new { message = "Order status update successful" });
+        }
+        else
+        {
+            return BadRequest(new { message = "Order status update failed" });
+        }
+    }
+    [HttpPost]
+    [Route("T3PDeliveryFail{orderId}")]
+    public async Task<IActionResult> T3PDeliveryFail(int orderId)
+    {
+        var res = await _OrderService.T3PDeliveryUpdateFail(orderId);
+        if (res)
+        {
+            return Ok(new { message = "Order status update Fail" });
+        }
+        else
+        {
+            return BadRequest(new { message = "Order status update failed" });
         }
     }
 }

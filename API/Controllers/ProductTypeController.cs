@@ -124,7 +124,7 @@ public class ProductTypeController : ControllerBase
     // [Authorize]
     [HttpPost]
     [Route("FilterBySubCategoryId{subCategoryId}")]
-    public async Task<IActionResult> FilterBySubCategoryId([FromQuery] QueryStringParameters param, int subCategoryId, [FromQuery] FilterOptions filterOptions)
+    public async Task<IActionResult> FilterBySubCategoryId([FromQuery] QueryStringParameters param, int subCategoryId, FilterOptions filterOptions)
     {
         var res = await _productTypeService.Filter(param, subCategoryId, filterOptions);
         return Ok(new { res, res.TotalCount });

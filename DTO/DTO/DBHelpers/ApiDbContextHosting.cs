@@ -80,7 +80,6 @@ namespace Ecom_API.DBHelpers
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
-
         }
     }
 }

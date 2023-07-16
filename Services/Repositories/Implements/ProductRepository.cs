@@ -22,5 +22,13 @@ namespace Services.Repositories
             var dataQuery = dbSet.AsNoTracking();
             return await GetWithPaging(dataQuery, pagingParams, predicate);
         }
+        public async Task<IEnumerable<Product>> GetByListProductTypeId(List<int> ids)
+        {
+            var dataQuery = dbSet.AsNoTracking()
+                        .Where(c => ids.Any(p => p == c.product_type_id) && c.is_deleted == false && c.is_on_sale)
+                        .OrderBy(c => c.created_date)
+                        .Take(99);
+            return await dataQuery.ToListAsync();
+        }
     }
 }

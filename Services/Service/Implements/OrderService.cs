@@ -16,34 +16,17 @@ namespace Ecom_API.Service
         private bool disposedValue;
         private readonly IMapper _mapper;
         private readonly IProductTypeService _productTypeService;
+        IProductService _productService;
         public OrderService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IProductTypeService productTypeService)
+            IProductTypeService productTypeService,
+            IProductService productService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _productTypeService = productTypeService;
-        }
-        public async Task<PagedList<Order>> GetAll(QueryStringParameters query)
-        {
-            return await _unitOfWork.Orders.GetAllWithPaging(query);
-        }
-        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus)
-        {
-            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString());
-        }
-        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus, int userId)
-        {
-            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString() && c.user_id == userId);
-        }
-        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, int userId)
-        {
-            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.user_id == userId);
-        }
-        public async Task<Order> GetById(int id)
-        {
-            return await _unitOfWork.Orders.GetByIdAsync(id);
+            _productService = productService;
         }
         public async Task<int> Create(OrderCreateReq req)
         {
@@ -66,6 +49,57 @@ namespace Ecom_API.Service
             var res = await _unitOfWork.SaveChangesAsync();
             return item.id;
         }
+        public async Task<PagedList<Order>> GetAll(QueryStringParameters query)
+        {
+            return await _unitOfWork.Orders.GetAllWithPaging(query);
+        }
+        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus)
+        {
+            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString());
+        }
+        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus, int userId)
+        {
+            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString() && c.user_id == userId);
+        }
+        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, int userId)
+        {
+            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.user_id == userId);
+        }
+        public async Task<Order> GetById(int id)
+        {
+            return await _unitOfWork.Orders.GetByIdAsync(id);
+        }
+        public async Task<IEnumerable<Product>> GetOrderDetailById(int id)
+        {
+            var result = new List<Product>();
+            var order = await _unitOfWork.Orders.GetByIdAsync(id);
+            if (order == null)
+            {
+                throw new AppException($"Order {id} is not exists");
+            }
+            else
+            {
+                var productTypesIds = order.product_type_ids;
+
+                var products = await _productService.GetByListProductTypeId(productTypesIds);
+                // Deserialize the JSON string
+                var orderDetailInfos = JsonConvert.DeserializeObject<OrderDetailInfo[]>(order.order_info);
+
+                // Access the quantity and id fields
+                if (orderDetailInfos != null)
+                {
+                    for (int i = 0; i < productTypesIds.Count(); i++)
+                    {
+                        var itemCount = products.Where(c => c.product_type_id == productTypesIds[i]);
+                        if (itemCount.Count() >= orderDetailInfos[i].Quantity)
+                        {
+                            result.AddRange(products.Where(c => c.product_type_id == productTypesIds[i]).Take(orderDetailInfos[i].Quantity));
+                        }
+                    }
+                }
+            }
+            return result;
+        }
         public async Task<bool> Update(int orderId, ORDER_STATUS orderStatus)
         {
             // map model to new user object
@@ -75,6 +109,36 @@ namespace Ecom_API.Service
                 throw new AppException($"Order {orderId} is not exist");
             }
             order.order_status = orderStatus.ToString();
+            order.updated_date = DateTime.Now.ToUniversalTime();
+
+            await _unitOfWork.Orders.UpdateAsync(order);
+            var res = await _unitOfWork.SaveChangesAsync();
+            return res >= 1 ? true : false;
+        }
+        public async Task<bool> T3PDeliveryUpdateSuccessful(int orderId)
+        {
+            // map model to new user object
+            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+            if (order == null)
+            {
+                throw new AppException($"Order {orderId} is not exist");
+            }
+            order.order_status = ORDER_STATUS.DELIVERED.ToString();
+            order.updated_date = DateTime.Now.ToUniversalTime();
+
+            await _unitOfWork.Orders.UpdateAsync(order);
+            var res = await _unitOfWork.SaveChangesAsync();
+            return res >= 1 ? true : false;
+        }
+        public async Task<bool> T3PDeliveryUpdateFail(int orderId)
+        {
+            // map model to new user object
+            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+            if (order == null)
+            {
+                throw new AppException($"Order {orderId} is not exist");
+            }
+            order.order_status = ORDER_STATUS.CANCELLED.ToString();
             order.updated_date = DateTime.Now.ToUniversalTime();
 
             await _unitOfWork.Orders.UpdateAsync(order);
@@ -122,5 +186,11 @@ namespace Ecom_API.Service
             GC.SuppressFinalize(this);
         }
     }
+    public class OrderDetailInfo
+    {
+        public int Quantity { get; set; }
+        public int Id { get; set; }
+    }
 }
+
 

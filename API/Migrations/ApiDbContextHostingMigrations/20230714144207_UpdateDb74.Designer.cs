@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ecom_API.DBHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
 {
     [DbContext(typeof(ApiDbContextHosting))]
-    partial class ApiDbContextHostingModelSnapshot : ModelSnapshot
+    [Migration("20230714144207_UpdateDb74")]
+    partial class UpdateDb74
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,7 +152,6 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .HasColumnType("text[]");
 
                     b.Property<List<int>>("product_type_ids")
-                        .IsRequired()
                         .HasColumnType("integer[]");
 
                     b.Property<string>("province")
@@ -275,7 +277,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("product_type_id")
+                    b.Property<int?>("product_type_id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("updated_date")
@@ -774,9 +776,7 @@ namespace Ecom_API.Migrations.ApiDbContextHostingMigrations
                 {
                     b.HasOne("Ecom_API.DTO.Entities.ProductType", "productType")
                         .WithMany("products")
-                        .HasForeignKey("product_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("product_type_id");
 
                     b.Navigation("productType");
                 });

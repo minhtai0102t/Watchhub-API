@@ -34,7 +34,7 @@ namespace Ecom_API.Service
                 var productType = _mapper.Map<ProductType>(model);
                 productType.gender = model.gender.ToString();
                 productType.product_dial_color = model.product_dial_color.ToString();
-
+                
                 using (var transaction = _unitOfWork.GetDbContextHosting().Database.BeginTransaction())
                 {
                     try

@@ -39,6 +39,16 @@ namespace Ecom_API.Service
             var items = await _unitOfWork.Products.GetAllWithPaging(pagingParams, c => c.product_type_id == id);
             return items;
         }
+        public async Task<IEnumerable<Product>> GetByProductTypeId(int id)
+        {
+            var items = await _unitOfWork.Products.FindAllWithCondition(c => c.product_type_id == id);
+            return items;
+        }
+        public async Task<IEnumerable<Product>> GetByListProductTypeId(List<int> ids)
+        {
+            var items = await _unitOfWork.Products.GetByListProductTypeId(ids);
+            return items;
+        }
         public async Task<bool> Create(int product_type_id, string product_code)
         {
             var validate = await _unitOfWork.Products.FindWithCondition(c => c.product_code == product_code);
