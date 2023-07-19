@@ -29,5 +29,6 @@ namespace Ecom_API.DTO.Entities
         public List<int> product_type_ids { get; set; }
         [PhoneNumber(ErrorMessage = "Invalid phone number")]
         public string phone { get; set; }
+        public string cancel_reason { get; set; }
     }
 }

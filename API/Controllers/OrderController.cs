@@ -155,9 +155,9 @@ public class OrderController : ControllerBase
     }
     [HttpPost]
     [Route("T3PDeliveryFail{orderId}")]
-    public async Task<IActionResult> T3PDeliveryFail(int orderId)
+    public async Task<IActionResult> T3PDeliveryFail(int orderId, string cancel_reason)
     {
-        var res = await _OrderService.T3PDeliveryUpdateFail(orderId);
+        var res = await _OrderService.T3PDeliveryUpdateFail(orderId, cancel_reason);
         if (res)
         {
             return Ok(new { message = "Order status update Fail" });

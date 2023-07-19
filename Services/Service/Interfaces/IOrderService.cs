@@ -19,6 +19,6 @@ public interface IOrderService : IDisposable
     Task<bool> SoftDelete(int id);
     Task<bool> Delete(int id);
     Task<bool> T3PDeliveryUpdateSuccessful(int orderId);
-    Task<bool> T3PDeliveryUpdateFail(int orderId);
+    Task<bool> T3PDeliveryUpdateFail(int orderId, string cancel_reason);
 }
 

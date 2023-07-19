@@ -130,7 +130,7 @@ namespace Ecom_API.Service
             var res = await _unitOfWork.SaveChangesAsync();
             return res >= 1 ? true : false;
         }
-        public async Task<bool> T3PDeliveryUpdateFail(int orderId)
+        public async Task<bool> T3PDeliveryUpdateFail(int orderId, string cancel_reason)
         {
             // map model to new user object
             var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
@@ -139,6 +139,7 @@ namespace Ecom_API.Service
                 throw new AppException($"Order {orderId} is not exist");
             }
             order.order_status = ORDER_STATUS.CANCELLED.ToString();
+            order.cancel_reason = cancel_reason;
             order.updated_date = DateTime.Now.ToUniversalTime();
 
             await _unitOfWork.Orders.UpdateAsync(order);
