@@ -13,7 +13,6 @@ namespace Services.Repositories
         {
 
         }
-
         public async Task<PagedList<ProductType>> GetAllWithPaging(QueryStringParameters pagingParams)
         {
             var dataQuery = dbSet.AsNoTracking();

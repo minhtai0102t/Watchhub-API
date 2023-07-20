@@ -26,6 +26,7 @@ public interface IProductTypeService : IDisposable
     Task<PagedList<ProductType>> FilterByDialColor(QueryStringParameters pagingParams, DIAL_COLOR color);
     Task<PagedList<ProductType>> Sort(QueryStringParameters param, SORT_OPTION sortOption, bool isDescending = false);
     Task<bool> Update(ProductTypeUpdateReq model, int id);
+    Task<bool> UpdateQuantityAfterInventoryCheckingSuccess(int quantity, int id);
     Task<bool> Create(ProductTypeCreateReq id);
     Task<bool> SoftDelete(int id);
     Task<bool> Delete(int id);

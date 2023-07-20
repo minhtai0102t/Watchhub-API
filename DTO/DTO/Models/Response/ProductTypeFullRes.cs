@@ -30,7 +30,7 @@ namespace Ecom_API.DTO.Models
         public GlassMapper glass { get; set; }
         public ICollection<ProductSubCategoryMapper> productSubCategories { get; set; }
         public ICollection<ProductMapper> products { get; set; }
-    }   
+    }       
     public class ProductSubCategoryMapper
     {
         public int product_type_id { get; set; }

@@ -30,24 +30,31 @@ namespace Ecom_API.Service
         }
         public async Task<int> Create(OrderCreateReq req)
         {
-            // get list product type by list id
-            var listProductTypeId = req.items.Select(c => c.id).ToList();
-            var listProductType = await _productTypeService.GetByListId(listProductTypeId);
-            foreach (var product in listProductType)
+            try
             {
-                product.quantity = req.items.FirstOrDefault(c => c.id == product.id).quantity;
+                // get list product type by list id
+                var listProductTypeId = req.items.Select(c => c.id).ToList();
+                var listProductType = await _productTypeService.GetByListId(listProductTypeId);
+                foreach (var product in listProductType)
+                {
+                    product.quantity = req.items.FirstOrDefault(c => c.id == product.id).quantity;
+                }
+                var orderInfo = JsonConvert.SerializeObject(listProductType).ToString();
+                var item = _mapper.Map<Order>(req);
+
+                item.order_status = req.order_status.ToString();
+                item.order_info = orderInfo;
+                item.product_type_ids = listProductTypeId;
+
+                await _unitOfWork.Orders.CreateAsync(item);
+
+                var res = await _unitOfWork.SaveChangesAsync();
+                return item.id;
             }
-            var orderInfo = JsonConvert.SerializeObject(listProductType).ToString();
-            var item = _mapper.Map<Order>(req);
-
-            item.order_status = req.order_status.ToString();
-            item.order_info = orderInfo;
-            item.product_type_ids = listProductTypeId;
-
-            await _unitOfWork.Orders.CreateAsync(item);
-
-            var res = await _unitOfWork.SaveChangesAsync();
-            return item.id;
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public async Task<PagedList<Order>> GetAll(QueryStringParameters query)
         {
@@ -69,81 +76,171 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Orders.GetByIdAsync(id);
         }
-        public async Task<IEnumerable<Product>> GetOrderDetailById(int id)
+        public async Task<IEnumerable<Product>> InventoryHandler(int id)
         {
-            var result = new List<Product>();
-            var order = await _unitOfWork.Orders.GetByIdAsync(id);
-            if (order == null)
+            try
             {
-                throw new AppException($"Order {id} is not exists");
-            }
-            else
-            {
-                var productTypesIds = order.product_type_ids;
-
-                var products = await _productService.GetByListProductTypeId(productTypesIds);
-                // Deserialize the JSON string
-                var orderDetailInfos = JsonConvert.DeserializeObject<OrderDetailInfo[]>(order.order_info);
-
-                // Access the quantity and id fields
-                if (orderDetailInfos != null)
+                var result = new List<Product>();
+                var order = await _unitOfWork.Orders.GetByIdAsync(id);
+                if (order == null)
                 {
-                    for (int i = 0; i < productTypesIds.Count(); i++)
+                    throw new AppException($"Order {id} is not exists");
+                }
+                else
+                {
+                    var productTypesIds = order.product_type_ids;
+
+                    var products = await _productService.GetByListProductTypeId(productTypesIds);
+                    // Deserialize the JSON string
+                    var orderDetailInfos = JsonConvert.DeserializeObject<OrderDetailInfo[]>(order.order_info);
+
+                    // Access the quantity and id fields
+                    if (orderDetailInfos != null)
                     {
-                        var itemCount = products.Where(c => c.product_type_id == productTypesIds[i]);
-                        if (itemCount.Count() >= orderDetailInfos[i].Quantity)
+                        for (int i = 0; i < productTypesIds.Count(); i++)
                         {
-                            result.AddRange(products.Where(c => c.product_type_id == productTypesIds[i]).Take(orderDetailInfos[i].Quantity));
+                            var itemCount = products.Where(c => c.product_type_id == productTypesIds[i]);
+                            if (itemCount.Count() >= orderDetailInfos[i].Quantity)
+                            {
+                                result.AddRange(products.Where(c => c.product_type_id == productTypesIds[i]).Take(orderDetailInfos[i].Quantity));
+                                // update product type quantity
+                                await _productTypeService.UpdateQuantityAfterInventoryCheckingSuccess(productTypesIds[i], orderDetailInfos[i].Quantity);
+                            }
                         }
                     }
                 }
+                return result;
             }
-            return result;
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public async Task<bool> Update(int orderId, ORDER_STATUS orderStatus)
         {
-            // map model to new user object
-            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
-            if (order == null)
+            try
             {
-                throw new AppException($"Order {orderId} is not exist");
-            }
-            order.order_status = orderStatus.ToString();
-            order.updated_date = DateTime.Now.ToUniversalTime();
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    throw new AppException($"Order {orderId} is not exist");
+                }
+                order.order_status = orderStatus.ToString();
+                order.updated_date = DateTime.Now.ToUniversalTime();
 
-            await _unitOfWork.Orders.UpdateAsync(order);
-            var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+                await _unitOfWork.Orders.UpdateAsync(order);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public async Task<bool> T3PDeliveryInTransit(int orderId)
+        {
+            try
+            {
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    throw new AppException($"Order {orderId} is not exist");
+                }
+                order.order_status = ORDER_STATUS.IN_TRANSIT.ToString();
+                order.updated_date = DateTime.Now.ToUniversalTime();
+
+                await _unitOfWork.Orders.UpdateAsync(order);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+            catch
+            {
+                throw;
+            }
         }
         public async Task<bool> T3PDeliveryUpdateSuccessful(int orderId)
         {
-            // map model to new user object
-            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
-            if (order == null)
+            try
             {
-                throw new AppException($"Order {orderId} is not exist");
-            }
-            order.order_status = ORDER_STATUS.DELIVERED.ToString();
-            order.updated_date = DateTime.Now.ToUniversalTime();
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    throw new AppException($"Order {orderId} is not exist");
+                }
+                order.order_status = ORDER_STATUS.DELIVERED.ToString();
+                order.updated_date = DateTime.Now.ToUniversalTime();
 
-            await _unitOfWork.Orders.UpdateAsync(order);
-            var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+                await _unitOfWork.Orders.UpdateAsync(order);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+            catch
+            {
+                throw;
+            }
         }
         public async Task<bool> T3PDeliveryUpdateFail(int orderId)
         {
-            // map model to new user object
-            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
-            if (order == null)
+            try
             {
-                throw new AppException($"Order {orderId} is not exist");
-            }
-            order.order_status = ORDER_STATUS.CANCELLED.ToString();
-            order.updated_date = DateTime.Now.ToUniversalTime();
 
-            await _unitOfWork.Orders.UpdateAsync(order);
-            var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    throw new AppException($"Order {orderId} is not exist");
+                }
+                order.order_status = ORDER_STATUS.CANCELLED.ToString();
+                order.updated_date = DateTime.Now.ToUniversalTime();
+
+                await _unitOfWork.Orders.UpdateAsync(order);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<string> InventoryChecking(int orderId)
+        {
+            try
+            {
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    throw new AppException($"Order {orderId} is not exist");
+                }
+                // inventory check
+                var orderDetail = await InventoryHandler(orderId);
+                if (orderDetail == null || !orderDetail.Any())
+                {
+                    // fail
+                    // update order status to awaiting shipment
+                    order.order_status = ORDER_STATUS.AWAITING_SHIPMENT.ToString();
+                    order.updated_date = DateTime.Now.ToUniversalTime();
+
+                    await _unitOfWork.Orders.UpdateAsync(order);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    return order.order_status;
+                }
+                // success
+                // update order status to awaiting collection
+                order.order_status = ORDER_STATUS.AWAITING_COLLECTION.ToString();
+                order.updated_date = DateTime.Now.ToUniversalTime();
+
+                // update product type quantity
+                await _unitOfWork.Orders.UpdateAsync(order);
+                await _unitOfWork.SaveChangesAsync();
+
+                return order.order_status;
+            }
+            catch
+            {
+                throw;
+            }
         }
         public async Task<bool> SoftDelete(int id)
         {
@@ -171,7 +268,6 @@ namespace Ecom_API.Service
                 disposedValue = true;
             }
         }
-
         // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         ~OrderService()
         {

@@ -287,7 +287,6 @@ namespace Ecom_API.Service
             {
                 throw;
             }
-
         }
         public async Task<PagedList<ProductType>> FilterBestSeller(QueryStringParameters pagingParams, SORT_OPTION sortOption, GENDER gender)
         {
@@ -428,6 +427,24 @@ namespace Ecom_API.Service
             {
                 throw;
             }
+        }
+        public async Task<bool> UpdateQuantityAfterInventoryCheckingSuccess(int id, int quantity)
+        {
+            try
+            {
+                var item = await _unitOfWork.ProductTypes.FindWithCondition(c => c.id == id);
+                item.quantity -= quantity;
+                item.updated_date = DateTime.Now.ToUniversalTime();
+                await _unitOfWork.ProductTypes.UpdateAsync(item);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+
+            }
+            catch
+            {
+                throw;
+            }
+            // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         }
         public async Task<bool> SoftDelete(int id)
         {
