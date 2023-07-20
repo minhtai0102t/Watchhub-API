@@ -34,7 +34,7 @@ namespace Ecom_API.Service
                 var productType = _mapper.Map<ProductType>(model);
                 productType.gender = model.gender.ToString();
                 productType.product_dial_color = model.product_dial_color.ToString();
-                
+
                 using (var transaction = _unitOfWork.GetDbContextHosting().Database.BeginTransaction())
                 {
                     try
@@ -70,6 +70,17 @@ namespace Ecom_API.Service
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.product_type_name.Trim().ToLower().Contains(searchTerm.Trim().ToLower()));
+                return result;
+            }
+            return new PagedList<ProductType>();
+        }
+        public async Task<PagedList<ProductType>> SearchByProductTypeCodeOrId(QueryStringParameters pagingParams, string searchTerm)
+        {
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams,
+                                            c => (c.product_type_code.Trim().ToLower().Contains(searchTerm.Trim().ToLower()))
+                                            || c.id.ToString().Contains(searchTerm.Trim().ToLower()));
                 return result;
             }
             return new PagedList<ProductType>();

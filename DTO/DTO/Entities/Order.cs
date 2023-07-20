@@ -11,7 +11,6 @@ namespace Ecom_API.DTO.Entities
         public string order_info { get; set; }
         [Required]
         public int user_id { get; set; }
-        public User user { get; set; }
         [Required]
         public int total_amount { get; set; }
         [Required]

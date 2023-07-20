@@ -3460,35 +3460,33 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dell\\.nuget\\packages\\": {}
+    "/Users/toddpham12/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj",
+      "projectUniqueName": "/Users/toddpham12/Watchhub-API/Services/Services.csproj",
       "projectName": "Services",
-      "projectPath": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj",
-      "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-      "outputPath": "D:\\Workplace\\Watchhub-API\\Services\\obj\\",
+      "projectPath": "/Users/toddpham12/Watchhub-API/Services/Services.csproj",
+      "packagesPath": "/Users/toddpham12/.nuget/packages/",
+      "outputPath": "/Users/toddpham12/Watchhub-API/Services/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/toddpham12/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nexus.ingress.concung.io": {}
+        "http://nexus.concung.io:8081/repository/nuget-release/index.json": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
-              "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj"
+            "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj": {
+              "projectPath": "/Users/toddpham12/Watchhub-API/DTO/DTO.csproj"
             }
           }
         }
@@ -3552,8 +3550,16 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1803",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://nexus.concung.io:8081/repository/nuget-release/index.json'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
+    }
+  ]
 }

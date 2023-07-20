@@ -44,6 +44,7 @@
 /Users/toddpham12/public-asp/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/toddpham12/public-asp/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/toddpham12/public-asp/System.IdentityModel.Tokens.Jwt.dll
+/Users/toddpham12/public-asp/System.Net.WebSockets.WebSocketProtocol.dll
 /Users/toddpham12/public-asp/System.Text.Encodings.Web.dll
 /Users/toddpham12/public-asp/System.Text.Json.dll
 /Users/toddpham12/public-asp/runtimes/browser/lib/net6.0/System.Text.Encodings.Web.dll

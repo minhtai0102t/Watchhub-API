@@ -220,3 +220,4 @@ D:/Workplace/Watchhub-API/API/obj/Release/net6.0/ref/Ecom-API.dll
 /Users/toddpham12/Watchhub-API/API/obj/Release/net6.0/Ecom-API.pdb
 /Users/toddpham12/Watchhub-API/API/obj/Release/net6.0/API.genruntimeconfig.cache
 /Users/toddpham12/Watchhub-API/API/obj/Release/net6.0/ref/Ecom-API.dll
+/Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/System.Net.WebSockets.WebSocketProtocol.dll

@@ -46,7 +46,7 @@ namespace Ecom_API.Service
                 item.order_status = req.order_status.ToString();
                 item.order_info = orderInfo;
                 item.product_type_ids = listProductTypeId;
-
+                item.cancel_reason = string.Empty;
                 await _unitOfWork.Orders.CreateAsync(item);
 
                 var res = await _unitOfWork.SaveChangesAsync();

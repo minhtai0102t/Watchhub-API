@@ -25,6 +25,17 @@ public class ProductTypeController : ControllerBase
         return Ok(new { res, res.TotalCount });
     }
     /// <summary>
+    /// Search
+    /// </summary>
+    // [Authorize]
+    [HttpPost]
+    [Route("SearchByProductTypeCodeOrId")]
+    public async Task<IActionResult> SearchByProductTypeCodeOrId([FromQuery] QueryStringParameters param, string searchTerm)
+    {
+        var res = await _productTypeService.SearchByProductTypeCodeOrId(param, searchTerm);
+        return Ok(new { res, res.TotalCount });
+    }
+    /// <summary>
     /// Create
     /// </summary>
     // [Authorize]
