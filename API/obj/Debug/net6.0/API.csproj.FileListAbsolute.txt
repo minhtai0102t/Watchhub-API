@@ -364,3 +364,4 @@ D:\Workplace\Watchhub-API\API\obj\Debug\net6.0\refint\Ecom-API.dll
 D:\Workplace\Watchhub-API\API\obj\Debug\net6.0\Ecom-API.pdb
 D:\Workplace\Watchhub-API\API\obj\Debug\net6.0\API.genruntimeconfig.cache
 D:\Workplace\Watchhub-API\API\obj\Debug\net6.0\ref\Ecom-API.dll
+D:\Workplace\Watchhub-API\API\bin\Debug\net6.0\System.Net.WebSockets.WebSocketProtocol.dll

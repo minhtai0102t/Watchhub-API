@@ -39,17 +39,10 @@ public class DeliveryController : ControllerBase
         }
     }
     [HttpPost]
-    [Route("T3PDeliveryFail{orderId}")]
-    public async Task<IActionResult> T3PDeliveryFail(int orderId)
+    [Route("T3PDeliveryFail{orderId}/{cancelReason}")]
+    public async Task<IActionResult> T3PDeliveryFail(int orderId, string cancelReason)
     {
-        var res = await _OrderService.T3PDeliveryUpdateFail(orderId);
-        if (res)
-        {
-            return Ok(new { message = $"Order {orderId} is canceled by delivery third party" });
-        }
-        else
-        {
-            return BadRequest(new { message = $"Order {orderId} status update failed" });
-        }
+        var res = await _OrderService.T3PDeliveryUpdateFail(orderId, cancelReason);
+        return Ok(res);
     }
 }

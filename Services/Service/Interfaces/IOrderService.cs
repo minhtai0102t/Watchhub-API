@@ -1,3 +1,4 @@
+using DTO.DTO.Models;
 using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.DTO.Models;
@@ -19,7 +20,7 @@ public interface IOrderService : IDisposable
     Task<bool> Delete(int id);
     Task<bool> T3PDeliveryInTransit(int orderId);
     Task<bool> T3PDeliveryUpdateSuccessful(int orderId);
-    Task<bool> T3PDeliveryUpdateFail(int orderId);
+    Task<DeliveryCancelRes> T3PDeliveryUpdateFail(int orderId, string cancel_reason);
     Task<IEnumerable<Product>> InventoryHandler(int id);
     Task<string> InventoryChecking(int orderId);
 }

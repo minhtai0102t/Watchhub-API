@@ -1,3 +1,4 @@
+using Ecom_API;
 using Ecom_API.Config;
 using Ecom_API.DBHelpers;
 using Ecom_API.Helpers;
@@ -87,6 +88,9 @@ internal class Program
         );
         //services.AddDbContext<ApiDbContextHostingNew>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Connection-Hosting-New"), b => b.MigrationsAssembly("Ecom-API")));
 
+        // SignalR
+        services.AddSignalR(); // Add SignalR services
+
         var app = builder.Build();
         // Configure the HTTP request pipeline.
         //if (app.Environment.IsDevelopment())
@@ -110,6 +114,7 @@ internal class Program
             app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.MapControllers();
+            app.MapHub<RealtimeApiHub>("/RealtimeApiHub");
         }
         app.Run();
     }
