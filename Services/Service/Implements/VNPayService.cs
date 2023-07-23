@@ -25,17 +25,20 @@ namespace Ecom_API.Service
         private readonly IConfiguration _config;
         private string callbackUrl = "https://localhost:8383/payment/payment_response";
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IOrderService _orderService;
 
         public VNPayService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IConfiguration config,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, 
+            IOrderService orderService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _config = config;
             _httpContextAccessor = httpContextAccessor;
+            _orderService = orderService;
         }
         public async Task<PagedList<VNPay>> GetAll(QueryStringParameters query)
         {
@@ -49,10 +52,37 @@ namespace Ecom_API.Service
         {
             // map model to new user object
             var vNPay = _mapper.Map<VNPay>(model);
+            using (var transaction = _unitOfWork.GetDbContextHosting().Database.BeginTransaction())
+            {
+                try
+                {
+                    await _unitOfWork.VNPays.CreateAsync(vNPay);
+                    var res = await _unitOfWork.SaveChangesAsync();
+                    // Update to order table
+                    switch(model.ResponseCode){
+                        // order get paid through VNPay portal
+                        case "00":
+                        case "07":{
+                            // update isPaid to true
+                            var order = await _orderService.GetById(model.OrderID);
+                            order.isPaid = true;
+                            order.updated_date = DateTime.Now.ToUniversalTime();
 
-            await _unitOfWork.VNPays.CreateAsync(vNPay);
-            var res = await _unitOfWork.SaveChangesAsync();
-            return res >= 1 ? true : false;
+                            await _unitOfWork.Orders.UpdateAsync(order);
+                            res = await _unitOfWork.SaveChangesAsync();
+                            
+                            break;
+                        }
+                    }
+                    transaction.Commit();
+                    return res >= 1 ? true : false;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
         }
         public async Task<bool> SoftDelete(int id)
         {

@@ -18,10 +18,11 @@ public interface IOrderService : IDisposable
     Task<bool> Update(int orderId, ORDER_STATUS orderStatus);
     Task<bool> SoftDelete(int id);
     Task<bool> Delete(int id);
+    Task<bool> ConfirmationChecking(int orderId);
     Task<bool> T3PDeliveryInTransit(int orderId);
     Task<bool> T3PDeliveryUpdateSuccessful(int orderId);
     Task<DeliveryCancelRes> T3PDeliveryUpdateFail(int orderId, string cancel_reason);
-    Task<IEnumerable<Product>> InventoryHandler(int id);
+    Task<IEnumerable<Product>> InventoryHandler(Order order);
     Task<string> InventoryChecking(int orderId);
 }
 

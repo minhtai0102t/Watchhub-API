@@ -13,6 +13,7 @@ public static class Constants
     public enum ORDER_STATUS
     {
         AWAITING_CONFIRMATION,
+        CONFIRMED,
         ON_HOLD,
         AWAITING_SHIPMENT,
         AWAITING_COLLECTION,
@@ -52,6 +53,10 @@ public static class Constants
         NAME,
         PRICE,
         ON_SOLD
+    }
+    public enum PAYMENT_METHOD{
+        VNPAY = 2,
+        COD = 3
     }
     //public static string VerificationLinkHosting = "https://watchhub.website/verify";
 }

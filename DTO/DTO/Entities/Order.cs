@@ -30,5 +30,6 @@ namespace Ecom_API.DTO.Entities
         [PhoneNumber(ErrorMessage = "Invalid phone number")]
         public string phone { get; set; }
         public string cancel_reason { get; set; }
+        public bool isPaid { get; set; }
     }
 }

@@ -194,6 +194,7 @@ D:/Workplace/Watchhub-API/API/obj/Release/net6.0/ref/Ecom-API.dll
 /Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/System.CodeDom.dll
 /Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/System.Net.WebSockets.WebSocketProtocol.dll
 /Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/System.Text.Encodings.Web.dll
 /Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/System.Text.Json.dll
 /Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/runtimes/browser/lib/net6.0/System.Text.Encodings.Web.dll
@@ -220,4 +221,3 @@ D:/Workplace/Watchhub-API/API/obj/Release/net6.0/ref/Ecom-API.dll
 /Users/toddpham12/Watchhub-API/API/obj/Release/net6.0/Ecom-API.pdb
 /Users/toddpham12/Watchhub-API/API/obj/Release/net6.0/API.genruntimeconfig.cache
 /Users/toddpham12/Watchhub-API/API/obj/Release/net6.0/ref/Ecom-API.dll
-/Users/toddpham12/Watchhub-API/API/bin/Release/net6.0/System.Net.WebSockets.WebSocketProtocol.dll

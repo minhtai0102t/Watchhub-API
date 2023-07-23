@@ -17,11 +17,11 @@ public class DeliveryController : ControllerBase
         var res = await _OrderService.T3PDeliveryInTransit(orderId);
         if (res)
         {
-            return Ok(new { message = $"Order {orderId} is in transit" });
+            return Ok(new { message = $"Order {orderId} đang được vận chuyển" });
         }
         else
         {
-            return BadRequest(new { message = $"Order {orderId} status update failed" });
+            return BadRequest(new { message = $"Order {orderId} cập nhật thất bại" });
         }
     }
     [HttpPost]
@@ -31,11 +31,11 @@ public class DeliveryController : ControllerBase
         var res = await _OrderService.T3PDeliveryUpdateSuccessful(orderId);
         if (res)
         {
-            return Ok(new { message = $"Order {orderId} is delivered to customer" });
+            return Ok(new { message = $"Order {orderId} đã giao thành công" });
         }
         else
         {
-            return BadRequest(new { message = $"Order {orderId} status update failed" });
+            return BadRequest(new { message = $"Order {orderId} cập nhật thất bại" });
         }
     }
     [HttpPost]

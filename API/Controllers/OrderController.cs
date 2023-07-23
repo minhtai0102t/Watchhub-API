@@ -128,4 +128,17 @@ public class OrderController : ControllerBase
             return BadRequest(new { message = "Order delete failed" });
         }
     }
+    [HttpPost]
+    [Route("ConfirmationChecking{id}")]
+    public async Task<IActionResult> ConfirmationChecking(int id){
+        var res = await _OrderService.ConfirmationChecking(id);
+        if (res)
+        {
+            return Ok(new { message = "Xác nhận đơn hàng thành công" });
+        }
+        else
+        {
+            return BadRequest(new { message = "Đơn hàng VNPay chưa được thanh toán" });
+        }
+    }
 }

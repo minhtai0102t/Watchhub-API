@@ -77,7 +77,8 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Orders.GetByIdAsync(id);
         }
-       
+
+
         public async Task<bool> Update(int orderId, ORDER_STATUS orderStatus)
         {
             try
@@ -100,20 +101,32 @@ namespace Ecom_API.Service
                 throw;
             }
         }
-        public async Task<bool> T3PDeliveryInTransit(int orderId)
+        public async Task<bool> ConfirmationChecking(int orderId)
         {
             try
             {
                 var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
                 if (order == null)
                 {
-                    throw new AppException($"Order {orderId} is not exist");
+                    throw new AppException($"Order {orderId} không tồn tại");
                 }
-                order.order_status = ORDER_STATUS.IN_TRANSIT.ToString();
+                if (order.order_status != ORDER_STATUS.AWAITING_CONFIRMATION.ToString())
+                {
+                    throw new AppException($"Trạng thái của Order {orderId} phải là CHỜ XÁC NHẬN");
+                }
+                if (order.payment_method_id == (int)PAYMENT_METHOD.VNPAY)
+                {
+                    if (!order.isPaid)
+                    {
+                        return false;
+                    }
+                }
+                order.order_status = ORDER_STATUS.CONFIRMED.ToString();
                 order.updated_date = DateTime.Now.ToUniversalTime();
 
                 await _unitOfWork.Orders.UpdateAsync(order);
                 var res = await _unitOfWork.SaveChangesAsync();
+
                 return res >= 1 ? true : false;
             }
             catch
@@ -121,86 +134,30 @@ namespace Ecom_API.Service
                 throw;
             }
         }
-        public async Task<bool> T3PDeliveryUpdateSuccessful(int orderId)
-        {
-            try
-            {
-                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
-                if (order == null)
-                {
-                    throw new AppException($"Order {orderId} is not exist");
-                }
-                order.order_status = ORDER_STATUS.DELIVERED.ToString();
-                order.updated_date = DateTime.Now.ToUniversalTime();
-
-                await _unitOfWork.Orders.UpdateAsync(order);
-                var res = await _unitOfWork.SaveChangesAsync();
-                return res >= 1 ? true : false;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        public async Task<DeliveryCancelRes> T3PDeliveryUpdateFail(int orderId, string cancel_reason)
-        {
-            try
-            {
-                var result = new DeliveryCancelRes();
-                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
-                if (order == null)
-                {
-                    throw new AppException($"Order {orderId} is not exist");
-                }
-                order.order_status = ORDER_STATUS.CANCELLED.ToString();
-                order.cancel_reason = cancel_reason.Trim();
-                order.updated_date = DateTime.Now.ToUniversalTime();
-
-                await _unitOfWork.Orders.UpdateAsync(order);
-                var saveChangeRes = await _unitOfWork.SaveChangesAsync();
-                if (saveChangeRes >= 1)
-                {
-                    result.orderId = orderId;
-                    result.cancelReason = cancel_reason;
-                }
-                return result;
-            }
-
-            catch
-            {
-                throw;
-            }
-        }
-        public async Task<IEnumerable<Product>> InventoryHandler(int id)
+        #region Warehouse
+        public async Task<IEnumerable<Product>> InventoryHandler(Order order)
         {
             try
             {
                 var result = new List<Product>();
-                var order = await _unitOfWork.Orders.GetByIdAsync(id);
-                if (order == null)
-                {
-                    throw new AppException($"Order {id} is not exists");
-                }
-                else
-                {
-                    var productTypesIds = order.product_type_ids;
 
-                    var products = await _productService.GetByListProductTypeId(productTypesIds);
-                    // Deserialize the JSON string
-                    var orderDetailInfos = JsonConvert.DeserializeObject<OrderDetailInfo[]>(order.order_info);
+                var productTypesIds = order.product_type_ids;
 
-                    // Access the quantity and id fields
-                    if (orderDetailInfos != null)
+                var products = await _productService.GetByListProductTypeId(productTypesIds);
+                // Deserialize the JSON string
+                var orderDetailInfos = JsonConvert.DeserializeObject<OrderDetailInfo[]>(order.order_info);
+
+                // Access the quantity and id fields
+                if (orderDetailInfos != null)
+                {
+                    for (int i = 0; i < productTypesIds.Count(); i++)
                     {
-                        for (int i = 0; i < productTypesIds.Count(); i++)
+                        var itemCount = products.Where(c => c.product_type_id == productTypesIds[i]);
+                        if (itemCount.Count() >= orderDetailInfos[i].Quantity)
                         {
-                            var itemCount = products.Where(c => c.product_type_id == productTypesIds[i]);
-                            if (itemCount.Count() >= orderDetailInfos[i].Quantity)
-                            {
-                                result.AddRange(products.Where(c => c.product_type_id == productTypesIds[i]).Take(orderDetailInfos[i].Quantity));
-                                // update product type quantity
-                                await _productTypeService.UpdateQuantityAfterInventoryCheckingSuccess(productTypesIds[i], orderDetailInfos[i].Quantity);
-                            }
+                            result.AddRange(products.Where(c => c.product_type_id == productTypesIds[i]).Take(orderDetailInfos[i].Quantity));
+                            // update product type quantity
+                            await _productTypeService.UpdateQuantityAfterInventoryCheckingSuccess(productTypesIds[i], orderDetailInfos[i].Quantity);
                         }
                     }
                 }
@@ -218,10 +175,14 @@ namespace Ecom_API.Service
                 var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
                 if (order == null)
                 {
-                    throw new AppException($"Order {orderId} is not exist");
+                    throw new AppException($"Order {orderId} không tồn tại");
+                }
+                if (order.order_status != ORDER_STATUS.CONFIRMED.ToString() && order.order_status != ORDER_STATUS.AWAITING_SHIPMENT.ToString())
+                {
+                    throw new AppException($"Trạng thái của Order {orderId} phải là ĐÃ XÁC NHẬN hoặc CHỜ LẤY HÀNG");
                 }
                 // inventory check
-                var orderDetail = await InventoryHandler(orderId);
+                var orderDetail = await InventoryHandler(order);
                 if (orderDetail == null || !orderDetail.Any())
                 {
                     // fail
@@ -250,6 +211,93 @@ namespace Ecom_API.Service
                 throw;
             }
         }
+        #endregion
+        #region Delivery
+        public async Task<bool> T3PDeliveryInTransit(int orderId)
+        {
+            try
+            {
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    throw new AppException($"Order {orderId} không tồn tại");
+                }
+                if (order.order_status != ORDER_STATUS.AWAITING_COLLECTION.ToString())
+                {
+                    throw new AppException($"Trạng thái của Order {orderId} phải là ĐANG ĐÓNG GÓI");
+                }
+                order.order_status = ORDER_STATUS.IN_TRANSIT.ToString();
+                order.updated_date = DateTime.Now.ToUniversalTime();
+
+                await _unitOfWork.Orders.UpdateAsync(order);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<bool> T3PDeliveryUpdateSuccessful(int orderId)
+        {
+            try
+            {
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    throw new AppException($"Order {orderId} is not exist");
+                }
+                if (order.order_status != ORDER_STATUS.IN_TRANSIT.ToString())
+                {
+                    throw new AppException($"Trạng thái của Order {orderId} phải là ĐANG GIAO HÀNG");
+                }
+                order.order_status = ORDER_STATUS.DELIVERED.ToString();
+                order.isPaid = true;
+                order.updated_date = DateTime.Now.ToUniversalTime();
+
+                await _unitOfWork.Orders.UpdateAsync(order);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res >= 1 ? true : false;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<DeliveryCancelRes> T3PDeliveryUpdateFail(int orderId, string cancel_reason)
+        {
+            try
+            {
+                var result = new DeliveryCancelRes();
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    throw new AppException($"Order {orderId} is not exist");
+                }
+                if (order.order_status != ORDER_STATUS.IN_TRANSIT.ToString())
+                {
+                    throw new AppException($"Trạng thái của Order {orderId} phải là ĐANG GIAO HÀNG");
+                }
+                order.order_status = ORDER_STATUS.CANCELLED.ToString();
+                order.cancel_reason = cancel_reason.Trim();
+                order.updated_date = DateTime.Now.ToUniversalTime();
+
+                await _unitOfWork.Orders.UpdateAsync(order);
+                var saveChangeRes = await _unitOfWork.SaveChangesAsync();
+                if (saveChangeRes >= 1)
+                {
+                    result.orderId = orderId;
+                    result.cancelReason = cancel_reason;
+                }
+                return result;
+            }
+
+            catch
+            {
+                throw;
+            }
+        }
+        #endregion
         public async Task<bool> SoftDelete(int id)
         {
             await _unitOfWork.Orders.SoftDeleteAsync(id);

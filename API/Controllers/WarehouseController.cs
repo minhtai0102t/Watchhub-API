@@ -18,11 +18,11 @@ public class WarehouseController : ControllerBase
         var res = await _OrderService.InventoryChecking(orderId);
         if (res == ORDER_STATUS.AWAITING_COLLECTION.ToString())
         {
-            return Ok(new { message = $"Order {orderId} is ready to pack" });
+            return Ok(new { message = $"Order {orderId} đã sẵn sàng đóng gói" });
         }
         else
         {
-            return Ok(new { message = $"Order {orderId} is lack of product in warehouse, please import more" });
+            return Ok(new { message = $"Order {orderId} không đủ hàng tồn, vui lòng nhập thêm" });
         }
     }
 }
