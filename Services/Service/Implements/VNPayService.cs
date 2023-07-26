@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DTO.DTO.Models;
-using DTO.DTO.Models.Response;
 using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
 using Ecom_API.PagingModel;
@@ -11,6 +10,7 @@ using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using static Ecom_API.Helpers.Constants;
 
 namespace Ecom_API.Service
 {
@@ -31,7 +31,7 @@ namespace Ecom_API.Service
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IConfiguration config,
-            IHttpContextAccessor httpContextAccessor, 
+            IHttpContextAccessor httpContextAccessor,
             IOrderService orderService)
         {
             _unitOfWork = unitOfWork;
@@ -59,20 +59,23 @@ namespace Ecom_API.Service
                     await _unitOfWork.VNPays.CreateAsync(vNPay);
                     var res = await _unitOfWork.SaveChangesAsync();
                     // Update to order table
-                    switch(model.ResponseCode){
+                    switch (model.ResponseCode)
+                    {
                         // order get paid through VNPay portal
                         case "00":
-                        case "07":{
-                            // update isPaid to true
-                            var order = await _orderService.GetById(model.OrderID);
-                            order.isPaid = true;
-                            order.updated_date = DateTime.Now.ToUniversalTime();
+                        case "07":
+                            {
+                                // update isPaid to true
+                                var order = await _orderService.GetById(model.OrderID);
+                                order.isPaid = true;
+                                order.order_status = ORDER_STATUS.CONFIRMED.ToString();
+                                order.updated_date = DateTime.Now.ToUniversalTime();
 
-                            await _unitOfWork.Orders.UpdateAsync(order);
-                            res = await _unitOfWork.SaveChangesAsync();
-                            
-                            break;
-                        }
+                                await _unitOfWork.Orders.UpdateAsync(order);
+                                res = await _unitOfWork.SaveChangesAsync();
+
+                                break;
+                            }
                     }
                     transaction.Commit();
                     return res >= 1 ? true : false;

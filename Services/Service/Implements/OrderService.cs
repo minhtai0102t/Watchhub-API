@@ -7,6 +7,7 @@ using Ecom_API.Helpers;
 using Ecom_API.PagingModel;
 using Newtonsoft.Json;
 using Services.Repositories;
+using System.Text.RegularExpressions;
 using static Ecom_API.Helpers.Constants;
 
 namespace Ecom_API.Service
@@ -59,7 +60,46 @@ namespace Ecom_API.Service
         }
         public async Task<PagedList<Order>> GetAll(QueryStringParameters query)
         {
-            return await _unitOfWork.Orders.GetAllWithPaging(query);
+            try
+            {
+                // Check if VNPay Order is pending more than 20 minutes => cancel
+                var orders = await _unitOfWork.Orders.GetAllWithPaging(query);
+                await AutoCancel(orders);
+                return orders;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        private async Task AutoCancel(PagedList<Order> orders)
+        {
+            try
+            {
+                int maxMins = 15;
+                var reason = "Đơn hàng bị huỷ do quá thời hạn thanh toán";
+                var listValidate = orders.Where(c => c.payment_method_id == (int)PAYMENT_METHOD.VNPAY && c.isPaid == false &&
+                c.order_status == ORDER_STATUS.AWAITING_CONFIRMATION.ToString() &&
+                ((DateTime.Now.ToUniversalTime().ToUniversalTime().Year != c.created_date.Year ||
+                    DateTime.Now.ToUniversalTime().Month != c.created_date.Month ||
+                    DateTime.Now.ToUniversalTime().Day != c.created_date.Day ||
+                    Math.Abs(DateTime.Now.ToUniversalTime().Hour - c.created_date.Hour) != 1 ||
+                    Math.Abs(DateTime.Now.ToUniversalTime().Hour - c.created_date.Hour) != 11
+                    )) &&
+                (DateTime.Now.ToUniversalTime().Minute - c.created_date.Minute >= maxMins));
+                foreach (var order in listValidate)
+                {
+                    order.order_status = ORDER_STATUS.CANCELLED.ToString();
+                    order.cancel_reason = reason;
+                    order.updated_date = DateTime.Now.ToUniversalTime();
+                    await _unitOfWork.Orders.UpdateAsync(order);
+                }
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
         }
         public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus)
         {
@@ -77,8 +117,6 @@ namespace Ecom_API.Service
         {
             return await _unitOfWork.Orders.GetByIdAsync(id);
         }
-
-
         public async Task<bool> Update(int orderId, ORDER_STATUS orderStatus)
         {
             try

@@ -18,7 +18,6 @@ namespace Ecom_API.DBHelpers
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>();
             modelBuilder.Entity<ProductFeedback>();
             modelBuilder.Entity<PaymentMethod>();
             modelBuilder.Entity<Payment>();
@@ -29,6 +28,11 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<ProductGlass>();
             modelBuilder.Entity<VNPay>();
             modelBuilder.Entity<Product>();
+            #region Relation
+            modelBuilder.Entity<User>().UseTpcMappingStrategy()
+                .HasMany(c => c.productFeedbacks)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.user_id);
 
             modelBuilder.Entity<SubCategory>().UseTpcMappingStrategy()
                 .HasOne(c => c.category)
@@ -60,8 +64,13 @@ namespace Ecom_API.DBHelpers
                 .WithOne(c => c.productType)
                 .HasForeignKey(c => c.product_type_id);
 
+            modelBuilder.Entity<ProductType>().UseTpcMappingStrategy()
+                .HasMany(c => c.productFeedbacks)
+                .WithOne(c => c.ProductType)
+                .HasForeignKey(c => c.product_type_id);
+
             modelBuilder.Entity<ProductSubCategory>()
-                .HasKey(pc => new {pc.product_type_id, pc.sub_category_id });
+                .HasKey(pc => new { pc.product_type_id, pc.sub_category_id });
 
             modelBuilder.Entity<ProductSubCategory>()
                 .HasOne(pc => pc.productType)
@@ -71,7 +80,8 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<ProductSubCategory>()
                .HasOne(pc => pc.subCategory)
                .WithMany(p => p.productSubCategories)
-               .HasForeignKey(pc => pc.sub_category_id);
+               .HasForeignKey(pc => pc.sub_category_id); 
+            #endregion
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

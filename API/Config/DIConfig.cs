@@ -20,6 +20,7 @@ namespace Ecom_API.Config
             service.AddScoped<IProductGlassService, ProductGlassService>();
             service.AddScoped<IProductService, ProductService>();
             service.AddScoped<IPaymentMethodService, PaymentMethodService>();
+            service.AddScoped<IProductFeedbackService, ProductFeedbackService>();
             service.AddScoped<IOrderService, OrderService>();
             service.AddScoped<IVNPayService, VNPayService>();
             service.AddScoped<GoogleHelperService>();

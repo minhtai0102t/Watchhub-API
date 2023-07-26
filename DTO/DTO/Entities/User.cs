@@ -26,6 +26,7 @@ namespace Ecom_API.DTO.Entities
         public bool is_verified { get; set; }
         public List<int>? order_ids { get; set; }
         public string? addresses { get; set; }
+        public ICollection<ProductFeedback> productFeedbacks { get; set; } = new List<ProductFeedback>();
     }
 }
 

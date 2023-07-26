@@ -14,7 +14,6 @@ namespace Ecom_API.DTO.Entities
         [Required]
         public int price { get; set; }
         public List<string>? product_image_uuid { get; set; }
-        public List<int>? product_feedback_ids { get; set; }
         public string product_source { get; set; }
         public string product_guarantee { get; set; }
         public string product_dial_width { get; set; }
@@ -38,5 +37,6 @@ namespace Ecom_API.DTO.Entities
         public ProductGlass glass { get; set; }
         public ICollection<ProductSubCategory> productSubCategories { get; set; }
         public ICollection<Product> products { get; set; } = new List<Product>();
+        public ICollection<ProductFeedback> productFeedbacks { get; set; } = new List<ProductFeedback>();
     }
 }

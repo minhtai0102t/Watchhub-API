@@ -101,7 +101,7 @@ namespace Ecom_API.Service
                 result.TotalCount = listRes.TotalCount;
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

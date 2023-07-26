@@ -23,6 +23,7 @@ namespace Services.Repositories
         private IVNPayRepository _vnpay;
         private IOrderRepository _order;
         private IProductSubRepository _productSub;
+        private IProductFeedbackRepository _productFeedbackRepository;
         public IUserRepository Users
         {
             get
@@ -166,7 +167,17 @@ namespace Services.Repositories
                 return _productSub;
             }
         }
-
+        public IProductFeedbackRepository ProductFeedback
+        {
+            get
+            {
+                if (_productFeedbackRepository == null)
+                {
+                    _productFeedbackRepository = new ProductFeedbackRepository(_dbContext);
+                }
+                return _productFeedbackRepository;
+            }
+        }
         public async Task<int> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync();

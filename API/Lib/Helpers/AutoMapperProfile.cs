@@ -28,7 +28,7 @@ public class AutoMapperProfile : Profile
         CreateMap<GoogleUser, User>().ReverseMap();
         // UpdateRequest -> User
         CreateMap<UserUpdateReq, User>()
-        
+
             .ForAllMembers(x => x.Condition(
                 (src, dest, prop) =>
                 {
@@ -39,6 +39,7 @@ public class AutoMapperProfile : Profile
                     return true;
                 }
             ));
+        #region ProductTypeFullRes mapper
         CreateMap<SubCategory, SubCategoryMapperShort>();
         CreateMap<Brand, BrandMapper>();
         CreateMap<ProductAlbert, AlbertMapper>();
@@ -48,12 +49,22 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductSubCategory, ProductSubCategoryMapper>()
             .ForMember(opt => opt.sub_category_name, des => des.MapFrom(x => x.subCategory.sub_category_name))
             .ForMember(opt => opt.category_id, des => des.MapFrom(x => x.subCategory.category_id));
+        CreateMap<ProductFeedback, ProductFeedbackMapper>()
+            .ForMember(opt => opt.rating, des => des.MapFrom(x => x.rating));
         CreateMap<ProductType, ProductTypeFullRes>()
             .ForMember(opt => opt.products, des => des.MapFrom(x => x.products))
-            .ForMember(opt => opt.productSubCategories, des => des.MapFrom(x => x.productSubCategories));
+            .ForMember(opt => opt.productSubCategories, des => des.MapFrom(x => x.productSubCategories))
+            .ForMember(opt => opt.productFeedbacks, des => des.MapFrom(x => x.productFeedbacks));
+
+        CreateMap<User, UserMapper>();
+        CreateMap<ProductFeedback, ProductFeedbackFullRes>()
+            .ForMember(opt => opt.User, des => des.MapFrom(x => x.User));
+        
+        #endregion
 
         CreateMap<StoreVnPayCreateReq, VNPay>();
         CreateMap<Category, CategoryFullRes>()
             .ForMember(opt => opt.subCategories, des => des.MapFrom(x => x.subCategories));
+        CreateMap<ProductFeedbackCreateReq, ProductFeedback>();
     }
 }
