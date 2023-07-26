@@ -14,7 +14,7 @@ namespace Services.Repositories
         }
         public async Task<PagedList<Order>> GetAllWithPaging(QueryStringParameters pagingParams)
         {
-            var dataQuery = dbSet.AsNoTracking();
+            var dataQuery = dbSet.AsNoTracking().Include(c => c.vnpay);
             return await GetWithPaging(dataQuery, pagingParams);
         }
         public async Task<PagedList<Order>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<Order, bool>> predicate)

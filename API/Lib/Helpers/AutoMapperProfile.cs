@@ -59,7 +59,11 @@ public class AutoMapperProfile : Profile
         CreateMap<User, UserMapper>();
         CreateMap<ProductFeedback, ProductFeedbackFullRes>()
             .ForMember(opt => opt.User, des => des.MapFrom(x => x.User));
-        
+
+        CreateMap<VNPay, VNPayMapper>();
+        CreateMap<Order, OrderFullRes>()
+            .ForMember(opt => opt.vnpay, des => des.MapFrom(x => x.vnpay));
+
         #endregion
 
         CreateMap<StoreVnPayCreateReq, VNPay>();

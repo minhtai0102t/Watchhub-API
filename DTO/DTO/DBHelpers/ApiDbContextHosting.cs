@@ -21,7 +21,6 @@ namespace Ecom_API.DBHelpers
             modelBuilder.Entity<ProductFeedback>();
             modelBuilder.Entity<PaymentMethod>();
             modelBuilder.Entity<Payment>();
-            modelBuilder.Entity<Order>();
             modelBuilder.Entity<Category>();
             modelBuilder.Entity<ProductAlbert>();
             modelBuilder.Entity<ProductCore>();
@@ -81,6 +80,11 @@ namespace Ecom_API.DBHelpers
                .HasOne(pc => pc.subCategory)
                .WithMany(p => p.productSubCategories)
                .HasForeignKey(pc => pc.sub_category_id); 
+
+            modelBuilder.Entity<Order>()
+                .HasOne(pc => pc.vnpay)
+                .WithOne(p => p.Order);
+
             #endregion
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

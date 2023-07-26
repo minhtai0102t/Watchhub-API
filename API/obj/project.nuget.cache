@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "P+kHIXjJPvlQ62Q08OH1XzGGmsraRFrebRJnGBJYGfEoq6ns/9UqhhLdY5r3d8RJqNwbOtGxoOQijH6iuU+y+A==",
+  "dgSpecHash": "a5hqcljO3E23CWjXoq+Xsk/y4xU/NWdE2SM66sdQLXS0/wT9hgTNRRTi3GxwGbAM1kNUaeRaOVnjdtI1ilZUjA==",
   "success": true,
-  "projectFilePath": "D:\\Workplace\\Watchhub-API\\API\\API.csproj",
+  "projectFilePath": "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dell\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

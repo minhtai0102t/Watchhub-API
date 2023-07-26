@@ -18,6 +18,8 @@ namespace Ecom_API.DTO.Entities
         public string TxnRef { get; set; }
         public string SecureHash { get; set; }
         public int UserID { get; set; }
+        public User User { get; set; }
         public int OrderID { get; set; }
+        public Order Order { get; set; }
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {}
+    "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj": {}
   },
   "projects": {
-    "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
+    "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj",
+        "projectUniqueName": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj",
         "projectName": "DTO",
-        "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj",
+        "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\Workplace\\Watchhub-API\\DTO\\obj\\",
+        "outputPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",

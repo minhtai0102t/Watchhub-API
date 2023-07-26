@@ -4015,11 +4015,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Workplace\\Watchhub-API\\API\\API.csproj",
+      "projectUniqueName": "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\API.csproj",
       "projectName": "Ecom-API",
-      "projectPath": "D:\\Workplace\\Watchhub-API\\API\\API.csproj",
+      "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-      "outputPath": "D:\\Workplace\\Watchhub-API\\API\\obj\\",
+      "outputPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4038,11 +4038,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
-              "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj"
+            "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj": {
+              "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj"
             },
-            "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj": {
-              "projectPath": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj"
+            "D:\\Workplace\\SourceCC\\Watchhub-API\\Services\\Services.csproj": {
+              "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\Services\\Services.csproj"
             }
           }
         }

@@ -1,37 +1,42 @@
+﻿using Ecom_API.DTO.Entities;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ecom_API.DTO.Entities
+namespace DTO.DTO.Models
 {
-    [Table("orders")]
-    public class Order : BaseEntity
+    public class OrderFullRes : BaseEntity
     {
         [Required]
         // Json [{"quantity: 5", "items: [{"asdsad", "dasdas"}]}]
         public string order_info { get; set; }
-        [Required]
         public int user_id { get; set; }
-        [Required]
         public int total_amount { get; set; }
-        [Required]
         public int payment_method_id { get; set; }
-        [Required]
         public string order_status { get; set; }
-        [Required]
         public string province { get; set; }
-        [Required]
         public string district { get; set; }
-        [Required]
         public string ward { get; set; }
-        [Required]
         public string street { get; set; }
         public List<string>? product_image_uuid { get; set; }
         public List<int> product_type_ids { get; set; }
-        [PhoneNumber(ErrorMessage = "Invalid phone number")]
         public string phone { get; set; }
         public string cancel_reason { get; set; }
         public bool isPaid { get; set; }
         public int? vnpay_id { get; set; }
-        public VNPay? vnpay { get; set; }
+        public VNPayMapper? vnpay { get; set; }
+    }
+    public class VNPayMapper
+    {
+        public string Amount { get; set; }
+        public string BankCode { get; set; }
+        public string BankTranNo { get; set; }
+        public string CardType { get; set; }
+        public string OrderInfo { get; set; }
+        public string PayDate { get; set; }
+        public string ResponseCode { get; set; }
+        public string TmnCode { get; set; }
+        public string TransactionNo { get; set; }
+        public string TransactionStatus { get; set; }
+        public string TxnRef { get; set; }
+        public string SecureHash { get; set; }
     }
 }

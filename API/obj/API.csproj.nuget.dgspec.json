@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Workplace\\Watchhub-API\\API\\API.csproj": {}
+    "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\Workplace\\Watchhub-API\\API\\API.csproj": {
+    "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Workplace\\Watchhub-API\\API\\API.csproj",
+        "projectUniqueName": "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\API.csproj",
         "projectName": "Ecom-API",
-        "projectPath": "D:\\Workplace\\Watchhub-API\\API\\API.csproj",
+        "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\API.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\Workplace\\Watchhub-API\\API\\obj\\",
+        "outputPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -30,11 +30,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
-                "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj"
+              "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj": {
+                "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj"
               },
-              "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj": {
-                "projectPath": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj"
+              "D:\\Workplace\\SourceCC\\Watchhub-API\\Services\\Services.csproj": {
+                "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\Services\\Services.csproj"
               }
             }
           }
@@ -87,14 +87,14 @@
         }
       }
     },
-    "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
+    "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj",
+        "projectUniqueName": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj",
         "projectName": "DTO",
-        "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj",
+        "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\Workplace\\Watchhub-API\\DTO\\obj\\",
+        "outputPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -173,14 +173,14 @@
         }
       }
     },
-    "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj": {
+    "D:\\Workplace\\SourceCC\\Watchhub-API\\Services\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj",
+        "projectUniqueName": "D:\\Workplace\\SourceCC\\Watchhub-API\\Services\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "D:\\Workplace\\Watchhub-API\\Services\\Services.csproj",
+        "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\Services\\Services.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\Workplace\\Watchhub-API\\Services\\obj\\",
+        "outputPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -198,8 +198,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj": {
-                "projectPath": "D:\\Workplace\\Watchhub-API\\DTO\\DTO.csproj"
+              "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj": {
+                "projectPath": "D:\\Workplace\\SourceCC\\Watchhub-API\\DTO\\DTO.csproj"
               }
             }
           }

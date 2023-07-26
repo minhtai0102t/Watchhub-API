@@ -58,14 +58,14 @@ namespace Ecom_API.Service
                 throw;
             }
         }
-        public async Task<PagedList<Order>> GetAll(QueryStringParameters query)
+        public async Task<PagedList<OrderFullRes>> GetAll(QueryStringParameters query)
         {
             try
             {
-                // Check if VNPay Order is pending more than 20 minutes => cancel
                 var orders = await _unitOfWork.Orders.GetAllWithPaging(query);
+                var result = _mapper.Map<PagedList<OrderFullRes>>(orders);
                 await AutoCancel(orders);
-                return orders;
+                return result;
             }
             catch
             {
@@ -76,6 +76,7 @@ namespace Ecom_API.Service
         {
             try
             {
+                // Check if VNPay Order is pending more than 15 minutes => cancel
                 int maxMins = 15;
                 var reason = "Đơn hàng bị huỷ do quá thời hạn thanh toán";
                 var listValidate = orders.Where(c => c.payment_method_id == (int)PAYMENT_METHOD.VNPAY && c.isPaid == false &&
