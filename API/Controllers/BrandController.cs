@@ -23,11 +23,11 @@ public class BrandController : ControllerBase
         var res = await _brandService.Create(obj);
         if (res)
         {
-            return Ok(new { message = "Brand creation successful" });
+            return Ok(new { message = "Xoá thương hiệu thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Brand creation fail" });
+            return BadRequest(new { message = "Xoá thương hiệu thất bại" });
         }
     }
     /// <summary>
@@ -64,11 +64,11 @@ public class BrandController : ControllerBase
         var res = await _brandService.Update(obj, id);
         if (res)
         {
-            return Ok(new { message = "Brand update successful" });
+            return Ok(new { message = "Cập nhật thương hiệu thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Brand update failed" });
+            return BadRequest(new { message = "Cập nhật thương hiệu thất bại" });
         }
     }
     // [Authorize]
@@ -79,11 +79,11 @@ public class BrandController : ControllerBase
         var res = await _brandService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "Brand soft delete successful" });
+            return Ok(new { message = "Xoá mềm thương hiệu thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Brand soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm thương hiệu thất bại" });
         }
     }
     // [Authorize]
@@ -94,11 +94,11 @@ public class BrandController : ControllerBase
         var res = await _brandService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "Brand delete successful" });
+            return Ok(new { message = "Xoá thương hiệu thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Brand delete failed" });
+            return BadRequest(new { message = "Xoá thương hiệu thất bại" });
         }
     }
 }

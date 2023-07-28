@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 public class UsersController : ControllerBase
 {
     private IUserService _userService;
+
     public UsersController(IUserService userService)
     {
         _userService = userService;
     }
+
     /// <summary>
-    /// Verify API
+    /// Xác thực tài khoản người dùng
     /// </summary>
-    /// <param name="string"></param>
-    /// <returns>message</returns>
     [AllowAnonymous]
     [HttpGet("Verify")]
     public async Task<IActionResult> Verify(string code, string email)
@@ -25,16 +25,14 @@ public class UsersController : ControllerBase
         var response = await _userService.UserVerification(code, email);
         if (response)
         {
-            return Ok(new { message = "Verification successful, User is verified" });
-
+            return Ok(new { message = "Xác thực tài khoản thành công, Tài khoản đã được xác thực" });
         }
-        return BadRequest(new { message = "Verification failed. Incorrect code entered." });
+        return BadRequest(new { message = "Xác thực tài khoản thất bại. Mã xác thực không đúng." });
     }
+
     /// <summary>
-    /// Authenticate API
+    /// Xác thực tài khoản bằng tên đăng nhập và mật khẩu
     /// </summary>
-    /// <param name="typeof(AuthenticateReq)"></param>
-    /// <returns>jwt token</returns>
     [AllowAnonymous]
     [HttpPost("Authenticate")]
     public async Task<IActionResult> Authenticate([FromBody] AuthenticateReq model)
@@ -42,11 +40,10 @@ public class UsersController : ControllerBase
         var response = await _userService.Authenticate(model);
         return Ok(response);
     }
+
     /// <summary>
-    /// Login with google API
+    /// Đăng nhập bằng tài khoản Google
     /// </summary>
-    /// <param name="typeof(GoogleUser)"></param>
-    /// <returns>jwt token</returns>
     [AllowAnonymous]
     [HttpPost("LoginWithGoogle")]
     public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleUser req)
@@ -54,24 +51,21 @@ public class UsersController : ControllerBase
         var response = await _userService.LoginWithGoogle(req);
         return Ok(response);
     }
+
     /// <summary>
-    /// Register API
+    /// Đăng ký tài khoản mới
     /// </summary>
-    /// <param name="typeof(UserRegisterReq)"></param>
-    /// <returns>message</returns>
     [AllowAnonymous]
     [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] UserRegisterReq model)
     {
         var res = await _userService.Register(model);
-        return Ok(new { message = "Registrination successful" });
+        return Ok(new { message = "Đăng ký tài khoản thành công" });
     }
+
     /// <summary>
-    /// Get List User API
+    /// Lấy danh sách tài khoản người dùng
     /// </summary>
-    /// <param name="typeof(UserRegisterReq)"></param>
-    /// <returns>List<User></returns>
-    // [Authorize(true)]
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)
     {
@@ -79,24 +73,20 @@ public class UsersController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
-    /// Get User By Id API
+    /// Lấy thông tin người dùng theo ID
     /// </summary>
-    /// <param name="typeof(int)"></param>
-    /// <returns>User</returns>
-    // [Authorize]
     [HttpGet("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var user = await _userService.GetByIdAsync(id);
         return Ok(user);
     }
+
     /// <summary>
-    /// Update API
+    /// Cập nhật thông tin tài khoản người dùng
     /// </summary>
-    /// <param name="typeof(UserUpdateReq)"></param>
-    /// <returns>message</returns>
-    // [Authorize]
     [HttpPut("Update{id}")]
     public async Task<IActionResult> Update(UserUpdateReq model, int id)
     {
@@ -110,42 +100,39 @@ public class UsersController : ControllerBase
             return BadRequest(res);
         }
     }
+
     /// <summary>
-    /// Soft Delete API
+    /// Xoá mềm tài khoản người dùng
     /// </summary>
-    /// <param name="typeof(int)"></param>
-    /// <returns>message</returns>
-    // [Authorize(true)]
     [HttpDelete("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id)
     {
         var res = await _userService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "Delete successful" });
+            return Ok(new { message = "Xoá mềm tài khoản thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Delete failed" });
+            return BadRequest(new { message = "Xoá mềm tài khoản thất bại" });
         }
     }
+
     /// <summary>
-    /// Delete API
+    /// Xoá tài khoản người dùng
     /// </summary>
-    /// <param name="typeof(int)"></param>
-    /// <returns>message</returns>
-    // [Authorize(true)]
     [HttpDelete("Delete{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var res = await _userService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "Delete successful" });
+            return Ok(new { message = "Xoá tài khoản thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Delete failed" });
+            return BadRequest(new { message = "Xoá tài khoản thất bại" });
         }
     }
 }
+

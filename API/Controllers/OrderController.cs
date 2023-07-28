@@ -91,11 +91,11 @@ public class OrderController : ControllerBase
         var res = await _OrderService.Update(id, orderStatus);
         if (res)
         {
-            return Ok(new { message = "Order status update successful" });
+            return Ok(new { message = "Cập nhật trạng thái đơn hàng thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Order status update failed" });
+            return BadRequest(new { message = "Cập nhật trạng thái đơn hàng thất bại" });
         }
     }
     // [Authorize]
@@ -106,11 +106,11 @@ public class OrderController : ControllerBase
         var res = await _OrderService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "Order soft delete successful" });
+            return Ok(new { message = "Xoá mềm đơn hàng thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Order soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm đơn hàng thất bại" });
         }
     }
     // [Authorize]
@@ -121,11 +121,11 @@ public class OrderController : ControllerBase
         var res = await _OrderService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "Order delete successful" });
+            return Ok(new { message = "Xoá đơn hàng thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Order delete failed" });
+            return BadRequest(new { message = "Xoá đơn hàng thất bại" });
         }
     }
     [HttpPost]

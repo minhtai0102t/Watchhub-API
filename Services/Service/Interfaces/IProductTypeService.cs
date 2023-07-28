@@ -8,6 +8,12 @@ namespace Ecom_API.Service;
 
 public interface IProductTypeService : IDisposable
 {
+    #region Admin
+    Task<PagedList<ProductType>> SearchAdmin(QueryStringParameters pagingParams, string searchTerm);
+    Task<PagedList<ProductType>> SearchByProductTypeCodeOrIdAdmin(QueryStringParameters pagingParams, string searchTerm);
+    Task<PagedList<ProductTypeFullRes>> GetAllAdmin(QueryStringParameters pagingParams);
+    Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPagingAdmin(QueryStringParameters pagingParams, int subCategoryId);
+    #endregion
     Task<PagedList<ProductType>> Search(QueryStringParameters pagingParams, string searchTerm);
     Task<PagedList<ProductType>> SearchByProductTypeCodeOrId(QueryStringParameters pagingParams, string searchTerm);
     //Task<PagedList<ProductType>> GetAll(QueryStringParameters pagingParams);

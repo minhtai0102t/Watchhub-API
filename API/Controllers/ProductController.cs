@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 public class ProductController : ControllerBase
 {
     private IProductService _productService;
+
     public ProductController(IProductService productService)
     {
         _productService = productService;
     }
+
     /// <summary>
     /// Create
     /// </summary>
@@ -22,13 +24,14 @@ public class ProductController : ControllerBase
         var res = await _productService.Create(product_type_id, product_code);
         if (res)
         {
-            return Ok(new { message = "Product creation successful" });
+            return Ok(new { message = "Tạo sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Product creation fail" });
+            return BadRequest(new { message = "Tạo sản phẩm thất bại" });
         }
     }
+
     /// <summary>
     /// Get All
     /// </summary>
@@ -41,6 +44,7 @@ public class ProductController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -52,6 +56,7 @@ public class ProductController : ControllerBase
         var res = await _productService.GetById(id);
         return Ok(res);
     }
+
     /// <summary>
     /// Get by GetByProductTypeId 
     /// </summary>
@@ -63,6 +68,7 @@ public class ProductController : ControllerBase
         var res = await _productService.GetByProductTypeId(query, id);
         return Ok(new { res, res.TotalCount });
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
@@ -71,13 +77,14 @@ public class ProductController : ControllerBase
         var res = await _productService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "Product soft delete successful" });
+            return Ok(new { message = "Xoá mềm sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Product soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm sản phẩm thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
@@ -86,11 +93,11 @@ public class ProductController : ControllerBase
         var res = await _productService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "Product delete successful" });
+            return Ok(new { message = "Xoá sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Product delete failed" });
+            return BadRequest(new { message = "Xoá sản phẩm thất bại" });
         }
     }
 }

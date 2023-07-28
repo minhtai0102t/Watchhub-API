@@ -12,6 +12,7 @@ public class CategoryController : ControllerBase
     {
         _categoryService = categoryService;
     }
+
     /// <summary>
     /// Create
     /// </summary>
@@ -23,13 +24,14 @@ public class CategoryController : ControllerBase
         var res = await _categoryService.Create(obj);
         if (res)
         {
-            return Ok(new { message = "Category creation successful" });
+            return Ok(new { message = "Tạo danh mục thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Category creation fail" });
+            return BadRequest(new { message = "Tạo danh mục thất bại" });
         }
     }
+
     /// <summary>
     /// Get All
     /// </summary>
@@ -42,6 +44,7 @@ public class CategoryController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -53,6 +56,7 @@ public class CategoryController : ControllerBase
         var res = await _categoryService.GetById(id);
         return Ok(res);
     }
+
     [HttpGet]
     [Route("GetByListId{ids}")]
     public async Task<IActionResult> GetByListId(List<int> ids)
@@ -60,6 +64,7 @@ public class CategoryController : ControllerBase
         var res = await _categoryService.GetByListId(ids);
         return Ok(res);
     }
+
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -71,13 +76,14 @@ public class CategoryController : ControllerBase
         var res = await _categoryService.Update(obj, id);
         if (res)
         {
-            return Ok(new { message = "Category update successful" });
+            return Ok(new { message = "Cập nhật danh mục thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Category update failed" });
+            return BadRequest(new { message = "Cập nhật danh mục thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
@@ -86,13 +92,14 @@ public class CategoryController : ControllerBase
         var res = await _categoryService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "Category soft delete successful" });
+            return Ok(new { message = "Xoá mềm danh mục thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Category soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm danh mục thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
@@ -101,11 +108,11 @@ public class CategoryController : ControllerBase
         var res = await _categoryService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "Category delete successful" });
+            return Ok(new { message = "Xoá danh mục thành công" });
         }
         else
         {
-            return BadRequest(new { message = "Category delete failed" });
+            return BadRequest(new { message = "Xoá danh mục thất bại" });
         }
     }
 }

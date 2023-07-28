@@ -3,13 +3,13 @@ using Ecom_API.DTO.Entities;
 using Ecom_API.PagingModel;
 using Ecom_API.Service;
 using Microsoft.AspNetCore.Mvc;
-using Services.Repositories;
 
 [Route("payment")]
 [ApiController]
 public class VnPayController : ControllerBase
 {
     private readonly IVNPayService _vNPayService;
+
     public VnPayController(IVNPayService vNPayService)
     {
         _vNPayService = vNPayService;
@@ -19,19 +19,20 @@ public class VnPayController : ControllerBase
     public async Task<IActionResult> CreatePayment(PaymentRequestModel model)
     {
         var res = _vNPayService.CreateRequestUrl(model);
-        return Ok(new {url = res });
+        return Ok(new { url = res });
     }
+
     [HttpPost("store_transaction")]
     public async Task<IActionResult> StoreTransaction(StoreVnPayCreateReq model)
     {
         var res = await _vNPayService.Create(model);
         if (res)
         {
-            return Ok(new { message = "VNPay store transaction successful" });
+            return Ok(new { message = "Lưu giao dịch VNPay thành công" });
         }
         else
         {
-            return BadRequest(new { message = "VNPay store transaction fail" });
+            return BadRequest(new { message = "Lưu giao dịch VNPay thất bại" });
         }
     }
 
@@ -41,10 +42,10 @@ public class VnPayController : ControllerBase
         var res = await _vNPayService.GetAll(param);
         return Ok(res);
     }
-        /// <summary>
-    /// Get by id 
+
+    /// <summary>
+    /// Lấy thông tin giao dịch VNPay theo ID 
     /// </summary>
-    // [Authorize]
     [HttpGet]
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
@@ -52,7 +53,10 @@ public class VnPayController : ControllerBase
         var res = await _vNPayService.GetById(id);
         return Ok(res);
     }
-    // [Authorize]
+
+    /// <summary>
+    /// Xoá mềm giao dịch VNPay
+    /// </summary>
     [HttpDelete]
     [Route("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id)
@@ -60,14 +64,17 @@ public class VnPayController : ControllerBase
         var res = await _vNPayService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "VNPay soft delete successful" });
+            return Ok(new { message = "Xoá mềm giao dịch VNPay thành công" });
         }
         else
         {
-            return BadRequest(new { message = "VNPay soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm giao dịch VNPay thất bại" });
         }
     }
-    // [Authorize]
+
+    /// <summary>
+    /// Xoá giao dịch VNPay
+    /// </summary>
     [HttpDelete]
     [Route("Delete{id}")]
     public async Task<IActionResult> Delete(int id)
@@ -75,11 +82,12 @@ public class VnPayController : ControllerBase
         var res = await _vNPayService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "VNPay delete successful" });
+            return Ok(new { message = "Xoá giao dịch VNPay thành công" });
         }
         else
         {
-            return BadRequest(new { message = "VNPay delete failed" });
+            return BadRequest(new { message = "Xoá giao dịch VNPay thất bại" });
         }
     }
 }
+

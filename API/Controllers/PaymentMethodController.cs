@@ -12,6 +12,7 @@ public class PaymentMethodController : ControllerBase
     {
         _paymentMethodService = PaymentMethodService;
     }
+
     /// <summary>
     /// Create
     /// </summary>
@@ -23,13 +24,14 @@ public class PaymentMethodController : ControllerBase
         var res = await _paymentMethodService.Create(obj);
         if (res)
         {
-            return Ok(new { message = "PaymentMethod creation successful" });
+            return Ok(new { message = "Tạo phương thức thanh toán thành công" });
         }
         else
         {
-            return BadRequest(new { message = "PaymentMethod creation fail" });
+            return BadRequest(new { message = "Tạo phương thức thanh toán thất bại" });
         }
     }
+
     /// <summary>
     /// Get All
     /// </summary>
@@ -42,6 +44,7 @@ public class PaymentMethodController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -53,6 +56,7 @@ public class PaymentMethodController : ControllerBase
         var res = await _paymentMethodService.GetById(id);
         return Ok(res);
     }
+
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -64,13 +68,14 @@ public class PaymentMethodController : ControllerBase
         var res = await _paymentMethodService.Update(obj, id);
         if (res)
         {
-            return Ok(new { message = "PaymentMethod update successful" });
+            return Ok(new { message = "Cập nhật phương thức thanh toán thành công" });
         }
         else
         {
-            return BadRequest(new { message = "PaymentMethod update failed" });
+            return BadRequest(new { message = "Cập nhật phương thức thanh toán thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
@@ -79,13 +84,14 @@ public class PaymentMethodController : ControllerBase
         var res = await _paymentMethodService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "PaymentMethod soft delete successful" });
+            return Ok(new { message = "Xoá mềm phương thức thanh toán thành công" });
         }
         else
         {
-            return BadRequest(new { message = "PaymentMethod soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm phương thức thanh toán thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
@@ -94,11 +100,11 @@ public class PaymentMethodController : ControllerBase
         var res = await _paymentMethodService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "PaymentMethod delete successful" });
+            return Ok(new { message = "Xoá phương thức thanh toán thành công" });
         }
         else
         {
-            return BadRequest(new { message = "PaymentMethod delete failed" });
+            return BadRequest(new { message = "Xoá phương thức thanh toán thất bại" });
         }
     }
 }

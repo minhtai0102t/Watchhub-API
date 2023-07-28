@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 public class ProductAlbertController : ControllerBase
 {
     private IProductAlbertService _ProductAlbertService;
+
     public ProductAlbertController(IProductAlbertService ProductAlbertService)
     {
         _ProductAlbertService = ProductAlbertService;
     }
+
     /// <summary>
     /// Create
     /// </summary>
@@ -23,17 +25,18 @@ public class ProductAlbertController : ControllerBase
         var res = await _ProductAlbertService.Create(obj);
         if (res)
         {
-            return Ok(new { message = "ProductAlbert creation successful" });
+            return Ok(new { message = "Tạo dây thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductAlbert creation fail" });
+            return BadRequest(new { message = "Tạo dây thất bại" });
         }
     }
+
     /// <summary>
     /// Get All
     /// </summary>
-     //[Authorize]
+    //[Authorize]
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)
@@ -42,6 +45,7 @@ public class ProductAlbertController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -53,6 +57,7 @@ public class ProductAlbertController : ControllerBase
         var res = await _ProductAlbertService.GetById(id);
         return Ok(res);
     }
+
     /// <summary>
     /// Get by id 
     /// </summary>
@@ -64,13 +69,14 @@ public class ProductAlbertController : ControllerBase
         var res = await _ProductAlbertService.Update(obj, id);
         if (res)
         {
-            return Ok(new { message = "ProductAlbert update successful" });
+            return Ok(new { message = "Cập nhật dây thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductAlbert update failed" });
+            return BadRequest(new { message = "Cập nhật dây thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
@@ -79,13 +85,14 @@ public class ProductAlbertController : ControllerBase
         var res = await _ProductAlbertService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "ProductAlbert soft delete successful" });
+            return Ok(new { message = "Xoá mềm dây thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductAlbert soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm dây thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
@@ -94,11 +101,11 @@ public class ProductAlbertController : ControllerBase
         var res = await _ProductAlbertService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "ProductAlbert delete successful" });
+            return Ok(new { message = "Xoá dây thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductAlbert delete failed" });
+            return BadRequest(new { message = "Xoá dây thất bại" });
         }
     }
 }

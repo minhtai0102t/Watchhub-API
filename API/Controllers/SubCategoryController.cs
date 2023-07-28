@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 public class SubCategoryController : ControllerBase
 {
     private ISubCategoryService _subCategoryService;
+
     public SubCategoryController(ISubCategoryService subCategoryService)
     {
         _subCategoryService = subCategoryService;
     }
+
     /// <summary>
-    /// Create
+    /// Tạo mới
     /// </summary>
     // [Authorize]
     [HttpPost]
@@ -23,15 +25,16 @@ public class SubCategoryController : ControllerBase
         var res = await _subCategoryService.Create(obj);
         if (res)
         {
-            return Ok(new { message = "SubCategory creation successful" });
+            return Ok(new { message = "Tạo danh mục con thành công" });
         }
         else
         {
-            return BadRequest(new { message = "SubCategory creation fail" });
+            return BadRequest(new { message = "Tạo danh mục con thất bại" });
         }
     }
+
     /// <summary>
-    /// Get All
+    /// Lấy tất cả
     /// </summary>
     // [Authorize]
     [HttpGet]
@@ -42,8 +45,9 @@ public class SubCategoryController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
-    /// Get All by id
+    /// Lấy tất cả theo ID danh mục
     /// </summary>
     // [Authorize]
     [HttpGet]
@@ -54,8 +58,9 @@ public class SubCategoryController : ControllerBase
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
-    /// Get by id 
+    /// Lấy theo ID
     /// </summary>
     // [Authorize]
     [HttpGet]
@@ -65,8 +70,9 @@ public class SubCategoryController : ControllerBase
         var res = await _subCategoryService.GetById(id);
         return Ok(res);
     }
+
     /// <summary>
-    /// Get by id 
+    /// Cập nhật theo ID
     /// </summary>
     // [Authorize]
     [HttpPut]
@@ -76,39 +82,43 @@ public class SubCategoryController : ControllerBase
         var res = await _subCategoryService.Update(obj, id);
         if (res)
         {
-            return Ok(new { message = "SubCategory update successful" });
+            return Ok(new { message = "Cập nhật danh mục con thành công" });
         }
         else
         {
-            return BadRequest(new { message = "SubCategory update failed" });
+            return BadRequest(new { message = "Cập nhật danh mục con thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
-    public async Task<IActionResult> SoftDelete(int id){
+    public async Task<IActionResult> SoftDelete(int id)
+    {
         var res = await _subCategoryService.SoftDelete(id);
-         if (res)
+        if (res)
         {
-            return Ok(new { message = "SubCategory soft delete successful" });
+            return Ok(new { message = "Xoá mềm danh mục con thành công" });
         }
         else
         {
-            return BadRequest(new { message = "SubCategory soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm danh mục con thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
-    public async Task<IActionResult> Delete(int id){
+    public async Task<IActionResult> Delete(int id)
+    {
         var res = await _subCategoryService.Delete(id);
-         if (res)
+        if (res)
         {
-            return Ok(new { message = "SubCategory delete successful" });
+            return Ok(new { message = "Xoá danh mục con thành công" });
         }
         else
         {
-            return BadRequest(new { message = "SubCategory delete failed" });
+            return BadRequest(new { message = "Xoá danh mục con thất bại" });
         }
     }
 }

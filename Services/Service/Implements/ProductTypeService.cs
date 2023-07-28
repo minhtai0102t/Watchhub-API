@@ -65,6 +65,26 @@ namespace Ecom_API.Service
                 throw;
             }
         }
+        public async Task<PagedList<ProductType>> SearchAdmin(QueryStringParameters pagingParams, string searchTerm)
+        {
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.product_type_name.Trim().ToLower().Contains(searchTerm.Trim().ToLower()));
+                return result;
+            }
+            return new PagedList<ProductType>();
+        }
+        public async Task<PagedList<ProductType>> SearchByProductTypeCodeOrIdAdmin(QueryStringParameters pagingParams, string searchTerm)
+        {
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams,
+                                            c => (c.product_type_code.Trim().ToLower().Contains(searchTerm.Trim().ToLower()))
+                                            || c.id.ToString().Contains(searchTerm.Trim().ToLower()));
+                return result;
+            }
+            return new PagedList<ProductType>();
+        }
         public async Task<PagedList<ProductType>> Search(QueryStringParameters pagingParams, string searchTerm)
         {
             if (!string.IsNullOrEmpty(searchTerm))
@@ -84,6 +104,27 @@ namespace Ecom_API.Service
                 return result;
             }
             return new PagedList<ProductType>();
+        }
+        public async Task<PagedList<ProductTypeFullRes>> GetAllAdmin(QueryStringParameters pagingParams)
+        {
+            try
+            {
+                var listRes = await _unitOfWork.ProductTypes.GetFullResAdmin(pagingParams);
+
+                var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+
+                for (int i = 0; i < result.Count; i++)
+                {
+                    result[i].products = _mapper.Map<ICollection<ProductMapper>>(listRes[i].products);
+                }
+
+                result.TotalCount = listRes.TotalCount;
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAll(QueryStringParameters pagingParams)
         {
@@ -105,6 +146,20 @@ namespace Ecom_API.Service
             {
                 throw;
             }
+        }
+        public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPagingAdmin(QueryStringParameters pagingParams, int subCategoryId)
+        {
+            Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId) && p.is_deleted == false;
+
+            var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
+            var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i].products = _mapper.Map<ICollection<ProductMapper>>(listRes[i].products);
+            }
+            result.TotalCount = listRes.TotalCount;
+            return result;
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {

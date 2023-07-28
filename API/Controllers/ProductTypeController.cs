@@ -9,12 +9,14 @@ using static Ecom_API.Helpers.Constants;
 public class ProductTypeController : ControllerBase
 {
     private IProductTypeService _productTypeService;
+
     public ProductTypeController(IProductTypeService productTypeService)
     {
         _productTypeService = productTypeService;
     }
+
     /// <summary>
-    /// Search
+    /// Tìm kiếm
     /// </summary>
     // [Authorize]
     [HttpPost]
@@ -24,8 +26,9 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.Search(param, searchTerm);
         return Ok(new { res, res.TotalCount });
     }
+
     /// <summary>
-    /// Search
+    /// Tìm kiếm theo Mã hoặc ID loại sản phẩm
     /// </summary>
     // [Authorize]
     [HttpPost]
@@ -35,8 +38,9 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.SearchByProductTypeCodeOrId(param, searchTerm);
         return Ok(new { res, res.TotalCount });
     }
+
     /// <summary>
-    /// Create
+    /// Tạo mới
     /// </summary>
     // [Authorize]
     [HttpPost]
@@ -46,15 +50,16 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.Create(obj);
         if (res)
         {
-            return Ok(new { message = "ProductType creation successful" });
+            return Ok(new { message = "Tạo loại sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductType creation fail" });
+            return BadRequest(new { message = "Tạo loại sản phẩm thất bại" });
         }
     }
+
     /// <summary>
-    /// Get All
+    /// Lấy tất cả
     /// </summary>
     // [Authorize]
     [HttpGet]
@@ -64,6 +69,7 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetAll(param);
         return Ok(new { res, res.TotalCount });
     }
+
     // [Authorize]
     [HttpGet]
     [Route("GetAllBySubCategoryId{subCategoryId}")]
@@ -72,6 +78,7 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetAllBySubCategoryIdPaging(param, subCategoryId);
         return Ok(new { res, res.TotalCount });
     }
+
     // [Authorize]
     [HttpGet]
     [Route("GetAllByBrandId{brandId}")]
@@ -80,6 +87,7 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetAllByBrandIdPaging(param, brandId);
         return Ok(new { res, res.TotalCount });
     }
+
     // [Authorize]
     [HttpGet]
     [Route("GetTotalBySubCategoryId{subCategoryId}")]
@@ -88,6 +96,7 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetTotalBySubCategoryId(subCategoryId);
         return Ok(new { total = res });
     }
+
     // [Authorize]
     [HttpGet]
     [Route("GetTotalByBrandId{brandId}")]
@@ -96,8 +105,9 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetTotalByBrandId(brandId);
         return Ok(new { total = res });
     }
+
     /// <summary>
-    /// Get by id 
+    /// Lấy theo ID
     /// </summary>
     // [Authorize]
     [HttpGet]
@@ -107,8 +117,9 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetById(id);
         return Ok(res);
     }
+
     /// <summary>
-    /// Get by id 
+    /// Lấy hình ảnh theo ID
     /// </summary>
     // [Authorize]
     [HttpGet]
@@ -118,8 +129,9 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetImagesById(id);
         return Ok(res);
     }
+
     /// <summary>
-    /// Get by id 
+    /// Lấy theo danh sách ID
     /// </summary>
     // [Authorize]
     [HttpGet]
@@ -129,8 +141,9 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.GetByListId(listId);
         return Ok(res);
     }
+
     /// <summary>
-    /// Filter
+    /// Lọc theo danh mục con
     /// </summary>
     // [Authorize]
     [HttpPost]
@@ -140,8 +153,9 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.Filter(param, subCategoryId, filterOptions);
         return Ok(new { res, res.TotalCount });
     }
+
     /// <summary>
-    /// Filter
+    /// Lọc
     /// </summary>
     // [Authorize]
     [HttpPost]
@@ -151,50 +165,7 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.Filter(param, filterOptions);
         return Ok(new { res, res.TotalCount });
     }
-    /// <summary>
-    /// Filter Best Seller
-    /// </summary>
-    // [Authorize]
-    //[HttpGet]
-    //[Route("FilterBestSeller")]
-    //public async Task<IActionResult> FilterBestSeller([FromQuery] QueryStringParameters param, [FromQuery] SORT_OPTION sortOption, [FromQuery] GENDER gender)
-    //{
-    //    var res = await _productTypeService.FilterBestSeller(param, sortOption, gender);
-    //    return Ok(new { res, res.TotalCount });
-    //}
-    /// <summary>
-    /// Search
-    /// </summary>
-    // [Authorize]
-    //[HttpGet]
-    //[Route("FilterByPrice")]
-    //public async Task<IActionResult> FilterByPrice([FromQuery] QueryStringParameters param, int minPrice = 0, int maxPrice = 500000000)
-    //{
-    //    var res = await _productTypeService.FilterByPrice(param, minPrice, maxPrice);
-    //    return Ok(new { res, res.TotalCount });
-    //}
-    /// <summary>
-    /// Search
-    /// </summary>
-    // [Authorize]
-    //[HttpGet]
-    //[Route("FilterByGender")]
-    //public async Task<IActionResult> FilterByGender([FromQuery] QueryStringParameters param, GENDER gender)
-    //{
-    //    var res = await _productTypeService.FilterByGender(param, gender);
-    //    return Ok(new { res, res.TotalCount });
-    //}
-    /// <summary>
-    /// Search
-    /// </summary>
-    // [Authorize]
-    //[HttpGet]
-    //[Route("FilterByDialColor")]
-    //public async Task<IActionResult> FilterByDialColor([FromQuery] QueryStringParameters param, DIAL_COLOR color)
-    //{
-    //    var res = await _productTypeService.FilterByDialColor(param, color);
-    //    return Ok(new { res, res.TotalCount });
-    //}
+
     [HttpGet]
     [Route("Sort")]
     public async Task<IActionResult> Sort([FromQuery] QueryStringParameters param, [FromQuery] SORT_OPTION sortOption, bool isDescending = false)
@@ -202,8 +173,9 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.Sort(param, sortOption, isDescending);
         return Ok(new { res, res.TotalCount });
     }
+
     /// <summary>
-    /// Get by id 
+    /// Cập nhật theo ID
     /// </summary>
     // [Authorize]
     [HttpPut]
@@ -213,13 +185,14 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.Update(obj, id);
         if (res)
         {
-            return Ok(new { message = "ProductType update successful" });
+            return Ok(new { message = "Cập nhật loại sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductType update failed" });
+            return BadRequest(new { message = "Cập nhật loại sản phẩm thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
@@ -228,13 +201,14 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "ProductType soft delete successful" });
+            return Ok(new { message = "Xoá mềm loại sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductType soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm loại sản phẩm thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
@@ -243,11 +217,41 @@ public class ProductTypeController : ControllerBase
         var res = await _productTypeService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "ProductType delete successful" });
+            return Ok(new { message = "Xoá loại sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductType delete failed" });
+            return BadRequest(new { message = "Xoá loại sản phẩm thất bại" });
         }
     }
+    #region Admin
+    [HttpPost]
+    [Route("SearchAdmin")]
+    public async Task<IActionResult> SearchAdmin([FromQuery] QueryStringParameters param, string searchTerm)
+    {
+        var res = await _productTypeService.SearchAdmin(param, searchTerm);
+        return Ok(new { res, res.TotalCount });
+    }
+    [HttpPost]
+    [Route("SearchByProductTypeCodeOrIdAdmin")]
+    public async Task<IActionResult> SearchByProductTypeCodeOrIdAdmin([FromQuery] QueryStringParameters param, string searchTerm)
+    {
+        var res = await _productTypeService.SearchByProductTypeCodeOrIdAdmin(param, searchTerm);
+        return Ok(new { res, res.TotalCount });
+    }
+    [HttpGet]
+    [Route("GetAllAdmin")]
+    public async Task<IActionResult> GetAllAdmin([FromQuery] QueryStringParameters param)
+    {
+        var res = await _productTypeService.GetAllAdmin(param);
+        return Ok(new { res, res.TotalCount });
+    }
+    [HttpGet]
+    [Route("GetAllBySubCategoryIdAdmin{subCategoryId}")]
+    public async Task<IActionResult> GetAllBySubCategoryIdAdmin([FromQuery] QueryStringParameters param, int subCategoryId)
+    {
+        var res = await _productTypeService.GetAllBySubCategoryIdPagingAdmin(param, subCategoryId);
+        return Ok(new { res, res.TotalCount });
+    }
+    #endregion
 }

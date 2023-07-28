@@ -255,19 +255,19 @@ namespace Ecom_API.Service
                     throw new AppException($"Trạng thái của Order {orderId} phải là ĐÃ XÁC NHẬN hoặc CHỜ LẤY HÀNG");
                 }
                 // inventory check
-                var orderDetail = await InventoryHandler(order);
-                if (orderDetail == null || !orderDetail.Any())
-                {
-                    // fail
-                    // update order status to awaiting shipment
-                    order.order_status = ORDER_STATUS.AWAITING_SHIPMENT.ToString();
-                    order.updated_date = DateTime.Now.ToUniversalTime();
+                // var orderDetail = await InventoryHandler(order);
+                // if (orderDetail == null || !orderDetail.Any())
+                // {
+                // fail
+                // update order status to awaiting shipment
+                // order.order_status = ORDER_STATUS.AWAITING_SHIPMENT.ToString();
+                // order.updated_date = DateTime.Now.ToUniversalTime();
 
-                    await _unitOfWork.Orders.UpdateAsync(order);
-                    await _unitOfWork.SaveChangesAsync();
+                // await _unitOfWork.Orders.UpdateAsync(order);
+                // await _unitOfWork.SaveChangesAsync();
 
-                    return order.order_status;
-                }
+                // return order.order_status;
+                // }
                 // success
                 // update order status to awaiting collection
                 order.order_status = ORDER_STATUS.AWAITING_COLLECTION.ToString();

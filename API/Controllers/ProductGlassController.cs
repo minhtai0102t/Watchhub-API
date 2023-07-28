@@ -7,98 +7,106 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class ProductGlassController : ControllerBase
 {
-    private IProductGlassService _ProductGlassService;
-    public ProductGlassController(IProductGlassService ProductGlassService)
+    private IProductGlassService _productGlassService;
+
+    public ProductGlassController(IProductGlassService productGlassService)
     {
-        _ProductGlassService = ProductGlassService;
+        _productGlassService = productGlassService;
     }
+
     /// <summary>
-    /// Create
+    /// Tạo mới
     /// </summary>
     // [Authorize]
     [HttpPost]
     [Route("Create")]
     public async Task<IActionResult> Create(ProductGlassCreateReq obj)
     {
-        var res = await _ProductGlassService.Create(obj);
+        var res = await _productGlassService.Create(obj);
         if (res)
         {
-            return Ok(new { message = "ProductGlass creation successful" });
+            return Ok(new { message = "Tạo kính sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductGlass creation fail" });
+            return BadRequest(new { message = "Tạo kính sản phẩm thất bại" });
         }
     }
+
     /// <summary>
-    /// Get All
+    /// Lấy tất cả
     /// </summary>
     // [Authorize]
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)
     {
-        var res = await _ProductGlassService.GetAll(query);
+        var res = await _productGlassService.GetAll(query);
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
-    /// Get by id 
+    /// Lấy theo ID
     /// </summary>
     // [Authorize]
     [HttpGet]
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var res = await _ProductGlassService.GetById(id);
+        var res = await _productGlassService.GetById(id);
         return Ok(res);
     }
+
     /// <summary>
-    /// Get by id 
+    /// Cập nhật theo ID
     /// </summary>
     // [Authorize]
     [HttpPut]
     [Route("Update{id}")]
     public async Task<IActionResult> Update(ProductGlassCreateReq obj, int id)
     {
-        var res = await _ProductGlassService.Update(obj, id);
+        var res = await _productGlassService.Update(obj, id);
         if (res)
         {
-            return Ok(new { message = "ProductGlass update successful" });
+            return Ok(new { message = "Cập nhật kính sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductGlass update failed" });
+            return BadRequest(new { message = "Cập nhật kính sản phẩm thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id)
     {
-        var res = await _ProductGlassService.SoftDelete(id);
+        var res = await _productGlassService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "ProductGlass soft delete successful" });
+            return Ok(new { message = "Xoá mềm kính sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductGlass soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm kính sản phẩm thất bại" });
         }
     }
+
     // [Authorize]
     [HttpDelete]
     [Route("Delete{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var res = await _ProductGlassService.Delete(id);
+        var res = await _productGlassService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "ProductGlass delete successful" });
+            return Ok(new { message = "Xoá kính sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductGlass delete failed" });
+            return BadRequest(new { message = "Xoá kính sản phẩm thất bại" });
         }
     }
 }
+

@@ -40,6 +40,18 @@ namespace Services.Repositories
                 .Where(c => c.quantity > 0 && c.is_deleted == false);
             return await GetWithPaging(dataQuery, pagingParams);
         }
+        public async Task<PagedList<ProductType>> GetFullResAdmin(QueryStringParameters pagingParams)
+        {
+            var dataQuery = dbSet.AsNoTracking()
+                .Include(c => c.productSubCategories)
+                    .ThenInclude(x => x.subCategory)
+                .Include(c => c.brand)
+                .Include(c => c.albert)
+                .Include(c => c.core)
+                .Include(c => c.glass)
+                .Where(c => c.is_deleted == false);
+            return await GetWithPaging(dataQuery, pagingParams);
+        }
         public async Task<PagedList<ProductType>> GetFullResWithCondition(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate)
         {
             var dataQuery = dbSet.AsNoTracking()

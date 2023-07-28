@@ -7,92 +7,100 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class ProductCoreController : ControllerBase
 {
-    private IProductCoreService _ProductCoreService;
-    public ProductCoreController(IProductCoreService ProductCoreService)
+    private IProductCoreService _productCoreService;
+
+    public ProductCoreController(IProductCoreService productCoreService)
     {
-        _ProductCoreService = ProductCoreService;
+        _productCoreService = productCoreService;
     }
+
     /// <summary>
-    /// Create
+    /// Tạo mới
     /// </summary>
     [HttpPost]
     [Route("Create")]
     public async Task<IActionResult> Create(ProductCoreCreateReq obj)
     {
-        var res = await _ProductCoreService.Create(obj);
+        var res = await _productCoreService.Create(obj);
         if (res)
         {
-            return Ok(new { message = "ProductCore creation successful" });
+            return Ok(new { message = "Tạo máy sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductCore creation fail" });
+            return BadRequest(new { message = "Tạo máy sản phẩm thất bại" });
         }
     }
+
     /// <summary>
-    /// Get All
+    /// Lấy tất cả
     /// </summary>
     [HttpGet]
     [Route("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)
     {
-        var res = await _ProductCoreService.GetAll(query);
+        var res = await _productCoreService.GetAll(query);
         var response = new { res, res.TotalCount };
         return Ok(response);
     }
+
     /// <summary>
-    /// Get by id 
+    /// Lấy theo ID
     /// </summary>
     [HttpGet]
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var res = await _ProductCoreService.GetById(id);
+        var res = await _productCoreService.GetById(id);
         return Ok(res);
     }
+
     /// <summary>
-    /// Get by id 
+    /// Cập nhật theo ID
     /// </summary>
     [HttpPut]
     [Route("Update{id}")]
     public async Task<IActionResult> Update(ProductCoreCreateReq obj, int id)
     {
-        var res = await _ProductCoreService.Update(obj, id);
+        var res = await _productCoreService.Update(obj, id);
         if (res)
         {
-            return Ok(new { message = "ProductCore update successful" });
+            return Ok(new { message = "Cập nhật máy sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductCore update failed" });
+            return BadRequest(new { message = "Cập nhật máy sản phẩm thất bại" });
         }
     }
+
     [HttpDelete]
     [Route("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id)
     {
-        var res = await _ProductCoreService.SoftDelete(id);
+        var res = await _productCoreService.SoftDelete(id);
         if (res)
         {
-            return Ok(new { message = "ProductCore soft delete successful" });
+            return Ok(new { message = "Xoá mềm máy sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductCore soft delete failed" });
+            return BadRequest(new { message = "Xoá mềm máy sản phẩm thất bại" });
         }
     }
+
     [HttpDelete]
     [Route("Delete{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var res = await _ProductCoreService.Delete(id);
+        var res = await _productCoreService.Delete(id);
         if (res)
         {
-            return Ok(new { message = "ProductCore delete successful" });
+            return Ok(new { message = "Xoá máy sản phẩm thành công" });
         }
         else
         {
-            return BadRequest(new { message = "ProductCore delete failed" });
+            return BadRequest(new { message = "Xoá máy sản phẩm thất bại" });
         }
     }
 }
+
