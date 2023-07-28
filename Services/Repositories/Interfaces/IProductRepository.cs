@@ -11,5 +11,6 @@ namespace Services.Repositories
         Task<PagedList<Product>> GetAllWithPaging(QueryStringParameters pagingParams);
         Task<PagedList<Product>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<Product, bool>> predicate);
         Task<IEnumerable<Product>> GetByListProductTypeId(List<int> ids);
+        Task<IEnumerable<Product>> GetByProductTypeId(int id);
     }
 }

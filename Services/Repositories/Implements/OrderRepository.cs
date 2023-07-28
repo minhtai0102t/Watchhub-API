@@ -19,8 +19,12 @@ namespace Services.Repositories
         }
         public async Task<PagedList<Order>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<Order, bool>> predicate)
         {
-            var dataQuery = dbSet.AsNoTracking();
+            var dataQuery = dbSet.AsNoTracking().Include(c => c.vnpay);
             return await GetWithPaging(dataQuery, pagingParams, predicate);
+        }
+        public async Task<Order> GetFullRes(int id){
+            var dataQuery = dbSet.AsNoTracking().Include(c => c.vnpay).Where(c => c.id == id);
+            return await dataQuery.SingleOrDefaultAsync();
         }
     }
 }

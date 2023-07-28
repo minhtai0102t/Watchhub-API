@@ -71,7 +71,7 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="typeof(UserRegisterReq)"></param>
     /// <returns>List<User></returns>
-    [Authorize(true)]
+    // [Authorize(true)]
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] QueryStringParameters query)
     {
@@ -84,7 +84,7 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="typeof(int)"></param>
     /// <returns>User</returns>
-    [Authorize]
+    // [Authorize]
     [HttpGet("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -96,7 +96,7 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="typeof(UserUpdateReq)"></param>
     /// <returns>message</returns>
-    [Authorize]
+    // [Authorize]
     [HttpPut("Update{id}")]
     public async Task<IActionResult> Update(UserUpdateReq model, int id)
     {
@@ -115,7 +115,7 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="typeof(int)"></param>
     /// <returns>message</returns>
-    [Authorize(true)]
+    // [Authorize(true)]
     [HttpDelete("SoftDelete{id}")]
     public async Task<IActionResult> SoftDelete(int id)
     {
@@ -134,7 +134,7 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="typeof(int)"></param>
     /// <returns>message</returns>
-    [Authorize(true)]
+    // [Authorize(true)]
     [HttpDelete("Delete{id}")]
     public async Task<IActionResult> Delete(int id)
     {

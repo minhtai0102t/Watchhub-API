@@ -33,5 +33,6 @@ namespace Ecom_API.DTO.Entities
         public bool isPaid { get; set; }
         public int? vnpay_id { get; set; }
         public VNPay? vnpay { get; set; }
+        List<Guid> productCodes {get;set;}
     }
 }

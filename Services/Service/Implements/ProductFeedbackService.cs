@@ -33,6 +33,7 @@ namespace Ecom_API.Service
             {
                 var listRes = await _unitOfWork.ProductFeedback.GetFullRes(query);
                 var result = _mapper.Map<PagedList<ProductFeedbackFullRes>>(listRes);
+                result.TotalCount = listRes.TotalCount;
                 return result;
             }
             catch (Exception ex)
@@ -46,6 +47,8 @@ namespace Ecom_API.Service
             {
                 var listRes = await _unitOfWork.ProductFeedback.GetFullRes(query, c => c.user_id == userId);
                 var result = _mapper.Map<PagedList<ProductFeedbackFullRes>>(listRes);
+                result.TotalCount = listRes.TotalCount;
+
                 return result;
             }
             catch (Exception ex)
@@ -59,6 +62,8 @@ namespace Ecom_API.Service
             {
                 var listRes = await _unitOfWork.ProductFeedback.GetFullRes(query, c => c.product_type_id == productTypeId);
                 var result = _mapper.Map<PagedList<ProductFeedbackFullRes>>(listRes);
+                result.TotalCount = listRes.TotalCount;
+
                 return result;
             }
             catch (Exception ex)

@@ -37,7 +37,7 @@ namespace Services.Repositories
                 .Include(c => c.albert)
                 .Include(c => c.core)
                 .Include(c => c.glass)
-                .Where(c => c.is_deleted == false);
+                .Where(c => c.quantity > 0 && c.is_deleted == false);
             return await GetWithPaging(dataQuery, pagingParams);
         }
         public async Task<PagedList<ProductType>> GetFullResWithCondition(QueryStringParameters pagingParams, Expression<Func<ProductType, bool>> predicate)
@@ -61,7 +61,7 @@ namespace Services.Repositories
                .Include(c => c.albert)
                .Include(c => c.core)
                .Include(c => c.glass)
-               .Where(c => ids.Any(p => p == c.id)&& c.is_deleted == false);
+               .Where(c => ids.Any(p => p == c.id) && c.is_deleted == false);
             return await dataQuery.ToListAsync();
         }
         public async Task<ProductType> GetFullResByIdReadOnly(int id)

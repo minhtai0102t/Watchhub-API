@@ -9,5 +9,6 @@ namespace Services.Repositories
     {
         Task<PagedList<Order>> GetAllWithPaging(QueryStringParameters pagingParams);
         Task<PagedList<Order>> GetAllWithPaging(QueryStringParameters pagingParams, Expression<Func<Order, bool>> predicate);
+        Task<Order> GetFullRes(int id);
     }
 }

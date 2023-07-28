@@ -26,7 +26,15 @@ namespace Services.Repositories
         {
             var dataQuery = dbSet.AsNoTracking()
                         .Where(c => ids.Any(p => p == c.product_type_id) && c.is_deleted == false && c.is_on_sale)
-                        .OrderBy(c => c.created_date)
+                        .OrderByDescending(c => c.created_date)
+                        .Take(99);
+            return await dataQuery.ToListAsync();
+        }
+        public async Task<IEnumerable<Product>> GetByProductTypeId(int id)
+        {
+            var dataQuery = dbSet.AsNoTracking()
+                        .Where(c => c.product_type_id == id && c.is_deleted == false && c.is_on_sale)
+                        .OrderByDescending(c => c.created_date)
                         .Take(99);
             return await dataQuery.ToListAsync();
         }

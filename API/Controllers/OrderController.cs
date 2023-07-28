@@ -45,7 +45,7 @@ public class OrderController : ControllerBase
     [Route("GetById{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var res = await _OrderService.GetById(id);
+        var res = await _OrderService.GetByIdFullRes(id);
         return Ok(res);
     }
     /// <summary>

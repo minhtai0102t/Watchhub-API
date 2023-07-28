@@ -2,9 +2,11 @@
 using DTO.DTO.Models;
 using EBird.Application.Model.PagingModel;
 using Ecom_API.DTO.Entities;
+using Ecom_API.DTO.Models;
 using Ecom_API.PagingModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Services.Repositories;
 using System.Globalization;
 using System.Net;
@@ -26,19 +28,22 @@ namespace Ecom_API.Service
         private string callbackUrl = "https://localhost:8383/payment/payment_response";
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrderService _orderService;
+        private readonly IProductTypeService _productTypeService;
 
         public VNPayService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IConfiguration config,
             IHttpContextAccessor httpContextAccessor,
-            IOrderService orderService)
+            IOrderService orderService,
+            IProductTypeService productTypeService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _config = config;
             _httpContextAccessor = httpContextAccessor;
             _orderService = orderService;
+            _productTypeService = productTypeService;
         }
         public async Task<PagedList<VNPay>> GetAll(QueryStringParameters query)
         {
@@ -52,6 +57,7 @@ namespace Ecom_API.Service
         {
             // map model to new user object
             var vNPay = _mapper.Map<VNPay>(model);
+            var listProductCode = new List<Guid>();
             using (var transaction = _unitOfWork.GetDbContextHosting().Database.BeginTransaction())
             {
                 try
@@ -67,6 +73,19 @@ namespace Ecom_API.Service
                             {
                                 // update isPaid to true
                                 var order = await _orderService.GetById(model.OrderID);
+                                var listOrderInfo = JsonConvert.DeserializeObject<List<ProductTypeFullRes>>(order.order_info);
+                                if (listOrderInfo != null)
+                                {
+                                    var listProductTypeId = listOrderInfo.Select(c => c.id).ToList();
+                                    var listProductType = await _unitOfWork.ProductTypes.GetByListId(listProductTypeId);
+                                    foreach (var productType in listProductType)
+                                    {
+                                        // var productCodes = await _unitOfWork.Products.GetByProductTypeId(productType.id);
+                                        // productCodes.Select(c => c.product_code).Take(listOrderInfo.FirstOrDefault(c => c.id == productType.id).quantity);
+                                        productType.quantity -= listOrderInfo.FirstOrDefault(c => c.id == productType.id).quantity;
+                                        await _unitOfWork.ProductTypes.UpdateAsync(productType);
+                                    }
+                                }
                                 order.isPaid = true;
                                 order.order_status = ORDER_STATUS.CONFIRMED.ToString();
                                 order.updated_date = DateTime.Now.ToUniversalTime();

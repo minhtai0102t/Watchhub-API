@@ -69,7 +69,7 @@ namespace Ecom_API.Service
         {
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.product_type_name.Trim().ToLower().Contains(searchTerm.Trim().ToLower()));
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, c => c.quantity > 0 && c.product_type_name.Trim().ToLower().Contains(searchTerm.Trim().ToLower()));
                 return result;
             }
             return new PagedList<ProductType>();
@@ -79,7 +79,7 @@ namespace Ecom_API.Service
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams,
-                                            c => (c.product_type_code.Trim().ToLower().Contains(searchTerm.Trim().ToLower()))
+                                            c => c.quantity > 0 && (c.product_type_code.Trim().ToLower().Contains(searchTerm.Trim().ToLower()))
                                             || c.id.ToString().Contains(searchTerm.Trim().ToLower()));
                 return result;
             }
@@ -108,7 +108,7 @@ namespace Ecom_API.Service
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAllBySubCategoryIdPaging(QueryStringParameters pagingParams, int subCategoryId)
         {
-            Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId) && p.is_deleted == false;
+            Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId) && p.is_deleted == false && p.quantity > 0;
 
             var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
             var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
@@ -122,7 +122,7 @@ namespace Ecom_API.Service
         }
         public async Task<PagedList<ProductTypeFullRes>> GetAllByBrandIdPaging(QueryStringParameters pagingParams, int brandId)
         {
-            Expression<Func<ProductType, bool>> predicate = p => p.brand_id == brandId && p.is_deleted == false;
+            Expression<Func<ProductType, bool>> predicate = p => p.brand_id == brandId && p.is_deleted == false && p.quantity > 0;
             var listRes = await _unitOfWork.ProductTypes.GetFullResWithCondition(pagingParams, predicate);
 
             var result = _mapper.Map<PagedList<ProductTypeFullRes>>(listRes);
@@ -137,12 +137,12 @@ namespace Ecom_API.Service
         }
         public async Task<int> GetTotalBySubCategoryId(int subCategoryId)
         {
-            var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId));
+            var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.quantity > 0 && c.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId));
             return items.Count();
         }
         public async Task<int> GetTotalByBrandId(int brandId)
         {
-            var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.brand_id == brandId);
+            var items = await _unitOfWork.ProductTypes.FindAllWithCondition(c => c.quantity > 0 && c.brand_id == brandId);
             return items.Count();
         }
         public async Task<ProductTypeFullRes> GetById(int id)
@@ -183,7 +183,7 @@ namespace Ecom_API.Service
                 List<string> genders = filterOptions.genders;
                 List<string> dialColors = filterOptions.dialColors;
 
-                Expression<Func<ProductType, bool>> predicate = p => p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
+                Expression<Func<ProductType, bool>> predicate = p => p.quantity > 0 && p.productSubCategories.Any(pc => pc.sub_category_id == subCategoryId);
                 if (alberts.Any())
                 {
                     Expression<Func<ProductType, bool>> condition = p => alberts.Any(q => q == p.product_albert_id);
@@ -248,7 +248,7 @@ namespace Ecom_API.Service
                 List<string> genders = filterOptions.genders;
                 List<string> dialColors = filterOptions.dialColors;
 
-                Expression<Func<ProductType, bool>> predicate = p => true;
+                Expression<Func<ProductType, bool>> predicate = p => p.quantity > 0;
                 if (alberts.Any())
                 {
                     Expression<Func<ProductType, bool>> condition = p => alberts.Any(q => q == p.product_albert_id);
@@ -303,7 +303,7 @@ namespace Ecom_API.Service
         {
             try
             {
-                Expression<Func<ProductType, bool>> predicate = p => true;
+                Expression<Func<ProductType, bool>> predicate = p => p.quantity > 0;
                 switch (gender.ToString())
                 {
                     case "MALE":
@@ -346,24 +346,24 @@ namespace Ecom_API.Service
             {
                 return new PagedList<ProductType>();
             }
-            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.price >= minPrice && c.price <= maxPrice));
+            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.quantity > 0 && c.price >= minPrice && c.price <= maxPrice));
             return result;
         }
         public async Task<PagedList<ProductType>> FilterByGender(QueryStringParameters pagingParams, GENDER gender)
         {
-            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.gender == gender.ToString()));
+            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.quantity > 0 && c.gender == gender.ToString()));
             return result;
         }
         public async Task<PagedList<ProductType>> FilterByDialColor(QueryStringParameters pagingParams, DIAL_COLOR color)
         {
-            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.product_dial_color == color.ToString()));
+            var result = await _unitOfWork.ProductTypes.GetAllWithPaging(pagingParams, (c => c.quantity > 0 && c.product_dial_color == color.ToString()));
             return result;
         }
         public async Task<PagedList<ProductType>> Sort(QueryStringParameters param, SORT_OPTION sortOption, bool isDescending = false)
         {
             try
             {
-                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(param, c => true, sortOption, isDescending);
+                var result = await _unitOfWork.ProductTypes.GetAllWithPaging(param, c => c.quantity > 0, sortOption, isDescending);
                 return result;
             }
             catch (Exception ex)

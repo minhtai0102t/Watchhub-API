@@ -39,7 +39,20 @@ namespace Ecom_API.Service
                 var listProductType = await _productTypeService.GetByListId(listProductTypeId);
                 foreach (var product in listProductType)
                 {
-                    product.quantity = req.items.FirstOrDefault(c => c.id == product.id).quantity;
+                    // check product quantity and order quantity
+                    if (product.quantity >= req.items.FirstOrDefault(c => c.id == product.id).quantity)
+                    {
+                        // select quantity for order Info
+                        product.quantity = req.items.FirstOrDefault(c => c.id == product.id).quantity;
+                    }
+                    else
+                    {
+                        if (product.quantity == 0)
+                        {
+                            throw new AppException($"Sản phẩm đã được khách hàng khác mua trong khi quý khách mua sắm, vui lòng liên hệ với chúng tôi để đặt mua sản phẩm này ngay khi có hàng");
+                        }
+                        throw new AppException($"Sản phẩm {product.product_type_code} trong kho chỉ còn {product.quantity} so với số lượng đặt {req.items.FirstOrDefault(c => c.id == product.id).quantity}, quý khách vui lòng mua {product.quantity} sản phẩm nhé");
+                    }
                 }
                 var orderInfo = JsonConvert.SerializeObject(listProductType).ToString();
                 var item = _mapper.Map<Order>(req);
@@ -64,6 +77,7 @@ namespace Ecom_API.Service
             {
                 var orders = await _unitOfWork.Orders.GetAllWithPaging(query);
                 var result = _mapper.Map<PagedList<OrderFullRes>>(orders);
+                result.TotalCount = orders.TotalCount;
                 await AutoCancel(orders);
                 return result;
             }
@@ -102,21 +116,41 @@ namespace Ecom_API.Service
                 throw;
             }
         }
-        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus)
+        public async Task<PagedList<OrderFullRes>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus)
         {
-            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString());
+            var orders = await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString());
+            var result = _mapper.Map<PagedList<OrderFullRes>>(orders);
+            result.TotalCount = orders.TotalCount;
+
+            return result;
         }
-        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus, int userId)
+        public async Task<PagedList<OrderFullRes>> SearchByOrderStatus(QueryStringParameters query, ORDER_STATUS orderStatus, int userId)
         {
-            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString() && c.user_id == userId);
+            var orders = await _unitOfWork.Orders.GetAllWithPaging(query, c => c.order_status == orderStatus.ToString() && c.user_id == userId);
+            var result = _mapper.Map<PagedList<OrderFullRes>>(orders);
+            result.TotalCount = orders.TotalCount;
+
+            return result;
+
         }
-        public async Task<PagedList<Order>> SearchByOrderStatus(QueryStringParameters query, int userId)
+        public async Task<PagedList<OrderFullRes>> SearchByOrderStatus(QueryStringParameters query, int userId)
         {
-            return await _unitOfWork.Orders.GetAllWithPaging(query, c => c.user_id == userId);
+            var orders = await _unitOfWork.Orders.GetAllWithPaging(query, c => c.user_id == userId);
+            var result = _mapper.Map<PagedList<OrderFullRes>>(orders);
+            result.TotalCount = orders.TotalCount;
+
+            return result;
         }
         public async Task<Order> GetById(int id)
         {
             return await _unitOfWork.Orders.GetByIdAsync(id);
+        }
+        public async Task<OrderFullRes> GetByIdFullRes(int id)
+        {
+            var order = await _unitOfWork.Orders.GetFullRes(id);
+            var result = _mapper.Map<OrderFullRes>(order);
+
+            return result;
         }
         public async Task<bool> Update(int orderId, ORDER_STATUS orderStatus)
         {
@@ -265,6 +299,17 @@ namespace Ecom_API.Service
                 {
                     throw new AppException($"Trạng thái của Order {orderId} phải là ĐANG ĐÓNG GÓI");
                 }
+                var listOrderInfo = JsonConvert.DeserializeObject<List<ProductTypeFullRes>>(order.order_info);
+                if (listOrderInfo != null)
+                {
+                    var listProductTypeId = listOrderInfo.Select(c => c.id).ToList();
+                    var listProductType = await _unitOfWork.ProductTypes.GetByListId(listProductTypeId);
+                    foreach (var productType in listProductType)
+                    {
+                        productType.quantity -= listOrderInfo.FirstOrDefault(c => c.id == productType.id).quantity;
+                        await _unitOfWork.ProductTypes.UpdateAsync(productType);
+                    }
+                }
                 order.order_status = ORDER_STATUS.IN_TRANSIT.ToString();
                 order.updated_date = DateTime.Now.ToUniversalTime();
 
@@ -316,6 +361,18 @@ namespace Ecom_API.Service
                 if (order.order_status != ORDER_STATUS.IN_TRANSIT.ToString())
                 {
                     throw new AppException($"Trạng thái của Order {orderId} phải là ĐANG GIAO HÀNG");
+                }
+                var listOrderInfo = JsonConvert.DeserializeObject<List<ProductTypeFullRes>>(order.order_info);
+                if (listOrderInfo != null)
+                {
+                    // return quantity of product type 
+                    var listProductTypeId = listOrderInfo.Select(c => c.id).ToList();
+                    var listProductType = await _unitOfWork.ProductTypes.GetByListId(listProductTypeId);
+                    foreach (var productType in listProductType)
+                    {
+                        productType.quantity += listOrderInfo.FirstOrDefault(c => c.id == productType.id).quantity;
+                        await _unitOfWork.ProductTypes.UpdateAsync(productType);
+                    }
                 }
                 order.order_status = ORDER_STATUS.CANCELLED.ToString();
                 order.cancel_reason = cancel_reason.Trim();
